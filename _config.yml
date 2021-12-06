@@ -5,15 +5,15 @@
 # Site
 title: "Eric Chen's Blog"
 subtitle: ''
-description: ''
-keywords:
+description: 'The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond'
+keywords: 'Machine Learning Jinghong Chen Eric Programming blog'
 author: Jinghong Chen
 language: en
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: http://erichen0615.github.io/project
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
