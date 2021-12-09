@@ -1,0 +1,655 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="% Inference % Jinghong Chen % 2021-2 Bayesian Linear RegressionGiven data $D&#x3D;{\tilde x_n, y_n}$, we assume a generative linear model $y_n &#x3D; w^T\tilde x + \epsilon_n$, where $\epsilon_n\sim \mathcal{N}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notes on Inference">
+<meta property="og:url" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="% Inference % Jinghong Chen % 2021-2 Bayesian Linear RegressionGiven data $D&#x3D;{\tilde x_n, y_n}$, we assume a generative linear model $y_n &#x3D; w^T\tilde x + \epsilon_n$, where $\epsilon_n\sim \mathcal{N}">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227110823334.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227115143416.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227115408044.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227115955401.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227120237244.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210228210742746.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210304185916192.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210228210939731.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210306163059675.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210325000345373.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210324235420800.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210325000852316.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210325001658496.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210325013312916.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210325002209764.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210412173804561.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210412180451929.png">
+<meta property="article:published_time" content="2020-10-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.980Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Cambridge">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2020/10/01/Notes-on-Inference/image-20210227110823334.png">
+  
+  <title>Notes on Inference - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Notes on Inference">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-10-01 00:00" pubdate>
+        October 1, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      11 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Notes on Inference</h1>
+            
+            <div class="markdown-body">
+              <p>% Inference</p>
+<p>% Jinghong Chen</p>
+<p>% 2021-2</p>
+<h1 id="Bayesian-Linear-Regression"><a href="#Bayesian-Linear-Regression" class="headerlink" title="Bayesian Linear Regression"></a>Bayesian Linear Regression</h1><p>Given data $D={\tilde x_n, y_n}$, we assume a generative linear model $y_n = w^T\tilde x + \epsilon_n$, where $\epsilon_n\sim \mathcal{N}(0, \sigma^2)$ with $w$ beinKg the parameters to infer about.</p>
+<p>The <strong>posterior distribution</strong> for $w$ is given by $p(w|y,\tilde X) = \frac{p(y|\tilde X, w)p(w)}{p(y|\tilde X)}$. The <strong>predictive distribution</strong> for $y_\star$ given new corresponding $x_\star$ is $p(y_\star|\tilde x_\star, y, \tilde X)=\int p(y_\star|x_\star, w)p(w|y, \tilde X)dw$</p>
+<p>Exact inference is possible if the  prior and noise distributions are Gaussian. We can use the technique called <em>completing the square</em></p>
+<p><img src="image-20210227110823334.png" srcset="/img/loading.gif" lazyload alt="image-20210227110823334"></p>
+<p>Using this technique, we can write down the probability distribution for the posterior.</p>
+<h1 id="Classification"><a href="#Classification" class="headerlink" title="Classification"></a>Classification</h1><p>In classification, we aim to 1) partition the input space into $C$ <em>decision regions</em>, one for each class. 2) Each new input is assigned the class of its corresponding decision region and 3) a measurement of <em>confidence</em> (probability) in the decisions.</p>
+<h2 id="Probabilistic-Linear-Classification"><a href="#Probabilistic-Linear-Classification" class="headerlink" title="Probabilistic Linear Classification"></a>Probabilistic Linear Classification</h2><p>In probabilistic linear classification, the <em>class probability</em> is computed as $p(y_n=1|\tilde x, w) = \sigma(w^Tx)$, where $\sigma(\cdot)$ is a monotonically increasing functino which maps $\mathbb{R}$ into $[0,1]$. </p>
+<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>With $p(C_2|\phi) = 1 - p(C_1|\phi)$. Here $\sigma(x)=1/(1+\exp(-x))$ is the <em>logistic sigmoid</em> function. This is called <em>logistic regression</em> in statistics.</p>
+<p>For an $M$-dimensional feature space $\phi$, this model has $M$ adjustable parameters. By constrast, the Gaussian class conditional will have $O(M^2)$ parameters expanding quadratically.  </p>
+<p>We now use the maximum likelihood to determine the parameters of the logistic regression model. We use the derivative of the logistic sigmoid function given below:  $$ \frac{d\sigma}{da} = \sigma(1-\sigma) $$ </p>
+<blockquote>
+<p>Note that $1-\sigma(a) = \sigma(-a)$, so we arrive at a convenient relation $\frac{d \ln\sigma(a)}{da} = \sigma(-a)$</p>
+</blockquote>
+<p>For a data set ${\phi_n, t_n}$, where $t_n \in {0, 1}$ and $\phi_n = \phi( \mathbf{x_n})$ (the features), with $n = 1,…,N$, the likelihood function can be written as:<br>$$ p( \mathbf{t}| \mathbf{w}) = \prod_{n=1}^N y_n^{t_n} {(1-y_n)}^{1-t_n} $$<br>where $ \mathbf{t} = (t_1, … ,t_N)^T$ and $y_n = p(C_1|\phi_n)$. We can define an error function by taking the negative logarithm of the likelihood, which gives the <strong>cross entropy error</strong> function in the form<br>$$ E( \mathbf{w}) = -\ln p ( \mathbf{t}| \mathbf{w}) = - \sum_{n=1}^N{t_n \ln y_n + (1-t_n)\ln (1-y_n)} $$<br>where $y_n = \sigma(a_n)$ and $a_n = \mathbf{w}^T \mathbf{\phi}<em>n$. Taking the gradient of the error function with respect to $ \mathbf{w}$, we obtain<br>$$ \nabla E( \mathbf{w}) = \sum</em>{n=1}^N (y_n-t_n)\phi_n $$.</p>
+<blockquote>
+<p>The gradients are in the directions of the feature data points. In two-class classification, the parameters $w$ which defines the decision boundary can be seen as being pulled and repelled by data points depending on their class label in the gradient ascent algorithm.</p>
+</blockquote>
+<p>We can then use <em>Gradient ascend</em> to maximize the log-likelihood given by $w^{new} = w^{old}+\alpha\frac{d\mathcal{L(w)}}{dw}$, where $\alpha$ is the <em>learning rate</em>. </p>
+<p>We should note that when the data is <strong>linearly separable</strong> the ML estimator of the parameters can go to infinity, which is essentially <strong>overfitting</strong>. To counter that, we need to introduce prior on our parameters and use the Bayesian approach.</p>
+<h1 id="Dimensionality-Reduction"><a href="#Dimensionality-Reduction" class="headerlink" title="Dimensionality Reduction"></a>Dimensionality Reduction</h1><p>In dimensionality reduction we aim to find a <em>low dimensional representation</em> of data. This often results in a <em>mapping</em> from data to a <strong>manifold coordinates</strong> and back.</p>
+<blockquote>
+<p>In <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mathematics">mathematics</a>, a <strong>manifold</strong> is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Topological_space">topological space</a> that locally resembles <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Euclidean_space">Euclidean space</a> near each point. More precisely, an <em>n</em>-dimensional manifold, or *<em>n\</em>-manifold* for short, is a topological space with the property that each point has a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Neighbourhood_(mathematics)">neighborhood</a> that is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Homeomorphic">homeomorphic</a> to the Euclidean space of dimension <em>n</em>.</p>
+</blockquote>
+<p><img src="image-20210227115143416.png" srcset="/img/loading.gif" lazyload alt="image-20210227115143416"></p>
+<h2 id="Principal-Component-Analysis-PCA"><a href="#Principal-Component-Analysis-PCA" class="headerlink" title="Principal Component Analysis (PCA)"></a>Principal Component Analysis (PCA)</h2><p>Linear dimensionality reduction method: data manifold assumed to be linear. We try to find the projection that <strong>minimises the square reconstruction error</strong>. The data is then represented by the projection coefficients on the principal directions. </p>
+<p><img src="image-20210227115408044.png" srcset="/img/loading.gif" lazyload alt="image-20210227115408044"></p>
+<blockquote>
+<p>We can show that the objective is identical to <strong>maximising the variance of projected data</strong></p>
+</blockquote>
+<p>The principal component vectors are the <strong>eigenvectors</strong> of the empirical covariance matrix of the data $\hat S = \frac{1}{N}\sum_n x_nx_n^T$, sorted by the magnitude of eigenvalues. So that the residual lies in the space spanned by the eigenvectors with the smallest eigenvalues. The derivation is as follows:</p>
+<p><img src="image-20210227115955401.png" srcset="/img/loading.gif" lazyload alt="image-20210227115955401"></p>
+<p><img src="image-20210227120237244.png" srcset="/img/loading.gif" lazyload alt="image-20210227120237244"></p>
+<h1 id="Clustering"><a href="#Clustering" class="headerlink" title="Clustering"></a>Clustering</h1><h2 id="K-means-Clustering"><a href="#K-means-Clustering" class="headerlink" title="K-means Clustering"></a>K-means Clustering</h2><p>input:  $\mathcal{D}={x_1, x_2,…,x_N}, x_n \in \mathbb{R}^D$<br>Initialise: $m_k\in\mathbb{R}^D$ for $k=1,..,K$</p>
+<p>repeat </p>
+<p>for $n = 1,…,N$</p>
+<p>​    $s_n = \arg\min_k ||x_n - m_k|| $</p>
+<p>for $k = 1,…,K$</p>
+<p>​    $m_k = mean(x_n | s_n = k)$</p>
+<p>until convergence ($s_n$ fixed)</p>
+<h3 id="Theorizing-K-means-Optimizing-Cost-Function-Minimising-Energy"><a href="#Theorizing-K-means-Optimizing-Cost-Function-Minimising-Energy" class="headerlink" title="Theorizing K-means: Optimizing Cost Function / Minimising Energy"></a>Theorizing K-means: Optimizing Cost Function / Minimising Energy</h3><p><img src="image-20210228210742746.png" srcset="/img/loading.gif" lazyload alt="image-20210228210742746"></p>
+<h2 id="Mixture-of-Gaussian-MoG-Model"><a href="#Mixture-of-Gaussian-MoG-Model" class="headerlink" title="Mixture of Gaussian (MoG) Model"></a>Mixture of Gaussian (MoG) Model</h2><p>The mixture of Gaussian model is a generative model for clustered data. It assumes that the data are generated by sampling from a set of normal distribution with certain class probability (hence the name ‘mixture Gaussian’), as shown below:</p>
+<p><img src="image-20210304185916192.png" srcset="/img/loading.gif" lazyload alt="image-20210304185916192"></p>
+<h2 id="Expectation-Maximization-Algorithm-EM"><a href="#Expectation-Maximization-Algorithm-EM" class="headerlink" title="Expectation Maximization Algorithm (EM)"></a>Expectation Maximization Algorithm (EM)</h2><p>Instead of doing gradient ascent directly on the log-likelihood, we optimise the <strong>free energy</strong> defined as the difference between log-likelihood and a KL divergence between an arbitrary distribution and the class distribution.</p>
+<p>The free energy is defined as</p>
+<p>$$\mathcal{F}(q(s), \theta)=\log p(x|\theta) - \sum_s q(s)\log\frac{q(s)}{p(s|x,\theta)}$$</p>
+<p>We note that:</p>
+<ol>
+<li>The KL divergence is non-negative and equal zero if and only if $q(s)=p(s|x,\theta)$</li>
+<li>When KL divergence equals zero, the free energy <strong>IS</strong> the log-likelihood</li>
+<li>$q(s)$ can be an arbitrarily chosen to describe the class distribution</li>
+<li>The free energy can be computed using the alternative formular $\mathcal{F}(q, \theta) = \sum_sq(s)\log(p(x|s,\theta)p(s|\theta))- \sum_s q(s)log(q(s))$ to avoid computing the log-likelihood</li>
+</ol>
+<p>The optimisation can then be divided into two steps (much like that in K-means):</p>
+<ul>
+<li>Expectation (E): fixing $\theta$, maximise $\mathcal{F}$ with respect to $q(s)$ (soft assignment)</li>
+<li>Maximisation (M): fixing $q$, maximise $\mathcal{F}$ with respect to $\theta$ (model fitting)</li>
+</ul>
+<p><img src="image-20210228210939731.png" srcset="/img/loading.gif" lazyload alt="image-20210228210939731"></p>
+<blockquote>
+<p>Note that the free energy can be written as the expectation of $p(x,s|\theta)$ taken w.r.t $q(s)$, <strong>plus</strong> the entropy of $q(s)$. It is sometimes useful to note that $\frac{d}{dp}H_2(p) = -logit(p) = -\log\frac{p}{1-p}$. The nice property about logit function is that it is the <strong>inverse</strong> of the sigmoid function $\sigma(x)=\frac{1}{1+\exp(-x)}$. In other words, if $logit(p)=A$, then $p = \sigma(A)$</p>
+</blockquote>
+<h2 id="EM-Algorithm-Applied-to-Mixture-of-Gaussian-MoG"><a href="#EM-Algorithm-Applied-to-Mixture-of-Gaussian-MoG" class="headerlink" title="EM Algorithm Applied to Mixture of Gaussian (MoG)"></a>EM Algorithm Applied to Mixture of Gaussian (MoG)</h2><p>In summary, the E-step is about making <strong>soft assignment</strong> to the data points and the M-step is about <strong>optimising model parameters</strong> with the soft assignments fixed. </p>
+<p><img src="image-20210306163059675.png" srcset="/img/loading.gif" lazyload alt="image-20210306163059675"></p>
+<h2 id="Understanding-EM"><a href="#Understanding-EM" class="headerlink" title="Understanding EM"></a>Understanding EM</h2><p>From a high level, we can view EM as a way to do <em>maximum likelihood</em> method over models with <em>latent variables</em>. </p>
+<p>To motivate EM, we note that oftentime $\log p(y)$ is an intractable distribution to maximize (e.g., Mixture of Gaussian), but the joint distribution $\log p(y,z)$ is nicer (e.g., z being the class label). We wish to obtain the maximum likelihood of $\log p(y)$, and we approximate it with $E_{q(z)}[\log p(y,z)]$</p>
+<p>But $z$ is unknown, so we first estimate the latent variable using Bayes’ Rule. This is the <strong>expectation</strong> step.</p>
+<p>After estimating the $z$ (i.e., having got the posterior $q(z|y,\theta)$ for $z$), we take the expectation of $\log p(y,z)$ over $q(z)$ and optimize with respect to the model parameters $\theta$. So our update rule in the <strong>maximization step</strong> is $\theta = \arg\max_{\theta}\mathbb{E}<em>{q(z)}[\log p(y,z)] = \arg\max</em>{\theta}\mathbb{E}_{q(z)}[\log p(y|z)p(z)] $</p>
+<p>The free energy gives us a compact mathematical object to perform the steps above.</p>
+<p>Wessel has a very good explanation of the ideas above, checkout [his notes](Wessel Expectation Maximisation.pdf)</p>
+<h1 id="Sequence-Modelling"><a href="#Sequence-Modelling" class="headerlink" title="Sequence Modelling"></a>Sequence Modelling</h1><h2 id="Markov-Model"><a href="#Markov-Model" class="headerlink" title="Markov Model"></a>Markov Model</h2><h3 id="Gaussian-AR-Models"><a href="#Gaussian-AR-Models" class="headerlink" title="Gaussian AR Models"></a>Gaussian AR Models</h3><p>We can model continuous state with Gaussian Auto Regressive model. The states $y\in\mathbb{R}$ follows the transition $y_{t+1} = \lambda y_t + \sigma \epsilon$, where $\epsilon \sim \mathcal{N(0,1)}$ is standard Gaussian.</p>
+<p><img src="image-20210325000345373.png" srcset="/img/loading.gif" lazyload alt="image-20210325000345373"></p>
+<h2 id="Hidden-Markov-Models-HMM"><a href="#Hidden-Markov-Models-HMM" class="headerlink" title="Hidden Markov Models (HMM)"></a>Hidden Markov Models (HMM)</h2><p>In HMM, the output of the Markov chain depends on the hidden states. This is illustrated below:</p>
+<p><img src="image-20210324235420800.png" srcset="/img/loading.gif" lazyload alt="image-20210324235420800"></p>
+<blockquote>
+<p>Note that HMM is fundamentally different from Markov model without latent states. After expansion, a HMM is equivalent to a <em>fully connected</em> chain (which defeats the concept of Markov chain)</p>
+</blockquote>
+<h2 id="Discrete-State-HMM"><a href="#Discrete-State-HMM" class="headerlink" title="Discrete State HMM"></a>Discrete State HMM</h2><p>Below is an example of a HMM with discrete hidden state and Gaussian emission. The stationary distribution resembles a mixture of Gaussian model, with mixing proportion being the stationary distribution of the hidden chain.</p>
+<p><img src="image-20210325000852316.png" srcset="/img/loading.gif" lazyload alt="image-20210325000852316"></p>
+<h2 id="Linear-Gaussian-State-Space-Model-LGSSM"><a href="#Linear-Gaussian-State-Space-Model-LGSSM" class="headerlink" title="Linear Gaussian State Space Model (LGSSM)"></a>Linear Gaussian State Space Model (LGSSM)</h2><p>LGSSMs refer to models with continuous hidden state and the hidden state transition follows a Gaussian AR model, as shown below:</p>
+<p><img src="image-20210325001658496.png" srcset="/img/loading.gif" lazyload alt="image-20210325001658496"></p>
+<h2 id="Types-of-Inference"><a href="#Types-of-Inference" class="headerlink" title="Types of Inference"></a>Types of Inference</h2><p>Depending on which probability we are after, inference problem with HMM can be divided into four categories with two sets of criterion: <em>online</em> or <em>offline</em>, <em>marginal</em> or <em>joint</em></p>
+<p><img src="image-20210325013312916.png" srcset="/img/loading.gif" lazyload alt="image-20210325013312916"></p>
+<h2 id="Terminology-of-Distributions"><a href="#Terminology-of-Distributions" class="headerlink" title="Terminology of Distributions"></a>Terminology of Distributions</h2><p>In HMM questions, there are a lot of distributions defined and they can be confusing. Below is the terminology for these distributions:</p>
+<ul>
+<li><strong>Transition Probability</strong> $p(x_t|x_{t-1})$</li>
+<li><strong>Emitting Probability</strong> $p(y_t|x_t)$</li>
+<li><strong>Filtering Distribution</strong> $p(x_t|y_{1:t})$ (often also called posterior)</li>
+<li><strong>Predicative Distribution</strong> $p(x_{t+1}|y_{1:t})$</li>
+<li><strong>Likelihood</strong> $p(y_{1:T})$</li>
+<li><strong>Forcast Distribution</strong> $p(y_{t+1}|y_{1:t})$</li>
+</ul>
+<h2 id="Kalman-Filter"><a href="#Kalman-Filter" class="headerlink" title="Kalman Filter"></a>Kalman Filter</h2><p>The Kalman filter is an algorithm for filtering. That is, we want to compute $p(x_T|y_{1:T})$, <em>predicting</em> the hidden state with observed data.</p>
+<p><img src="image-20210325002209764.png" srcset="/img/loading.gif" lazyload alt="image-20210325002209764"></p>
+<p><img src="image-20210412173804561.png" srcset="/img/loading.gif" lazyload alt="image-20210412173804561"></p>
+<h2 id="Forward-Algorithm"><a href="#Forward-Algorithm" class="headerlink" title="Forward Algorithm"></a>Forward Algorithm</h2><p>The <strong>forward algorithm</strong>, in the context of a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hidden_Markov_model">hidden Markov model</a> (HMM), is used to calculate a ‘belief state’: the probability of a state at a certain time, given the history of evidence. The process is also known as <em>filtering</em>. The forward algorithm is closely related to, but distinct from, the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Viterbi_algorithm">Viterbi algorithm</a>. See more on <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Forward_algorithm">wiki</a>.</p>
+<p><img src="image-20210412180451929.png" srcset="/img/loading.gif" lazyload alt="image-20210412180451929"></p>
+<p>Note that in the forward algorithm we are interested in the <strong>joint probability</strong> $p(x_t, y_{1:t})$, this makes for a nice recursive relationship. The forward algorithm can also yield <strong>the filtering distribution</strong> $p(x_t|y_{1:t})$ and <strong>the likelihood of the data</strong> $p(y_{1:t})$ as byproducts. This is done by noting that $p(y_{1:t}) = \sum_{x_t}p(x_t, y_{1:t})$ and $p(x_t, y_{1:t})=p(x_t|y_{1:t})p(y_{1:t})$</p>
+<h2 id="Learning-Parameters-of-HMM"><a href="#Learning-Parameters-of-HMM" class="headerlink" title="Learning Parameters of HMM"></a>Learning Parameters of HMM</h2><p>EM algorithm or direct optimisation</p>
+<h1 id="Extensions"><a href="#Extensions" class="headerlink" title="Extensions"></a>Extensions</h1><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=btr1poCYIzw">Hidden Markov Models for unsupervised high dimensional video understanding</a>. This can be useful for migration to NLP tasks!e</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Cambridge/">Cambridge</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Notes/">Notes</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/01/Notes-on-Statisitcal-Signal-Processing/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Notes on Statisitcal Signal Processing</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/01/Notes-on-Marketing/">
+                        <span class="hidden-mobile">Notes on Marketing</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

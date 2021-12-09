@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Excerpts from https:&#x2F;&#x2F;huggingface.co&#x2F;docs&#x2F;datasets&#x2F;quicktour.html 🤗 Datasets is a library for easily accessing and sharing datasets, and evaluation metrics for Natural Language Processing (NLP), comp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Huggingface datasets">
+<meta property="og:url" content="http://erichen0615.github.io/2021/10/01/Huggingface-datasets/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Excerpts from https:&#x2F;&#x2F;huggingface.co&#x2F;docs&#x2F;datasets&#x2F;quicktour.html 🤗 Datasets is a library for easily accessing and sharing datasets, and evaluation metrics for Natural Language Processing (NLP), comp">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.980Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Huggingface">
+<meta property="article:tag" content="Programming">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Huggingface datasets - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Huggingface datasets">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-10-01 00:00" pubdate>
+        October 1, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      13k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      16 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Huggingface datasets</h1>
+            
+            <div class="markdown-body">
+              <p>Excerpts from <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/quicktour.html">https://huggingface.co/docs/datasets/quicktour.html</a></p>
+<p>🤗 Datasets is a library for easily accessing and sharing datasets, and evaluation metrics for Natural Language Processing (NLP), computer vision, and audio tasks.</p>
+<h1 id="Tutorial"><a href="#Tutorial" class="headerlink" title="Tutorial"></a>Tutorial</h1><h2 id="Load-a-dataset"><a href="#Load-a-dataset" class="headerlink" title="Load a dataset"></a>Load a dataset</h2><p>Before you take the time to download a dataset, it is often helpful to quickly get all the relevant information about a dataset. The <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets.load_dataset_builder"><code>datasets.load_dataset_builder()</code></a> method allows you to inspect the attributes of a dataset without downloading it.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset_builder<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset_builder = load_dataset_builder(<span class="hljs-string">&#x27;imdb&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">print</span>(dataset_builder.cache_dir)<br>/Users/thomwolf/.cache/huggingface/datasets/imdb/plain_text/<span class="hljs-number">1.0</span><span class="hljs-number">.0</span>/fdc76b18d5506f14b0646729b8d371880ef1bc48a26d00835a7f3da44004b676<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">print</span>(dataset_builder.info.features)<br>&#123;<span class="hljs-string">&#x27;text&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>), <span class="hljs-string">&#x27;label&#x27;</span>: ClassLabel(num_classes=<span class="hljs-number">2</span>, names=[<span class="hljs-string">&#x27;neg&#x27;</span>, <span class="hljs-string">&#x27;pos&#x27;</span>], names_file=<span class="hljs-literal">None</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>)&#125;<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">print</span>(dataset_builder.info.splits)<br>&#123;<span class="hljs-string">&#x27;train&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;train&#x27;</span>, num_bytes=<span class="hljs-number">33432835</span>, num_examples=<span class="hljs-number">25000</span>, dataset_name=<span class="hljs-string">&#x27;imdb&#x27;</span>), <span class="hljs-string">&#x27;test&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;test&#x27;</span>, num_bytes=<span class="hljs-number">32650697</span>, num_examples=<span class="hljs-number">25000</span>, dataset_name=<span class="hljs-string">&#x27;imdb&#x27;</span>), <span class="hljs-string">&#x27;unsupervised&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;unsupervised&#x27;</span>, num_bytes=<span class="hljs-number">67106814</span>, num_examples=<span class="hljs-number">50000</span>, dataset_name=<span class="hljs-string">&#x27;imdb&#x27;</span>)&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Once you are happy with the dataset you want, load it in a single line with <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets.load_dataset"><code>datasets.load_dataset()</code></a>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset = load_dataset(<span class="hljs-string">&#x27;glue&#x27;</span>, <span class="hljs-string">&#x27;mrpc&#x27;</span>, split=<span class="hljs-string">&#x27;train&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>You need to:</p>
+<ol>
+<li>specify the dataset</li>
+<li>specify the configuration</li>
+<li>specify the split [optional]</li>
+</ol>
+<p>signature: <code>load_dataset(&lt;path&gt;, &lt;configuraion&gt;)</code></p>
+<p>Some datasets, like the <a target="_blank" rel="noopener" href="https://huggingface.co/datasets/glue">General Language Understanding Evaluation (GLUE)</a> benchmark, are actually made up of several datasets. These sub-datasets are called <strong>configurations</strong>, and you must explicitly select one when you load the dataset.</p>
+<p>Use <code>get_dataset_config_names</code> to <strong>retrieve a list of all the possible configurations</strong> available to your dataset:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> get_dataset_config_names<br><br>configs = get_dataset_config_names(<span class="hljs-string">&quot;glue&quot;</span>)<br><span class="hljs-built_in">print</span>(configs)<br><span class="hljs-comment"># [&#x27;cola&#x27;, &#x27;sst2&#x27;, &#x27;mrpc&#x27;, &#x27;qqp&#x27;, &#x27;stsb&#x27;, &#x27;mnli&#x27;, &#x27;mnli_mismatched&#x27;, &#x27;mnli_matched&#x27;, &#x27;qnli&#x27;, &#x27;rte&#x27;, &#x27;wnli&#x27;, &#x27;ax&#x27;]</span><br></code></pre></td></tr></table></figure>
+
+<p>A <strong>split</strong> is a specific subset of the dataset like <code>train</code> and <code>test</code>. Make sure you select a split when you load a dataset. If you don’t supply a <code>split</code> argument, 🤗 Datasets will only return a dictionary containing the subsets of the dataset.</p>
+<p>You can list the split names for a dataset, or a specific configuration, with the <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets.get_dataset_split_names"><code>datasets.get_dataset_split_names()</code></a> method:</p>
+<h2 id="The-Dataset-Object"><a href="#The-Dataset-Object" class="headerlink" title="The Dataset Object"></a>The <code>Dataset</code> Object</h2><h3 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h3><p>The <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset"><code>datasets.Dataset</code></a> object contains a lot of useful information about your dataset. For example, call <code>dataset.info</code> to return a short description of the dataset, the authors, and even the dataset size. This will give you a quick snapshot of the datasets most important attributes.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.info<br>DatasetInfo(<br>    description=<span class="hljs-string">&#x27;GLUE, the General Language Understanding Evaluation benchmark\n(https://gluebenchmark.com/) is a collection of resources for training,\nevaluating, and analyzing natural language understanding systems.\n\n&#x27;</span>,<br>    citation=<span class="hljs-string">&#x27;@inproceedings&#123;dolan2005automatically,\n  title=&#123;Automatically constructing a corpus of sentential paraphrases&#125;,\n  author=&#123;Dolan, William B and Brockett, Chris&#125;,\n  booktitle=&#123;Proceedings of the Third International Workshop on Paraphrasing (IWP2005)&#125;,\n  year=&#123;2005&#125;\n&#125;\n@inproceedings&#123;wang2019glue,\n  title=&#123;&#123;GLUE&#125;: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding&#125;,\n  author=&#123;Wang, Alex and Singh, Amanpreet and Michael, Julian and Hill, Felix and Levy, Omer and Bowman, Samuel R.&#125;,\n  note=&#123;In the Proceedings of ICLR.&#125;,\n  year=&#123;2019&#125;\n&#125;\n&#x27;</span>, homepage=<span class="hljs-string">&#x27;https://www.microsoft.com/en-us/download/details.aspx?id=52398&#x27;</span>,<br>    license=<span class="hljs-string">&#x27;&#x27;</span>,<br>    features=&#123;<span class="hljs-string">&#x27;sentence1&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>), <span class="hljs-string">&#x27;sentence2&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>), <span class="hljs-string">&#x27;label&#x27;</span>: ClassLabel(num_classes=<span class="hljs-number">2</span>, names=[<span class="hljs-string">&#x27;not_equivalent&#x27;</span>, <span class="hljs-string">&#x27;equivalent&#x27;</span>], names_file=<span class="hljs-literal">None</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>), <span class="hljs-string">&#x27;idx&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;int32&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>)&#125;, post_processed=<span class="hljs-literal">None</span>, supervised_keys=<span class="hljs-literal">None</span>, builder_name=<span class="hljs-string">&#x27;glue&#x27;</span>, config_name=<span class="hljs-string">&#x27;mrpc&#x27;</span>, version=<span class="hljs-number">1.0</span><span class="hljs-number">.0</span>, splits=&#123;<span class="hljs-string">&#x27;train&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;train&#x27;</span>, num_bytes=<span class="hljs-number">943851</span>, num_examples=<span class="hljs-number">3668</span>, dataset_name=<span class="hljs-string">&#x27;glue&#x27;</span>), <span class="hljs-string">&#x27;validation&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;validation&#x27;</span>, num_bytes=<span class="hljs-number">105887</span>, num_examples=<span class="hljs-number">408</span>, dataset_name=<span class="hljs-string">&#x27;glue&#x27;</span>), <span class="hljs-string">&#x27;test&#x27;</span>: SplitInfo(name=<span class="hljs-string">&#x27;test&#x27;</span>, num_bytes=<span class="hljs-number">442418</span>, num_examples=<span class="hljs-number">1725</span>, dataset_name=<span class="hljs-string">&#x27;glue&#x27;</span>)&#125;,<br>    download_checksums=&#123;<span class="hljs-string">&#x27;https://dl.fbaipublicfiles.com/glue/data/mrpc_dev_ids.tsv&#x27;</span>: &#123;<span class="hljs-string">&#x27;num_bytes&#x27;</span>: <span class="hljs-number">6222</span>, <span class="hljs-string">&#x27;checksum&#x27;</span>: <span class="hljs-string">&#x27;971d7767d81b997fd9060ade0ec23c4fc31cbb226a55d1bd4a1bac474eb81dc7&#x27;</span>&#125;, <span class="hljs-string">&#x27;https://dl.fbaipublicfiles.com/senteval/senteval_data/msr_paraphrase_train.txt&#x27;</span>: &#123;<span class="hljs-string">&#x27;num_bytes&#x27;</span>: <span class="hljs-number">1047044</span>, <span class="hljs-string">&#x27;checksum&#x27;</span>: <span class="hljs-string">&#x27;60a9b09084528f0673eedee2b69cb941920f0b8cd0eeccefc464a98768457f89&#x27;</span>&#125;, <span class="hljs-string">&#x27;https://dl.fbaipublicfiles.com/senteval/senteval_data/msr_paraphrase_test.txt&#x27;</span>: &#123;<span class="hljs-string">&#x27;num_bytes&#x27;</span>: <span class="hljs-number">441275</span>, <span class="hljs-string">&#x27;checksum&#x27;</span>: <span class="hljs-string">&#x27;a04e271090879aaba6423d65b94950c089298587d9c084bf9cd7439bd785f784&#x27;</span>&#125;&#125;,<br>    download_size=<span class="hljs-number">1494541</span>,<br>    post_processing_size=<span class="hljs-literal">None</span>,<br>    dataset_size=<span class="hljs-number">1492156</span>,<br>    size_in_bytes=<span class="hljs-number">2986697</span><br>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="Features-and-columns"><a href="#Features-and-columns" class="headerlink" title="Features and columns"></a>Features and columns</h3><p>A dataset is a table of rows and typed columns. <strong>Querying a dataset returns a Python dictionary</strong> where the keys correspond to column names, and the values correspond to column values:</p>
+<p>List the columns names with <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset.column_names"><code>datasets.Dataset.column_names()</code></a>:</p>
+<p>Get detailed information about the columns with <code>datasets.Dataset.features</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.shape<br>(<span class="hljs-number">3668</span>, <span class="hljs-number">4</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.num_columns<br><span class="hljs-number">4</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.num_rows<br><span class="hljs-number">3668</span><br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">len</span>(dataset)<br><span class="hljs-number">3668</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.column_names<br>[<span class="hljs-string">&#x27;idx&#x27;</span>, <span class="hljs-string">&#x27;label&#x27;</span>, <span class="hljs-string">&#x27;sentence1&#x27;</span>, <span class="hljs-string">&#x27;sentence2&#x27;</span>]<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.features<br>&#123;<span class="hljs-string">&#x27;idx&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;int32&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),<br>    <span class="hljs-string">&#x27;label&#x27;</span>: ClassLabel(num_classes=<span class="hljs-number">2</span>, names=[<span class="hljs-string">&#x27;not_equivalent&#x27;</span>, <span class="hljs-string">&#x27;equivalent&#x27;</span>], names_file=<span class="hljs-literal">None</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),<br>    <span class="hljs-string">&#x27;sentence1&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),<br>    <span class="hljs-string">&#x27;sentence2&#x27;</span>: Value(dtype=<span class="hljs-string">&#x27;string&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-literal">None</span>),<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Return even more specific information about a feature like <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.ClassLabel"><code>datasets.ClassLabel</code></a>, by calling its parameters <code>num_classes</code> and <code>names</code>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.features[<span class="hljs-string">&#x27;label&#x27;</span>].num_classes<br><span class="hljs-number">2</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.features[<span class="hljs-string">&#x27;label&#x27;</span>].names<br>[<span class="hljs-string">&#x27;not_equivalent&#x27;</span>, <span class="hljs-string">&#x27;equivalent&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Rows-slices-batches-and-columns"><a href="#Rows-slices-batches-and-columns" class="headerlink" title="Rows, slices, batches, and columns"></a>Rows, slices, batches, and columns</h3><p>Get several rows of your dataset at a time with slice notation or a list of indices:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>dataset[:<span class="hljs-number">3</span>]<br>&#123;<span class="hljs-string">&#x27;idx&#x27;</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>],<br>    <span class="hljs-string">&#x27;label&#x27;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],<br>    <span class="hljs-string">&#x27;sentence1&#x27;</span>: [<span class="hljs-string">&#x27;Amrozi accused his brother , whom he called &quot; the witness &quot; , of deliberately distorting his evidence .&#x27;</span>, <span class="hljs-string">&quot;Yucaipa owned Dominick &#x27;s before selling the chain to Safeway in 1998 for $ 2.5 billion .&quot;</span>, <span class="hljs-string">&#x27;They had published an advertisement on the Internet on June 10 , offering the cargo for sale , he added .&#x27;</span>],<br>    <span class="hljs-string">&#x27;sentence2&#x27;</span>: [<span class="hljs-string">&#x27;Referring to him as only &quot; the witness &quot; , Amrozi accused his brother of deliberately distorting his evidence .&#x27;</span>, <span class="hljs-string">&quot;Yucaipa bought Dominick &#x27;s in 1995 for $ 693 million and sold it to Safeway for $ 1.8 billion in 1998 .&quot;</span>, <span class="hljs-string">&quot;On June 10 , the ship &#x27;s owners had published an advertisement on the Internet , offering the explosives for sale .&quot;</span>]<br>&#125;<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset[[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>]]<br>&#123;<span class="hljs-string">&#x27;idx&#x27;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>],<br>    <span class="hljs-string">&#x27;label&#x27;</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>],<br>    <span class="hljs-string">&#x27;sentence1&#x27;</span>: [<span class="hljs-string">&quot;Yucaipa owned Dominick &#x27;s before selling the chain to Safeway in 1998 for $ 2.5 billion .&quot;</span>, <span class="hljs-string">&#x27;Around 0335 GMT , Tab shares were up 19 cents , or 4.4 % , at A $ 4.56 , having earlier set a record high of A $ 4.57 .&#x27;</span>, <span class="hljs-string">&#x27;Revenue in the first quarter of the year dropped 15 percent from the same period a year earlier .&#x27;</span>],<br>    <span class="hljs-string">&#x27;sentence2&#x27;</span>: [<span class="hljs-string">&quot;Yucaipa bought Dominick &#x27;s in 1995 for $ 693 million and sold it to Safeway for $ 1.8 billion in 1998 .&quot;</span>, <span class="hljs-string">&#x27;Tab shares jumped 20 cents , or 4.6 % , to set a record closing high at A $ 4.57 .&#x27;</span>, <span class="hljs-string">&quot;With the scandal hanging over Stewart &#x27;s company , revenue the first quarter of the year dropped 15 percent from the same period a year earlier .&quot;</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Querying by the column name will return its values. For example, if you want to only return the first three examples:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span>dataset[<span class="hljs-string">&#x27;sentence1&#x27;</span>][:<span class="hljs-number">3</span>]<br>[<span class="hljs-string">&#x27;Amrozi accused his brother , whom he called &quot; the witness &quot; , of deliberately distorting his evidence .&#x27;</span>, <span class="hljs-string">&quot;Yucaipa owned Dominick &#x27;s before selling the chain to Safeway in 1998 for $ 2.5 billion .&quot;</span>, <span class="hljs-string">&#x27;They had published an advertisement on the Internet on June 10 , offering the cargo for sale , he added .&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<h2 id="Train-with-Datasets"><a href="#Train-with-Datasets" class="headerlink" title="Train with Datasets"></a>Train with Datasets</h2><p>By default, all the dataset columns are returned as Python objects. But you can bridge the gap between a Python object and your machine learning framework by setting the format of a dataset. Formatting casts the columns into compatible PyTorch or TensorFlow types.</p>
+<h3 id="Tokenize"><a href="#Tokenize" class="headerlink" title="Tokenize"></a>Tokenize</h3><p>See notes in <a href="transformers.md">transformers</a> for tokenizer</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> BertTokenizerFast<br><span class="hljs-meta">&gt;&gt;&gt; </span>tokenizer = BertTokenizerFast.from_pretrained(<span class="hljs-string">&#x27;bert-base-cased&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>encoded_dataset = dataset.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> examples: tokenizer(examples[<span class="hljs-string">&#x27;sentence1&#x27;</span>]), batched=<span class="hljs-literal">True</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>encoded_dataset.column_names<br>[<span class="hljs-string">&#x27;sentence1&#x27;</span>, <span class="hljs-string">&#x27;sentence2&#x27;</span>, <span class="hljs-string">&#x27;label&#x27;</span>, <span class="hljs-string">&#x27;idx&#x27;</span>, <span class="hljs-string">&#x27;input_ids&#x27;</span>, <span class="hljs-string">&#x27;token_type_ids&#x27;</span>, <span class="hljs-string">&#x27;attention_mask&#x27;</span>]<br><span class="hljs-meta">&gt;&gt;&gt; </span>encoded_dataset[<span class="hljs-number">0</span>]<br>&#123;<span class="hljs-string">&#x27;sentence1&#x27;</span>: <span class="hljs-string">&#x27;Amrozi accused his brother , whom he called &quot; the witness &quot; , of deliberately distorting his evidence .&#x27;</span>,<br><span class="hljs-string">&#x27;sentence2&#x27;</span>: <span class="hljs-string">&#x27;Referring to him as only &quot; the witness &quot; , Amrozi accused his brother of deliberately distorting his evidence .&#x27;</span>,<br><span class="hljs-string">&#x27;label&#x27;</span>: <span class="hljs-number">1</span>,<br><span class="hljs-string">&#x27;idx&#x27;</span>: <span class="hljs-number">0</span>,<br><span class="hljs-string">&#x27;input_ids&#x27;</span>: [  <span class="hljs-number">101</span>,  <span class="hljs-number">7277</span>,  <span class="hljs-number">2180</span>,  <span class="hljs-number">5303</span>,  <span class="hljs-number">4806</span>,  <span class="hljs-number">1117</span>,  <span class="hljs-number">1711</span>,   <span class="hljs-number">117</span>,  <span class="hljs-number">2292</span>, <span class="hljs-number">1119</span>,  <span class="hljs-number">1270</span>,   <span class="hljs-number">107</span>,  <span class="hljs-number">1103</span>,  <span class="hljs-number">7737</span>,   <span class="hljs-number">107</span>,   <span class="hljs-number">117</span>,  <span class="hljs-number">1104</span>,  <span class="hljs-number">9938</span>, <span class="hljs-number">4267</span>, <span class="hljs-number">12223</span>, <span class="hljs-number">21811</span>,  <span class="hljs-number">1117</span>,  <span class="hljs-number">2554</span>,   <span class="hljs-number">119</span>,   <span class="hljs-number">102</span>],<br><span class="hljs-string">&#x27;token_type_ids&#x27;</span>: [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br><span class="hljs-string">&#x27;attention_mask&#x27;</span>: [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Format"><a href="#Format" class="headerlink" title="Format"></a>Format</h3><p>Set the format with <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Dataset.set_format"><code>datasets.Dataset.set_format()</code></a>, which accepts two main arguments:</p>
+<ol>
+<li><code>type</code> defines the type of column to cast to. For example, <code>torch</code> returns PyTorch tensors and <code>tensorflow</code> returns TensorFlow tensors.</li>
+<li><code>columns</code> specifies which columns should be formatted.</li>
+</ol>
+<p>After you set the format, wrap the dataset in a <code>torch.utils.data.DataLoader</code> or a <code>tf.data.Dataset</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">import</span> torch<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_dataset<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoTokenizer<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset = load_dataset(<span class="hljs-string">&#x27;glue&#x27;</span>, <span class="hljs-string">&#x27;mrpc&#x27;</span>, split=<span class="hljs-string">&#x27;train&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-string">&#x27;bert-base-cased&#x27;</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset = dataset.<span class="hljs-built_in">map</span>(<span class="hljs-keyword">lambda</span> e: tokenizer(e[<span class="hljs-string">&#x27;sentence1&#x27;</span>], truncation=<span class="hljs-literal">True</span>, padding=<span class="hljs-string">&#x27;max_length&#x27;</span>), batched=<span class="hljs-literal">True</span>)<br>...<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataset.set_format(<span class="hljs-built_in">type</span>=<span class="hljs-string">&#x27;torch&#x27;</span>, columns=[<span class="hljs-string">&#x27;input_ids&#x27;</span>, <span class="hljs-string">&#x27;token_type_ids&#x27;</span>, <span class="hljs-string">&#x27;attention_mask&#x27;</span>, <span class="hljs-string">&#x27;label&#x27;</span>])<br><span class="hljs-meta">&gt;&gt;&gt; </span>dataloader = torch.utils.data.DataLoader(dataset, batch_size=<span class="hljs-number">32</span>)<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">next</span>(<span class="hljs-built_in">iter</span>(dataloader))<br>&#123;<span class="hljs-string">&#x27;attention_mask&#x27;</span>: tensor([[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>,  ..., <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>                         ...,<br>                         [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>,  ..., <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]),<br><span class="hljs-string">&#x27;input_ids&#x27;</span>: tensor([[  <span class="hljs-number">101</span>,  <span class="hljs-number">7277</span>,  <span class="hljs-number">2180</span>,  ...,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>],<br>                    ...,<br>                    [  <span class="hljs-number">101</span>,  <span class="hljs-number">1109</span>,  <span class="hljs-number">4173</span>,  ...,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>,     <span class="hljs-number">0</span>]]),<br><span class="hljs-string">&#x27;label&#x27;</span>: tensor([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]),<br><span class="hljs-string">&#x27;token_type_ids&#x27;</span>: tensor([[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,  ..., <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>],<br>                         ...,<br>                         [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>,  ..., <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]])&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Evaluate-Predictions"><a href="#Evaluate-Predictions" class="headerlink" title="Evaluate Predictions"></a>Evaluate Predictions</h2><p>🤗 Datasets provides various common and NLP-specific <a target="_blank" rel="noopener" href="https://huggingface.co/metrics">metrics</a> for you to measure your models performance. In this section of the tutorials, you will load a metric and use it to evaluate your models predictions.</p>
+<p>You can see what metrics are available with <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets.list_metrics"><code>datasets.list_metrics()</code></a></p>
+<h3 id="Load-Metric"><a href="#Load-Metric" class="headerlink" title="Load Metric"></a>Load Metric</h3><p>It is very easy to load a metric with 🤗 Datasets. In fact, you will notice that it is very similar to loading a dataset! Load a metric from the Hub with <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/loading_methods.html#datasets.load_metric"><code>datasets.load_metric()</code></a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">from</span> datasets <span class="hljs-keyword">import</span> load_metric<br><span class="hljs-meta">&gt;&gt;&gt; </span>metric = load_metric(<span class="hljs-string">&#x27;glue&#x27;</span>, <span class="hljs-string">&#x27;mrpc&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>This will load the metric associated with the MRPC dataset from the GLUE benchmark.</p>
+<h3 id="Metrics-Object"><a href="#Metrics-Object" class="headerlink" title="Metrics Object"></a>Metrics Object</h3><p>Before you begin using a <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Metric"><code>datasets.Metric</code></a> object, you should get to know it a little better. As with a dataset, you can return some basic information about a metric. For example, use <code>datasets.Metric.inputs_description</code> to get more information about a metrics expected input format and some usage examples:</p>
+<h3 id="Compute-metric"><a href="#Compute-metric" class="headerlink" title="Compute metric"></a>Compute metric</h3><p>Once you have loaded a metric, you are ready to use it to evaluate a models predictions. Provide the model predictions and references to <a target="_blank" rel="noopener" href="https://huggingface.co/docs/datasets/package_reference/main_classes.html#datasets.Metric.compute"><code>datasets.Metric.compute</code></a>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;&gt; model_predictions = model(model_inputs)<br><span class="hljs-meta">&gt;&gt;&gt; </span>final_score = metric.compute(predictions=model_predictions, references=gold_references)<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Huggingface/">Huggingface</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Programming/">Programming</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/01/Huggingface-transformers/">
+                        <span class="hidden-mobile">Huggingface transformers</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

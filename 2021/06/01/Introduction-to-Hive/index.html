@@ -1,0 +1,1100 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="OverviewThe term ‘Big Data’ is used for collections of large datasets that include huge volume, high velocity, and a variety of data that is increasing day by day. Using traditional data management sy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Hive">
+<meta property="og:url" content="http://erichen0615.github.io/2021/06/01/Introduction-to-Hive/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="OverviewThe term ‘Big Data’ is used for collections of large datasets that include huge volume, high velocity, and a variety of data that is increasing day by day. Using traditional data management sy">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2021/06/01/Introduction-to-Hive/hive_architecture.jpg">
+<meta property="og:image" content="http://erichen0615.github.io/2021/06/01/Introduction-to-Hive/how_hive_works.jpg">
+<meta property="og:image" content="http://erichen0615.github.io/2021/06/01/Introduction-to-Hive/579BE628-6D0B-4201-B053-E3D95A96C45B_1_105_c.jpeg">
+<meta property="article:published_time" content="2021-06-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.980Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Big Data">
+<meta property="article:tag" content="Hive">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2021/06/01/Introduction-to-Hive/hive_architecture.jpg">
+  
+  <title>Introduction to Hive - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Introduction to Hive">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-01 00:00" pubdate>
+        June 1, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Introduction to Hive</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>The term ‘Big Data’ is used for collections of large datasets that include <strong>huge volume, high velocity, and a variety of data</strong> that is increasing day by day. Using traditional data management systems, it is difficult to process Big Data. Therefore, the Apache Software Foundation introduced a framework called Hadoop to solve Big Data management and processing challenges.</p>
+<h2 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h2><p>Hadoop is an open-source framework to store and process Big Data in a distributed environment. It contains two modules, one is MapReduce and another is Hadoop Distributed File System (HDFS).</p>
+<ul>
+<li><strong>MapReduce:</strong> It is a parallel programming model for processing large amounts of structured, semi-structured, and unstructured data on large clusters of commodity hardware.</li>
+<li><strong>HDFS:</strong> Hadoop Distributed File System is a part of Hadoop framework, used to store and process the datasets. It provides a fault-tolerant file system to run on commodity hardware.</li>
+</ul>
+<p>The Hadoop ecosystem contains different sub-projects (tools) such as Sqoop, Pig, and Hive that are used to help Hadoop modules.</p>
+<ul>
+<li><strong>Sqoop:</strong> It is used to import and export data to and from between HDFS and RDBMS.</li>
+<li><strong>Pig:</strong> It is a procedural language platform used to develop a script for MapReduce operations.</li>
+<li><strong>Hive:</strong> It is a platform used to develop <strong>SQL type scripts to do MapReduce operations.</strong></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> There are various ways to execute MapReduce operations:</p>
+<ul>
+<li>The traditional approach using Java MapReduce program for structured, semi-structured, and unstructured data.</li>
+<li>The scripting approach for MapReduce to process structured and semi structured data using Pig.</li>
+<li>The Hive Query Language (HiveQL or HQL) for MapReduce to process structured data using Hive.</li>
+</ul>
+</blockquote>
+<h2 id="What-is-Hive"><a href="#What-is-Hive" class="headerlink" title="What is Hive"></a>What is Hive</h2><p>Hive is a data warehouse infrastructure tool to process structured data in Hadoop. It resides on top of Hadoop to <strong>summarize Big Data, and makes querying and analyzing easy</strong>.</p>
+<blockquote>
+<h3 id="Hive-is-not"><a href="#Hive-is-not" class="headerlink" title="Hive is not"></a>Hive is not</h3><ul>
+<li>A relational database</li>
+<li>A design for OnLine Transaction Processing (OLTP)</li>
+<li>A language for real-time queries and row-level updates</li>
+</ul>
+</blockquote>
+<h2 id="Features-of-Hive"><a href="#Features-of-Hive" class="headerlink" title="Features of Hive"></a>Features of Hive</h2><ul>
+<li>It stores schema in a database and processed data into HDFS.</li>
+<li>It is designed for OLAP (OnLine Analytical Processing)</li>
+<li>It provides SQL type language for querying called HiveQL or HQL.</li>
+<li>It is familiar, fast, scalable, and extensible.</li>
+</ul>
+<h2 id="Architecture-of-Hive"><a href="#Architecture-of-Hive" class="headerlink" title="Architecture of Hive"></a>Architecture of Hive</h2><p>The following component diagram depicts the architecture of Hive:</p>
+<p><img src="hive_architecture.jpg" srcset="/img/loading.gif" lazyload alt="Hive Architecture"></p>
+<p>This component diagram contains different units. The following table describes each unit:</p>
+<table>
+<thead>
+<tr>
+<th>Unit Name</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>User Interface</td>
+<td>Hive is a data warehouse infrastructure software that can create interaction between user and HDFS. The user interfaces that Hive supports are Hive Web UI, Hive command line, and Hive HD Insight (In Windows server).</td>
+</tr>
+<tr>
+<td>Meta Store</td>
+<td>Hive chooses respective database servers to store the schema or Metadata of tables, databases, columns in a table, their data types, and HDFS mapping.</td>
+</tr>
+<tr>
+<td>HiveQL Process Engine</td>
+<td>HiveQL is similar to SQL for querying on schema info on the Metastore. It is one of the replacements of traditional approach for MapReduce program. Instead of writing MapReduce program in Java, we can write a query for MapReduce job and process it.</td>
+</tr>
+<tr>
+<td>Execution Engine</td>
+<td>The conjunction part of HiveQL process Engine and MapReduce is Hive Execution Engine. <strong>Execution engine processes the query and generates results as same as MapReduce results</strong>. It uses the flavor of MapReduce.</td>
+</tr>
+<tr>
+<td>HDFS or HBASE</td>
+<td>Hadoop distributed file system or HBASE are the data storage techniques to store data into file system.</td>
+</tr>
+</tbody></table>
+<h2 id="Working-of-Hive"><a href="#Working-of-Hive" class="headerlink" title="Working of Hive"></a>Working of Hive</h2><p>The following diagram depicts the workflow between Hive and Hadoop.</p>
+<p><img src="how_hive_works.jpg" srcset="/img/loading.gif" lazyload alt="How Hive Works"></p>
+<p>The following table defines how Hive interacts with Hadoop framework:</p>
+<table>
+<thead>
+<tr>
+<th>Step No.</th>
+<th>Operation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>Execute Query</strong> The Hive interface such as Command Line or Web UI sends query to Driver (any database driver such as JDBC, ODBC, etc.) to execute.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Get Plan</strong> The driver takes the help of query compiler that parses the query to check the syntax and query plan or the requirement of query.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Get Metadata</strong> The compiler sends metadata request to Metastore (any database).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Send Metadata</strong> Metastore sends metadata as a response to the compiler.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Send Plan</strong> The compiler checks the requirement and resends the plan to the driver. Up to here, the parsing and compiling of a query is complete.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Execute Plan</strong> The driver sends the execute plan to the execution engine.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Execute Job</strong> Internally, the process of execution job is a MapReduce job. The execution engine sends the job to JobTracker, which is in Name node and it assigns this job to TaskTracker, which is in Data node. Here, the query executes MapReduce job.</td>
+</tr>
+<tr>
+<td>7.1</td>
+<td><strong>Metadata Ops</strong> Meanwhile in execution, the execution engine can execute metadata operations with Metastore.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Fetch Result</strong> The execution engine receives the results from Data nodes.</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Send Results</strong> The execution engine sends those resultant values to the driver.</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Send Results</strong> The driver sends the results to Hive Interfaces.</td>
+</tr>
+</tbody></table>
+<p>Below is an annotated summary</p>
+<p><img src="579BE628-6D0B-4201-B053-E3D95A96C45B_1_105_c.jpeg" srcset="/img/loading.gif" lazyload alt="579BE628-6D0B-4201-B053-E3D95A96C45B_1_105_c"></p>
+<h1 id="Data-Type"><a href="#Data-Type" class="headerlink" title="Data Type"></a>Data Type</h1><p>This chapter takes you through the different data types in Hive, which are involved in the table creation. All the data types in Hive are classified into four types, given as follows:</p>
+<ul>
+<li>Column Types</li>
+<li>Literals</li>
+<li>Null Values</li>
+<li>Complex Types</li>
+</ul>
+<h2 id="Column-Types"><a href="#Column-Types" class="headerlink" title="Column Types"></a>Column Types</h2><h3 id="Integer-Types"><a href="#Integer-Types" class="headerlink" title="Integer Types"></a>Integer Types</h3><p>Integer type data can be specified using integral data types, INT. When the data range exceeds the range of INT, you need to use BIGINT and if the data range is smaller than the INT, you use SMALLINT. TINYINT is smaller than SMALLINT.</p>
+<p>The following table depicts various INT data types:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Postfix</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>Y</td>
+<td>10Y</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>S</td>
+<td>10S</td>
+</tr>
+<tr>
+<td>INT</td>
+<td>-</td>
+<td>10</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>L</td>
+<td>10L</td>
+</tr>
+</tbody></table>
+<h3 id="String-Types"><a href="#String-Types" class="headerlink" title="String Types"></a>String Types</h3><p>String type data types can be specified using single quotes (‘ ‘) or double quotes (“ “). It contains two data types: VARCHAR and CHAR. Hive follows C-types escape characters.</p>
+<p>The following table depicts various CHAR data types:</p>
+<table>
+<thead>
+<tr>
+<th>Data Type</th>
+<th>Length</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VARCHAR</td>
+<td>1 to 65355</td>
+</tr>
+<tr>
+<td>CHAR</td>
+<td>255</td>
+</tr>
+</tbody></table>
+<h3 id="Timestamp"><a href="#Timestamp" class="headerlink" title="Timestamp"></a>Timestamp</h3><p>It supports traditional UNIX timestamp with optional nanosecond precision. It supports java.sql.Timestamp format “YYYY-MM-DD HH:MM:SS.fffffffff” and format “yyyy-mm-dd hh:mm:ss.ffffffffff”.</p>
+<h3 id="Dates"><a href="#Dates" class="headerlink" title="Dates"></a>Dates</h3><p>DATE values are described in year/month/day format in the form NaN.</p>
+<h3 id="Decimals"><a href="#Decimals" class="headerlink" title="Decimals"></a>Decimals</h3><p>The DECIMAL type in Hive is as same as Big Decimal format of Java. It is used for representing immutable arbitrary precision. The syntax and example is as follows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs Sql"><span class="hljs-type">DECIMAL</span>(<span class="hljs-keyword">precision</span>, scale)<br><span class="hljs-type">decimal</span>(<span class="hljs-number">10</span>,<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="Union-Types"><a href="#Union-Types" class="headerlink" title="Union Types"></a>Union Types</h3><p>Union is a collection of heterogeneous data types. You can create an instance using <strong>create union</strong>.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs mysql">UNIONTYPE&lt;int, double, array&lt;string&gt;, struct&lt;a:int,b:string&gt;&gt;<br><br>&#123;0:1&#125; <br>&#123;1:2.0&#125; <br>&#123;2:[&quot;three&quot;,&quot;four&quot;]&#125; <br>&#123;3:&#123;&quot;a&quot;:5,&quot;b&quot;:&quot;five&quot;&#125;&#125; <br>&#123;2:[&quot;six&quot;,&quot;seven&quot;]&#125; <br>&#123;3:&#123;&quot;a&quot;:8,&quot;b&quot;:&quot;eight&quot;&#125;&#125; <br>&#123;0:9&#125; <br>&#123;1:10.0&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Literals"><a href="#Literals" class="headerlink" title="Literals"></a>Literals</h2><h3 id="Floating-Point-Types"><a href="#Floating-Point-Types" class="headerlink" title="Floating Point Types"></a>Floating Point Types</h3><p>Floating point types are nothing but numbers with decimal points. Generally, this type of data is composed of DOUBLE data type.</p>
+<h3 id="Decimal-Type"><a href="#Decimal-Type" class="headerlink" title="Decimal Type"></a>Decimal Type</h3><p>Decimal type data is nothing but floating point value with higher range than DOUBLE data type. The range of decimal type is approximately -10-308 to 10308.</p>
+<h2 id="Null-Value"><a href="#Null-Value" class="headerlink" title="Null Value"></a>Null Value</h2><p>Missing values are represented by the special value NULL.</p>
+<h2 id="Complex-Types"><a href="#Complex-Types" class="headerlink" title="Complex Types"></a>Complex Types</h2><p>The Hive complex data types are as follows:</p>
+<h3 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h3><p>Arrays in Hive are used the same way they are used in Java.</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">Syntax:</span> ARRAY<span class="hljs-params">&lt;data_type&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Maps"><a href="#Maps" class="headerlink" title="Maps"></a>Maps</h3><p>Maps in Hive are similar to Java Maps.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">Syntax: MAP<span class="hljs-operator">&lt;</span>primitive_type, data_type<span class="hljs-operator">&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Structs"><a href="#Structs" class="headerlink" title="Structs"></a>Structs</h3><p>Structs in Hive is similar to using complex data with comment.</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">Syntax:</span> STRUCT<span class="hljs-params">&lt;col_name : data_type [COMMENT col_comment], ...&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Database-Operations"><a href="#Database-Operations" class="headerlink" title="Database Operations"></a>Database Operations</h1><h2 id="Create-Database"><a href="#Create-Database" class="headerlink" title="Create Database"></a>Create Database</h2><p><code>Create Database</code> is a statement used to create a database in Hive. A database in Hive is a <strong>namespace</strong> or a collection of tables. The <strong>syntax</strong> for this statement is as follows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> DATABASE<span class="hljs-operator">|</span>SCHEMA [IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span>] <span class="hljs-operator">&lt;</span>database name<span class="hljs-operator">&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>Here, IF NOT EXISTS is an optional clause, which notifies the user that a database with the same name already exists. We can use SCHEMA in place of DATABASE in this command. The following query is executed to create a database named <strong>userdb</strong>:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">CREATE</span> DATABASE [IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span>] userdb;<br></code></pre></td></tr></table></figure>
+
+<p><strong>or</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">CREATE</span> SCHEMA userdb;<br></code></pre></td></tr></table></figure>
+
+<p>The following query is used to verify a databases list:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">hive&gt; SHOW DATABASES;<br>default<br>userdb<br></code></pre></td></tr></table></figure>
+
+<h2 id="Drop-Database"><a href="#Drop-Database" class="headerlink" title="Drop Database"></a>Drop Database</h2><p>Drop Database is a statement that drops all the tables and deletes the database. Its syntax is as follows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> DATABASE StatementDROP (DATABASE<span class="hljs-operator">|</span>SCHEMA) [IF <span class="hljs-keyword">EXISTS</span>] database_name <br>[RESTRICT<span class="hljs-operator">|</span>CASCADE];<br></code></pre></td></tr></table></figure>
+
+<p>The following queries are used to drop a database. Let us assume that the database name is <strong>userdb</strong>.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DROP</span> DATABASE IF <span class="hljs-keyword">EXISTS</span> userdb;<br></code></pre></td></tr></table></figure>
+
+<p>The following query drops the database using <strong>CASCADE</strong>. It means dropping respective tables before dropping the database.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DROP</span> DATABASE IF <span class="hljs-keyword">EXISTS</span> userdb CASCADE;<br></code></pre></td></tr></table></figure>
+
+<p>The following query drops the database using <strong>SCHEMA</strong>.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DROP</span> SCHEMA userdb;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Table-Operations"><a href="#Table-Operations" class="headerlink" title="Table Operations"></a>Table Operations</h1><h2 id="Create-Table"><a href="#Create-Table" class="headerlink" title="Create Table"></a>Create Table</h2><p>Create Table is a statement used to create a table in Hive. The syntax and example are as follows:</p>
+<h3 id="Syntax"><a href="#Syntax" class="headerlink" title="Syntax"></a>Syntax</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> [TEMPORARY] [<span class="hljs-keyword">EXTERNAL</span>] <span class="hljs-keyword">TABLE</span> [IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span>] [db_name.] table_name<br><br>[(col_name data_type [COMMENT col_comment], ...)]<br>[COMMENT table_comment]<br>[<span class="hljs-type">ROW</span> FORMAT row_format]<br>[STORED <span class="hljs-keyword">AS</span> file_format]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>The following query creates a table named <strong>employee</strong> using the above data.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> employee ( eid <span class="hljs-type">int</span>, name String,<br>salary String, destination String)<br>COMMENT ‘Employee details’<br><span class="hljs-type">ROW</span> FORMAT DELIMITED<br>FIELDS TERMINATED <span class="hljs-keyword">BY</span> ‘\t’<br>LINES TERMINATED <span class="hljs-keyword">BY</span> ‘\n’<br>STORED <span class="hljs-keyword">AS</span> TEXTFILE;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Load-Data-Statement"><a href="#Load-Data-Statement" class="headerlink" title="Load Data Statement"></a>Load Data Statement</h2><p>Generally, after creating a table in SQL, we can insert data using the Insert statement. But in Hive, we can insert data using the <code>LOAD DATA</code> statement.</p>
+<p>While inserting data into Hive, it is better to use <code>LOAD DATA</code> to store bulk records. There are two ways to load data: one is <strong>from local file system</strong> and second is <strong>from Hadoop file system</strong>.</p>
+<h3 id="Syntax-1"><a href="#Syntax-1" class="headerlink" title="Syntax"></a>Syntax</h3><p>The syntax for load data is as follows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">LOAD DATA [<span class="hljs-keyword">LOCAL</span>] INPATH <span class="hljs-string">&#x27;filepath&#x27;</span> [OVERWRITE] <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">TABLE</span> tablename <br>[<span class="hljs-keyword">PARTITION</span> (partcol1<span class="hljs-operator">=</span>val1, partcol2<span class="hljs-operator">=</span>val2 ...)]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>LOCAL</code> is identifier to specify the local path. It is optional.</li>
+<li><code>OVERWRITE</code> is optional to overwrite the data in the table.</li>
+<li><code>PARTITION</code> is optional.</li>
+</ul>
+<h3 id="Example-1"><a href="#Example-1" class="headerlink" title="Example"></a>Example</h3><p>We will insert the following data into the table. It is a text file named <strong>sample.txt</strong> in <strong>/home/user</strong> directory.</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs basic"><span class="hljs-symbol">1201 </span> Gopal       <span class="hljs-number">45000</span>    Technical manager<br><span class="hljs-symbol">1202 </span> Manisha     <span class="hljs-number">45000</span>    Proof reader<br><span class="hljs-symbol">1203 </span> Masthanvali <span class="hljs-number">40000</span>    Technical writer<br><span class="hljs-symbol">1204 </span> Kiran       <span class="hljs-number">40000</span>    Hr Admin<br><span class="hljs-symbol">1205 </span> Kranthi     <span class="hljs-number">30000</span>    Op Admin<br></code></pre></td></tr></table></figure>
+
+<p>The following query loads the given text into the table.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> LOAD DATA <span class="hljs-keyword">LOCAL</span> INPATH <span class="hljs-string">&#x27;/home/user/sample.txt&#x27;</span><br>OVERWRITE <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">TABLE</span> employee;<br></code></pre></td></tr></table></figure>
+
+<h2 id="ALTER-Table"><a href="#ALTER-Table" class="headerlink" title="ALTER Table"></a>ALTER Table</h2><h3 id="Syntax-2"><a href="#Syntax-2" class="headerlink" title="Syntax"></a>Syntax</h3><p>The statement takes any of the following syntaxes based on what attributes we wish to modify in a table.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> name RENAME <span class="hljs-keyword">TO</span> new_name<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> name <span class="hljs-keyword">ADD</span> COLUMNS (col_spec[, col_spec ...])<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> name <span class="hljs-keyword">DROP</span> [<span class="hljs-keyword">COLUMN</span>] column_name<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> name CHANGE column_name new_name new_type<br><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> name REPLACE COLUMNS (col_spec[, col_spec ...])<br></code></pre></td></tr></table></figure>
+
+<h2 id="DROP-Table"><a href="#DROP-Table" class="headerlink" title="DROP Table"></a>DROP Table</h2><p>When you drop a table from Hive Metastore, it removes the table/column data and their metadata. It can be a normal table (stored in Metastore) or an external table (stored in local file system); Hive treats both in the same manner, irrespective of their types.</p>
+<p>The syntax is as follows:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> [IF <span class="hljs-keyword">EXISTS</span>] table_name;<br></code></pre></td></tr></table></figure>
+
+<p>The following query drops a table named <strong>employee</strong>:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> IF <span class="hljs-keyword">EXISTS</span> employee;<br></code></pre></td></tr></table></figure>
+
+<h1 id="Partitions"><a href="#Partitions" class="headerlink" title="Partitions"></a>Partitions</h1><p>Hive organizes tables into partitions. It is a way of dividing a table into related parts <strong>based on the values of partitioned columns</strong> such as date, city, and department. Using partition, it is easy to query a portion of the data.</p>
+<p>Tables or partitions are sub-divided into <strong>buckets,</strong> to provide extra structure to the data that may be used for more efficient querying. Bucketing works based on the value of hash function of some column of a table.</p>
+<p>For example, a table named <strong>Tab1</strong> contains employee data such as id, name, dept, and yoj (i.e., year of joining). Suppose you need to retrieve the details of all employees who joined in 2012. A query searches the whole table for the required information. However, if you partition the employee data with the year and store it in a separate file, it reduces the query processing time. The following example shows how to partition a file and its data:</p>
+<p>The following file contains employeedata table.</p>
+<p>/tab1/employeedata/file1</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">id</span>, name, dept, yoj<br><span class="hljs-attribute">1</span>, gopal, TP, <span class="hljs-number">2012</span><br><span class="hljs-attribute">2</span>, kiran, HR, <span class="hljs-number">2012</span><br><span class="hljs-attribute">3</span>, kaleel,SC, <span class="hljs-number">2013</span><br><span class="hljs-attribute">4</span>, Prasanth, SC, <span class="hljs-number">2013</span><br></code></pre></td></tr></table></figure>
+
+<p>The above data is partitioned into two files using year.</p>
+<p>/tab1/employeedata/2012/file2</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">1</span>, gopal, TP, <span class="hljs-number">2012</span><br><span class="hljs-attribute">2</span>, kiran, HR, <span class="hljs-number">2012</span><br></code></pre></td></tr></table></figure>
+
+<p>/tab1/employeedata/2013/file3</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">3</span>, kaleel,SC, <span class="hljs-number">2013</span><br><span class="hljs-attribute">4</span>, Prasanth, SC, <span class="hljs-number">2013</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Adding-a-Partition"><a href="#Adding-a-Partition" class="headerlink" title="Adding a Partition"></a>Adding a Partition</h2><h3 id="Syntax-3"><a href="#Syntax-3" class="headerlink" title="Syntax:"></a>Syntax:</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> table_name <span class="hljs-keyword">ADD</span> [IF <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span>] <span class="hljs-keyword">PARTITION</span> partition_spec<br>[LOCATION <span class="hljs-string">&#x27;location1&#x27;</span>] partition_spec [LOCATION <span class="hljs-string">&#x27;location2&#x27;</span>] ...;<br><br>partition_spec:<br>: (p_column <span class="hljs-operator">=</span> p_col_value, p_column <span class="hljs-operator">=</span> p_col_value, ...)<br></code></pre></td></tr></table></figure>
+
+<p>The following query is used to add a partition to the employee table.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> employee<br><span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ADD</span> <span class="hljs-keyword">PARTITION</span> (<span class="hljs-keyword">year</span><span class="hljs-operator">=</span>’<span class="hljs-number">2012</span>’)<br><span class="hljs-operator">&gt;</span> location <span class="hljs-string">&#x27;/2012/part2012&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Renaming-a-Partition"><a href="#Renaming-a-Partition" class="headerlink" title="Renaming a Partition"></a>Renaming a Partition</h2><p>The syntax of this command is as follows.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> table_name <span class="hljs-keyword">PARTITION</span> partition_spec RENAME <span class="hljs-keyword">TO</span> <span class="hljs-keyword">PARTITION</span> partition_spec;<br></code></pre></td></tr></table></figure>
+
+<p>The following query is used to rename a partition:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> employee <span class="hljs-keyword">PARTITION</span> (<span class="hljs-keyword">year</span><span class="hljs-operator">=</span>’<span class="hljs-number">1203</span>’)<br>   <span class="hljs-operator">&gt;</span> RENAME <span class="hljs-keyword">TO</span> <span class="hljs-keyword">PARTITION</span> (Yoj<span class="hljs-operator">=</span>’<span class="hljs-number">1203</span>’);<br></code></pre></td></tr></table></figure>
+
+<h2 id="Dropping-a-Partition"><a href="#Dropping-a-Partition" class="headerlink" title="Dropping a Partition"></a>Dropping a Partition</h2><p>The following syntax is used to drop a partition:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> table_name <span class="hljs-keyword">DROP</span> [IF <span class="hljs-keyword">EXISTS</span>] <span class="hljs-keyword">PARTITION</span> partition_spec, <span class="hljs-keyword">PARTITION</span> partition_spec,...;<br></code></pre></td></tr></table></figure>
+
+<p>The following query is used to drop a partition:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">hive<span class="hljs-operator">&gt;</span> <span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> employee <span class="hljs-keyword">DROP</span> [IF <span class="hljs-keyword">EXISTS</span>]<br>   <span class="hljs-operator">&gt;</span> <span class="hljs-keyword">PARTITION</span> (<span class="hljs-keyword">year</span><span class="hljs-operator">=</span>’<span class="hljs-number">1203</span>’);<br></code></pre></td></tr></table></figure>
+
+<h1 id="Operators-amp-Functions"><a href="#Operators-amp-Functions" class="headerlink" title="Operators &amp; Functions"></a>Operators &amp; Functions</h1><h2 id="Relational-Operators"><a href="#Relational-Operators" class="headerlink" title="Relational Operators"></a>Relational Operators</h2><p>These operators are used to compare two operands. The following table describes the relational operators available in Hive:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Operand</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A = B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is equivalent to expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A != B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is not equivalent to expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A &lt; B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is less than expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A &lt;= B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is less than or equal to expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A &gt; B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is greater than expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A &gt;= B</td>
+<td>all primitive types</td>
+<td>TRUE if expression A is greater than or equal to expression B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A IS NULL</td>
+<td>all types</td>
+<td>TRUE if expression A evaluates to NULL otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A IS NOT NULL</td>
+<td>all types</td>
+<td>FALSE if expression A evaluates to NULL otherwise TRUE.</td>
+</tr>
+<tr>
+<td>A LIKE B</td>
+<td>Strings</td>
+<td>TRUE if string pattern A matches to B otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A RLIKE B</td>
+<td>Strings</td>
+<td>NULL if A or B is NULL, TRUE if any substring of A matches the Java regular expression B , otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A REGEXP B</td>
+<td>Strings</td>
+<td>Same as RLIKE.</td>
+</tr>
+</tbody></table>
+<h2 id="Logical-Operators"><a href="#Logical-Operators" class="headerlink" title="Logical Operators"></a>Logical Operators</h2><p>The operators are logical expressions. All of them return either TRUE or FALSE.</p>
+<table>
+<thead>
+<tr>
+<th>Operators</th>
+<th>Operands</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A AND B</td>
+<td>boolean</td>
+<td>TRUE if both A and B are TRUE, otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A &amp;&amp; B</td>
+<td>boolean</td>
+<td>Same as A AND B.</td>
+</tr>
+<tr>
+<td>A OR B</td>
+<td>boolean</td>
+<td>TRUE if either A or B or both are TRUE, otherwise FALSE.</td>
+</tr>
+<tr>
+<td>A || B</td>
+<td>boolean</td>
+<td>Same as A OR B.</td>
+</tr>
+<tr>
+<td>NOT A</td>
+<td>boolean</td>
+<td>TRUE if A is FALSE, otherwise FALSE.</td>
+</tr>
+<tr>
+<td>!A</td>
+<td>boolean</td>
+<td>Same as NOT A.</td>
+</tr>
+</tbody></table>
+<h2 id="Built-in-Functions"><a href="#Built-in-Functions" class="headerlink" title="Built-in Functions"></a>Built-in Functions</h2><p>Hive supports the following built-in functions:</p>
+<table>
+<thead>
+<tr>
+<th>Return Type</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BIGINT</td>
+<td>round(double a)</td>
+<td>It returns the rounded BIGINT value of the double.</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>floor(double a)</td>
+<td>It returns the maximum BIGINT value that is equal or less than the double.</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>ceil(double a)</td>
+<td>It returns the minimum BIGINT value that is equal or greater than the double.</td>
+</tr>
+<tr>
+<td>double</td>
+<td>rand(), rand(int seed)</td>
+<td>It returns a random number that changes from row to row.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>concat(string A, string B,…)</td>
+<td>It returns the string resulting from concatenating B after A.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>substr(string A, int start)</td>
+<td>It returns the substring of A starting from start position till the end of string A.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>substr(string A, int start, int length)</td>
+<td>It returns the substring of A starting from start position with the given length.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>upper(string A)</td>
+<td>It returns the string resulting from converting all characters of A to upper case.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>string</td>
+<td>ucase(string A)</td>
+<td>Same as above.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lower(string A)</td>
+<td>It returns the string resulting from converting all characters of B to lower case.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>lcase(string A)</td>
+<td>Same as above.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>trim(string A)</td>
+<td>It returns the string resulting from trimming spaces from both ends of A.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>ltrim(string A)</td>
+<td>It returns the string resulting from trimming spaces from the beginning (left hand side) of A.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>rtrim(string A)</td>
+<td>rtrim(string A) It returns the string resulting from trimming spaces from the end (right hand side) of A.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>regexp_replace(string A, string B, string C)</td>
+<td>It returns the string resulting from replacing all substrings in B that match the Java regular expression syntax with C.</td>
+</tr>
+<tr>
+<td>int</td>
+<td>size(Map&lt;K.V&gt;)</td>
+<td>It returns the number of elements in the map type.</td>
+</tr>
+<tr>
+<td>int</td>
+<td>size(Array<T>)</td>
+<td>It returns the number of elements in the array type.</td>
+</tr>
+<tr>
+<td>value of <type></td>
+<td>cast(<expr> as <type>)</td>
+<td>It converts the results of the expression expr to <type> e.g. cast(‘1’ as BIGINT) converts the string ‘1’ to it integral representation. A NULL is returned if the conversion does not succeed.</td>
+</tr>
+<tr>
+<td>string</td>
+<td>from_unixtime(int unixtime)</td>
+<td>convert the number of seconds from Unix epoch (1970-01-01 00:00:00 UTC) to a string representing the timestamp of that moment in the current system time zone in the format of “1970-01-01 00:00:00”</td>
+</tr>
+<tr>
+<td>string</td>
+<td>to_date(string timestamp)</td>
+<td>It returns the date part of a timestamp string: to_date(“1970-01-01 00:00:00”) = “1970-01-01”</td>
+</tr>
+<tr>
+<td>int</td>
+<td>year(string date)</td>
+<td>It returns the year part of a date or a timestamp string: year(“1970-01-01 00:00:00”) = 1970, year(“1970-01-01”) = 1970</td>
+</tr>
+<tr>
+<td>int</td>
+<td>month(string date)</td>
+<td>It returns the month part of a date or a timestamp string: month(“1970-11-01 00:00:00”) = 11, month(“1970-11-01”) = 11</td>
+</tr>
+<tr>
+<td>int</td>
+<td>day(string date)</td>
+<td>It returns the day part of a date or a timestamp string: day(“1970-11-01 00:00:00”) = 1, day(“1970-11-01”) = 1</td>
+</tr>
+<tr>
+<td>string</td>
+<td>get_json_object(string json_string, string path)</td>
+<td>It extracts json object from a json string based on json path specified, and returns json string of the extracted json object. It returns NULL if the input json string is invalid.</td>
+</tr>
+</tbody></table>
+<h2 id="Aggregate-Functions"><a href="#Aggregate-Functions" class="headerlink" title="Aggregate Functions"></a>Aggregate Functions</h2><p>Hive supports the following built-in <strong>aggregate functions</strong>. The usage of these functions is as same as the SQL aggregate functions.</p>
+<table>
+<thead>
+<tr>
+<th>Return Type</th>
+<th>Signature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BIGINT</td>
+<td>count(*), count(expr),</td>
+<td>count(*) - Returns the total number of retrieved rows.</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>sum(col), sum(DISTINCT col)</td>
+<td>It returns the sum of the elements in the group or the sum of the distinct values of the column in the group.</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>avg(col), avg(DISTINCT col)</td>
+<td>It returns the average of the elements in the group or the average of the distinct values of the column in the group.</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>min(col)</td>
+<td>It returns the minimum value of the column in the group.</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td>max(col)</td>
+<td>It returns the maximum value of the column in the group.</td>
+</tr>
+</tbody></table>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Big-Data/">Big Data</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Hive/">Hive</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/01/Introduction-to-scala/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Introduction to scala</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/01/%E8%AE%A1%E7%AE%97%E5%B9%BF%E5%91%8A/">
+                        <span class="hidden-mobile">计算广告</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

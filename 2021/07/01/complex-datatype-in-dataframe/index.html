@@ -1,0 +1,636 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Data Sources and formats Interchanging data formats with Spark SQLSpark can be used to interchange data formats as easily as: 1234567891011events &#x3D; spark.readStream \  .format(&quot;json&quot;) \">
+<meta property="og:type" content="article">
+<meta property="og:title" content="complex datatype in dataframe">
+<meta property="og:url" content="http://erichen0615.github.io/2021/07/01/complex-datatype-in-dataframe/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Data Sources and formats Interchanging data formats with Spark SQLSpark can be used to interchange data formats as easily as: 1234567891011events &#x3D; spark.readStream \  .format(&quot;json&quot;) \">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/complex-datatype-in-dataframe/%E6%88%AA%E5%B1%8F2021-07-20%20%E4%B8%8A%E5%8D%8810.02.11.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/complex-datatype-in-dataframe/%E6%88%AA%E5%B1%8F2021-07-20%20%E4%B8%8B%E5%8D%886.37.38.png">
+<meta property="article:published_time" content="2021-07-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:26.596Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Scala">
+<meta property="article:tag" content="Big Data">
+<meta property="article:tag" content="Spark">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2021/07/01/complex-datatype-in-dataframe/%E6%88%AA%E5%B1%8F2021-07-20%20%E4%B8%8A%E5%8D%8810.02.11.png">
+  
+  <title>complex datatype in dataframe - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="complex datatype in dataframe">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-01 00:00" pubdate>
+        July 1, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">complex datatype in dataframe</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Data-Sources-and-formats"><a href="#Data-Sources-and-formats" class="headerlink" title="Data Sources and formats"></a>Data Sources and formats</h1><p><img src="%E6%88%AA%E5%B1%8F2021-07-20%20%E4%B8%8A%E5%8D%8810.02.11.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-20 上午10.02.11"></p>
+<h1 id="Interchanging-data-formats-with-Spark-SQL"><a href="#Interchanging-data-formats-with-Spark-SQL" class="headerlink" title="Interchanging data formats with Spark SQL"></a>Interchanging data formats with Spark SQL</h1><p>Spark can be used to interchange data formats as easily as:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scala">events = spark.readStream \<br>  .format(<span class="hljs-string">&quot;json&quot;</span>) \           # or parquet, kafka, orc...<br>  .option() \                 # format specific options<br>  .schema(my_schema) \        # required<br>  .load(<span class="hljs-string">&quot;path/to/data&quot;</span>)<br><br>output = …                   # perform your transformations<br><br>output.writeStream \          # write out your data <br>  .format(<span class="hljs-string">&quot;parquet&quot;</span>) \<br>  .start(<span class="hljs-string">&quot;path/to/write&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Transforming-Complex-Data-Types"><a href="#Transforming-Complex-Data-Types" class="headerlink" title="Transforming Complex Data Types"></a>Transforming Complex Data Types</h1><p>This <a target="_blank" rel="noopener" href="https://databricks.com/blog/2017/02/23/working-complex-data-formats-structured-streaming-apache-spark-2-1.html">blog</a> is very useful.</p>
+<p>It is common to have complex data types such as <strong>structs, maps, and arrays</strong> when working with semi-structured formats. </p>
+<h3 id="Selecting-from-nested-columns"><a href="#Selecting-from-nested-columns" class="headerlink" title="Selecting from nested columns"></a>Selecting from nested columns</h3><p>Dots (<code>.</code>) can be used to access nested columns for structs and maps.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// input</span><br>&#123;<br>  <span class="hljs-string">&quot;a&quot;</span>: &#123;<br>     <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">1</span><br>  &#125;<br>&#125;<br><br><span class="hljs-type">Python</span>: events.select(<span class="hljs-string">&quot;a.b&quot;</span>)<br> <span class="hljs-type">Scala</span>: events.select(<span class="hljs-string">&quot;a.b&quot;</span>)<br>   <span class="hljs-type">SQL</span>: select a.b from events<br><br><span class="hljs-comment">// output</span><br>&#123;<br>  <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">1</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Flattening-structs"><a href="#Flattening-structs" class="headerlink" title="Flattening structs"></a>Flattening structs</h3><p>A star (<code>*</code>) can be used to select all of the subfields in a struct.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// input</span><br>&#123;<br>  <span class="hljs-string">&quot;a&quot;</span>: &#123;<br>     <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">1</span>,<br>     <span class="hljs-string">&quot;c&quot;</span>: <span class="hljs-number">2</span><br>  &#125;<br>&#125;<br><br><span class="hljs-type">Python</span>:  events.select(<span class="hljs-string">&quot;a.*&quot;</span>)<br> <span class="hljs-type">Scala</span>:  events.select(<span class="hljs-string">&quot;a.*&quot;</span>)<br>   <span class="hljs-type">SQL</span>:  select a.* from events<br><br><span class="hljs-comment">// output</span><br>&#123;<br>  <span class="hljs-string">&quot;b&quot;</span>: <span class="hljs-number">1</span>,<br>  <span class="hljs-string">&quot;c&quot;</span>: <span class="hljs-number">2</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Nesting-columns"><a href="#Nesting-columns" class="headerlink" title="Nesting columns"></a>Nesting columns</h3><p>The struct function or just parentheses in SQL can be used to create a new struct.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: 1,<br>  &quot;b&quot;: 2,<br>  &quot;c&quot;: 3<br>&#125;<br><br>Python: events.select(struct(col(&quot;a&quot;).alias(&quot;y&quot;)).alias(&quot;x&quot;))<br> Scala: events.select(struct(&#x27;a as &#x27;y) as &#x27;x)<br>   SQL: select named_struct(&quot;y&quot;, a) as x from events<br><br>// output<br>&#123;<br>  &quot;x&quot;: &#123;<br>    &quot;y&quot;: 1<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Selecting-a-single-array-or-map-element"><a href="#Selecting-a-single-array-or-map-element" class="headerlink" title="Selecting a single array or map element"></a>Selecting a single array or map element</h3><p><code>getItem()</code> or square brackets (i.e. <code>[ ]</code>) can be used to select a single element out of an array or a map.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: [1, 2]<br>&#125;<br><br>Python: events.select(col(&quot;a&quot;).getItem(0).alias(&quot;x&quot;))<br> Scala: events.select(&#x27;a.getItem(0) as &#x27;x)<br>   SQL: select a[0] as x from events<br><br>// output<br>&#123; &quot;x&quot;: 1 &#125;<br>// input<br>&#123;<br>  &quot;a&quot;: &#123;<br>    &quot;b&quot;: 1<br>  &#125;<br>&#125;<br><br>Python: events.select(col(&quot;a&quot;).getItem(&quot;b&quot;).alias(&quot;x&quot;))<br> Scala: events.select(&#x27;a.getItem(&quot;b&quot;) as &#x27;x)<br>   SQL: select a[&#x27;b&#x27;] as x from events<br><br>// output<br>&#123; &quot;x&quot;: 1 &#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Creating-a-row-for-each-array-or-map-element"><a href="#Creating-a-row-for-each-array-or-map-element" class="headerlink" title="Creating a row for each array or map element"></a>Creating a row for each array or map element</h3><p><code>explode()</code> can be used to create a new row for each element in an array or each key-value pair. This is similar to LATERAL VIEW EXPLODE in HiveQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: [1, 2]<br>&#125;<br><br>Python: events.select(explode(&quot;a&quot;).alias(&quot;x&quot;))<br> Scala: events.select(explode(&#x27;a) as &#x27;x)<br>   SQL: select explode(a) as x from events<br><br>// output<br>[&#123; &quot;x&quot;: 1 &#125;, &#123; &quot;x&quot;: 2 &#125;]<br>// input<br>&#123;<br>  &quot;a&quot;: &#123;<br>    &quot;b&quot;: 1,<br>    &quot;c&quot;: 2<br>  &#125;<br>&#125;<br><br>Python: events.select(explode(&quot;a&quot;).alias(&quot;x&quot;, &quot;y&quot;))<br> Scala: events.select(explode(&#x27;a) as Seq(&quot;x&quot;, &quot;y&quot;))<br>   SQL: select explode(a) as (x, y) from events<br><br>// output<br>[&#123; &quot;x&quot;: &quot;b&quot;, &quot;y&quot;: 1 &#125;, &#123; &quot;x&quot;: &quot;c&quot;, &quot;y&quot;: 2 &#125;]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Collecting-multiple-rows-into-an-array"><a href="#Collecting-multiple-rows-into-an-array" class="headerlink" title="Collecting multiple rows into an array"></a>Collecting multiple rows into an array</h3><p><code>collect_list()</code> and <code>collect_set()</code> can be used to aggregate items into an array.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>[&#123; &quot;x&quot;: 1 &#125;, &#123; &quot;x&quot;: 2 &#125;]<br><br>Python: events.select(collect_list(&quot;x&quot;).alias(&quot;x&quot;))<br> Scala: events.select(collect_list(&#x27;x) as &#x27;x)<br>   SQL: select collect_list(x) as x from events<br><br>// output<br>&#123; &quot;x&quot;: [1, 2] &#125;<br>// input<br>[&#123; &quot;x&quot;: 1, &quot;y&quot;: &quot;a&quot; &#125;, &#123; &quot;x&quot;: 2, &quot;y&quot;: &quot;b&quot; &#125;]<br><br>Python: events.groupBy(&quot;y&quot;).agg(collect_list(&quot;x&quot;).alias(&quot;x&quot;))<br> Scala: events.groupBy(&quot;y&quot;).agg(collect_list(&#x27;x) as &#x27;x)<br>   SQL: select y, collect_list(x) as x from events group by y<br><br>// output<br>[&#123; &quot;y&quot;: &quot;a&quot;, &quot;x&quot;: [1]&#125;, &#123; &quot;y&quot;: &quot;b&quot;, &quot;x&quot;: [2]&#125;]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Selecting-one-field-from-each-item-in-an-array"><a href="#Selecting-one-field-from-each-item-in-an-array" class="headerlink" title="Selecting one field from each item in an array"></a>Selecting one field from each item in an array</h3><p>When you use dot notation on an array we return a new array where that field has been selected from each array element.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: [<br>    &#123;&quot;b&quot;: 1&#125;,<br>    &#123;&quot;b&quot;: 2&#125;<br>  ]<br>&#125;<br><br>Python: events.select(&quot;a.b&quot;)<br> Scala: events.select(&quot;a.b&quot;)<br>   SQL: select a.b from events<br><br>// output<br>&#123;<br>  &quot;b&quot;: [1, 2]<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Power-of-to-json-and-from-json"><a href="#Power-of-to-json-and-from-json" class="headerlink" title="Power of to_json() and from_json()"></a>Power of to_json() and from_json()</h2><p>Spark SQL provides functions like <code>to_json()</code> to encode a struct as a string and <code>from_json()</code> to retrieve the struct as a complex type. Using JSON strings as columns are useful when reading from or writing to a streaming source like Kafka. Each Kafka key-value record will be augmented with some metadata, such as the ingestion timestamp into Kafka, the offset in Kafka, etc. If the “value” field that contains your data is in JSON, you could use <code>from_json()</code> to extract your data, enrich it, clean it, and then push it downstream to Kafka again or write it out to a file.</p>
+<h4 id="Encode-a-struct-as-json"><a href="#Encode-a-struct-as-json" class="headerlink" title="Encode a struct as json"></a>Encode a struct as json</h4><p><code>to_json()</code> can be used to turn structs into JSON strings. This method is particularly useful when you would like to re-encode multiple columns into a single one when writing data out to Kafka. This method is not presently available in SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: &#123;<br>    &quot;b&quot;: 1<br>  &#125;<br>&#125;<br><br>Python: events.select(to_json(&quot;a&quot;).alias(&quot;c&quot;))<br> Scala: events.select(to_json(&#x27;a) as &#x27;c)<br><br>// output<br>&#123;<br>  &quot;c&quot;: &quot;&#123;\&quot;b\&quot;:1&#125;&quot;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Decode-json-column-as-a-struct"><a href="#Decode-json-column-as-a-struct" class="headerlink" title="Decode json column as a struct"></a>Decode json column as a struct</h4><p><code>from_json()</code> can be used to turn a string column with JSON data into a struct. Then you may flatten the struct as described above to have individual columns. This method is not presently available in SQL.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: &quot;&#123;\&quot;b\&quot;:1&#125;&quot;<br>&#125;<br><br>Python: <br>  schema = StructType().add(&quot;b&quot;, IntegerType())<br>  events.select(from_json(&quot;a&quot;, schema).alias(&quot;c&quot;))<br>Scala:<br>  val schema = new StructType().add(&quot;b&quot;, IntegerType)<br>  events.select(from_json(&#x27;a, schema) as &#x27;c)<br><br>// output<br>&#123;<br>  &quot;c&quot;: &#123;<br>    &quot;b&quot;: 1<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Sometimes you may want to leave a part of the JSON string still as JSON to avoid too much complexity in your schema.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: &quot;&#123;\&quot;b\&quot;:&#123;\&quot;x\&quot;:1,\&quot;y\&quot;:&#123;\&quot;z\&quot;:2&#125;&#125;&#125;&quot;<br>&#125;<br><br>Python: <br>  schema = StructType().add(&quot;b&quot;, StructType().add(&quot;x&quot;, IntegerType())<br>                              .add(&quot;y&quot;, StringType()))<br>  events.select(from_json(&quot;a&quot;, schema).alias(&quot;c&quot;))<br>Scala:<br>  val schema = new StructType().add(&quot;b&quot;, new StructType().add(&quot;x&quot;, IntegerType)<br>    .add(&quot;y&quot;, StringType))<br>  events.select(from_json(&#x27;a, schema) as &#x27;c)<br><br>// output<br>&#123;<br>  &quot;c&quot;: &#123;<br>    &quot;b&quot;: &#123;<br>      &quot;x&quot;: 1,<br>      &quot;y&quot;: &quot;&#123;\&quot;z\&quot;:2&#125;&quot;<br>    &#125;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="Parse-a-set-of-fields-from-a-column-containing-JSON"><a href="#Parse-a-set-of-fields-from-a-column-containing-JSON" class="headerlink" title="Parse a set of fields from a column containing JSON"></a>Parse a set of fields from a column containing JSON</h4><p><code>json_tuple()</code> can be used to extract fields available in a string column with JSON data.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>&#123;<br>  &quot;a&quot;: &quot;&#123;\&quot;b\&quot;:1&#125;&quot;<br>&#125;<br><br>Python: events.select(json_tuple(&quot;a&quot;, &quot;b&quot;).alias(&quot;c&quot;))<br>Scala:  events.select(json_tuple(&#x27;a, &quot;b&quot;) as &#x27;c)<br>SQL:    select json_tuple(a, &quot;b&quot;) as c from events<br><br>// output<br>&#123; &quot;c&quot;: 1 &#125;<br></code></pre></td></tr></table></figure>
+
+<p>Sometimes a string column may not be self-describing as JSON, but may still have a well-formed structure. For example, it could be a log message generated using a specific Log4j format. Spark SQL can be used to structure those strings for you with ease!</p>
+<h4 id="Parse-a-well-formed-string-column"><a href="#Parse-a-well-formed-string-column" class="headerlink" title="Parse a well-formed string column"></a>Parse a well-formed string column</h4><p><code>regexp_extract()</code> can be used to parse strings using regular expressions.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs language-scala">// input<br>[&#123; &quot;a&quot;: &quot;x: 1&quot; &#125;, &#123; &quot;a&quot;: &quot;y: 2&quot; &#125;]<br><br>Python: events.select(regexp_extract(&quot;a&quot;, &quot;([a-z]):&quot;, 1).alias(&quot;c&quot;))<br>Scala:  events.select(regexp_extract(&#x27;a, &quot;([a-z]):&quot;, 1) as &#x27;c)<br>SQL:    select regexp_extract(a, &quot;([a-z]):&quot;, 1) as c from events<br><br>// output<br>[&#123; &quot;c&quot;: &quot;x&quot; &#125;, &#123; &quot;c&quot;: &quot;y&quot; &#125;]<br></code></pre></td></tr></table></figure>
+
+<h2 id="More-Json"><a href="#More-Json" class="headerlink" title="More Json!"></a>More Json!</h2><p>The useful functions are <code>get_json_object()</code>, <code>from_json()</code>, <code>to_json()</code>, <code>explode()</code> and <code>selectExpr()</code></p>
+<p>Checkout this <a target="_blank" rel="noopener" href="https://docs.databricks.com/_static/notebooks/complex-nested-structured.html">notebook</a> on databricks!!!</p>
+<h3 id="A-simple-Json-Schema-without-nested-Structure"><a href="#A-simple-Json-Schema-without-nested-Structure" class="headerlink" title="A simple Json Schema without nested Structure"></a>A simple Json Schema without nested Structure</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> org.apache.spark.sql.types._                         <span class="hljs-comment">// include the Spark Types to define our schema</span><br><span class="hljs-keyword">import</span> org.apache.spark.sql.functions._                     <span class="hljs-comment">// include the Spark helper functions</span><br><br><span class="hljs-keyword">val</span> jsonSchema = <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>        .add(<span class="hljs-string">&quot;battery_level&quot;</span>, <span class="hljs-type">LongType</span>)<br>        .add(<span class="hljs-string">&quot;c02_level&quot;</span>, <span class="hljs-type">LongType</span>)<br>        .add(<span class="hljs-string">&quot;cca3&quot;</span>,<span class="hljs-type">StringType</span>)<br>        .add(<span class="hljs-string">&quot;cn&quot;</span>, <span class="hljs-type">StringType</span>)<br>        .add(<span class="hljs-string">&quot;device_id&quot;</span>, <span class="hljs-type">LongType</span>)<br>        .add(<span class="hljs-string">&quot;device_type&quot;</span>, <span class="hljs-type">StringType</span>)<br>        .add(<span class="hljs-string">&quot;signal&quot;</span>, <span class="hljs-type">LongType</span>)<br>        .add(<span class="hljs-string">&quot;ip&quot;</span>, <span class="hljs-type">StringType</span>)<br>        .add(<span class="hljs-string">&quot;temp&quot;</span>, <span class="hljs-type">LongType</span>)<br>        .add(<span class="hljs-string">&quot;timestamp&quot;</span>, <span class="hljs-type">TimestampType</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="get-json-object"><a href="#get-json-object" class="headerlink" title="get_json_object()"></a><code>get_json_object()</code></h3><p><code>get_json_object()</code> extracts a JSON object from a JSON string based on JSON path specified, and returns a JSON string as the extracted JSON object. </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> jsDF = eventsFromJSONDF.select($<span class="hljs-string">&quot;id&quot;</span>, get_json_object($<span class="hljs-string">&quot;json&quot;</span>, <span class="hljs-string">&quot;$.device_type&quot;</span>).alias(<span class="hljs-string">&quot;device_type&quot;</span>),<br>                                          get_json_object($<span class="hljs-string">&quot;json&quot;</span>, <span class="hljs-string">&quot;$.ip&quot;</span>).alias(<span class="hljs-string">&quot;ip&quot;</span>),<br>                                         get_json_object($<span class="hljs-string">&quot;json&quot;</span>, <span class="hljs-string">&quot;$.cca3&quot;</span>).alias(<span class="hljs-string">&quot;cca3&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>This allows you to <strong>extract json fields as columns</strong></p>
+<h3 id="from-json"><a href="#from-json" class="headerlink" title="from_json()"></a><code>from_json()</code></h3><p><code>from_json()</code> is a variation of <code>get_json_object()</code>, this function <strong>uses schema to extract individual columns</strong>. Using <code>from_json()</code> helper function within the <code>select()</code> Dataset API call, we can extract or encode data’s attributes and values from a JSON string into a DataFrame as columns, dictated by a schema.</p>
+<p>In example below:</p>
+<ul>
+<li>Uses the schema above to extract from the JSON string attributes and values and represent them as individual columns as part of <code>devices</code></li>
+<li><code>select()</code> all its columns</li>
+<li>Filters on desired attributes using the <code>.</code> notation</li>
+</ul>
+<p>Once you have extracted data from a JSON string into its respective DataFrame columns, you can apply DataFrame/Dataset APIs calls to select, filter, and subsequtly display, to your satisfaction.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> devicesDF = eventsDS.select(from_json($<span class="hljs-string">&quot;device&quot;</span>, jsonSchema) as <span class="hljs-string">&quot;devices&quot;</span>)<br>.select($<span class="hljs-string">&quot;devices.*&quot;</span>)<br>.filter($<span class="hljs-string">&quot;devices.temp&quot;</span> &gt; <span class="hljs-number">10</span> and $<span class="hljs-string">&quot;devices.signal&quot;</span> &gt; <span class="hljs-number">15</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="to-json"><a href="#to-json" class="headerlink" title="to_json()"></a><code>to_json()</code></h3><p>You can convert or encode our filtered devices into JSON string using <code>to_json()</code>. That is, <strong>convert a JSON struct into a string.</strong> </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> stringJsonDF = eventsDS.select(to_json(struct($<span class="hljs-string">&quot;*&quot;</span>))).toDF(<span class="hljs-string">&quot;devices&quot;</span>)<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="selectExpr"><a href="#selectExpr" class="headerlink" title="selectExpr()"></a><code>selectExpr()</code></h3><p>Another way to convert or encode a column into a JSON object as string is to use the <em>selectExpr()</em> utility function. For instance, I can convert the “device” column of our DataFrame from above into a JSON String</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> stringsDF = eventsDS.selectExpr(<span class="hljs-string">&quot;CAST(id AS INT)&quot;</span>, <span class="hljs-string">&quot;CAST(device AS STRING)&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>Another use of <code>selectExpr()</code> is its ability, as the function name suggests, <strong>take expressions as arguments and convert them into respective columns</strong>. For instance, say I want to express c02 levels and temperature ratios.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">devicesDF.selectExpr(<span class="hljs-string">&quot;c02_level&quot;</span>, <span class="hljs-string">&quot;round(c02_level/temp) as ratio_c02_temperature&quot;</span>).orderBy($<span class="hljs-string">&quot;ratio_c02_temperature&quot;</span> desc)<br></code></pre></td></tr></table></figure>
+
+<h3 id="Nested-Structure"><a href="#Nested-Structure" class="headerlink" title="Nested Structure"></a>Nested Structure</h3><p>It’s not unreasonable to assume that your JSON nested structures may have Maps as well as nested JSON. For illustration, let’s use a single string comprised of complex and nested data types, including a Map. In a real life scenario, this could be a reading from a device event, with dangerous levels of C02 emissions or high temperature readings, that needs Network Operation Center (NOC) notification for some immediate action.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> org.apache.spark.sql.types._<br><br><span class="hljs-keyword">val</span> schema = <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>  .add(<span class="hljs-string">&quot;dc_id&quot;</span>, <span class="hljs-type">StringType</span>)                               <span class="hljs-comment">// data center where data was posted to Kafka cluster</span><br>  .add(<span class="hljs-string">&quot;source&quot;</span>,                                          <span class="hljs-comment">// info about the source of alarm</span><br>    <span class="hljs-type">MapType</span>(                                              <span class="hljs-comment">// define this as a Map(Key-&gt;value)</span><br>      <span class="hljs-type">StringType</span>,<br>      <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>      .add(<span class="hljs-string">&quot;description&quot;</span>, <span class="hljs-type">StringType</span>)<br>      .add(<span class="hljs-string">&quot;ip&quot;</span>, <span class="hljs-type">StringType</span>)<br>      .add(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-type">LongType</span>)<br>      .add(<span class="hljs-string">&quot;temp&quot;</span>, <span class="hljs-type">LongType</span>)<br>      .add(<span class="hljs-string">&quot;c02_level&quot;</span>, <span class="hljs-type">LongType</span>)<br>      .add(<span class="hljs-string">&quot;geo&quot;</span>, <br>         <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>          .add(<span class="hljs-string">&quot;lat&quot;</span>, <span class="hljs-type">DoubleType</span>)<br>          .add(<span class="hljs-string">&quot;long&quot;</span>, <span class="hljs-type">DoubleType</span>)<br>        )<br>      )<br>    )<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">//create a single entry with id and its complex and nested data types</span><br><br><span class="hljs-keyword">val</span> dataDS = <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">&#123;</span><br><span class="hljs-string">&quot;dc_id&quot;: &quot;dc-101&quot;,</span><br><span class="hljs-string">&quot;source&quot;: &#123;</span><br><span class="hljs-string">    &quot;sensor-igauge&quot;: &#123;</span><br><span class="hljs-string">      &quot;id&quot;: 10,</span><br><span class="hljs-string">      &quot;ip&quot;: &quot;68.28.91.22&quot;,</span><br><span class="hljs-string">      &quot;description&quot;: &quot;Sensor attached to the container ceilings&quot;,</span><br><span class="hljs-string">      &quot;temp&quot;:35,</span><br><span class="hljs-string">      &quot;c02_level&quot;: 1475,</span><br><span class="hljs-string">      &quot;geo&quot;: &#123;&quot;lat&quot;:38.00, &quot;long&quot;:97.00&#125;                        </span><br><span class="hljs-string">    &#125;,</span><br><span class="hljs-string">    &quot;sensor-ipad&quot;: &#123;</span><br><span class="hljs-string">      &quot;id&quot;: 13,</span><br><span class="hljs-string">      &quot;ip&quot;: &quot;67.185.72.1&quot;,</span><br><span class="hljs-string">      &quot;description&quot;: &quot;Sensor ipad attached to carbon cylinders&quot;,</span><br><span class="hljs-string">      &quot;temp&quot;: 34,</span><br><span class="hljs-string">      &quot;c02_level&quot;: 1370,</span><br><span class="hljs-string">      &quot;geo&quot;: &#123;&quot;lat&quot;:47.41, &quot;long&quot;:-122.00&#125;</span><br><span class="hljs-string">    &#125;,</span><br><span class="hljs-string">    &quot;sensor-inest&quot;: &#123;</span><br><span class="hljs-string">      &quot;id&quot;: 8,</span><br><span class="hljs-string">      &quot;ip&quot;: &quot;208.109.163.218&quot;,</span><br><span class="hljs-string">      &quot;description&quot;: &quot;Sensor attached to the factory ceilings&quot;,</span><br><span class="hljs-string">      &quot;temp&quot;: 40,</span><br><span class="hljs-string">      &quot;c02_level&quot;: 1346,</span><br><span class="hljs-string">      &quot;geo&quot;: &#123;&quot;lat&quot;:33.61, &quot;long&quot;:-111.89&#125;</span><br><span class="hljs-string">    &#125;,</span><br><span class="hljs-string">    &quot;sensor-istick&quot;: &#123;</span><br><span class="hljs-string">      &quot;id&quot;: 5,</span><br><span class="hljs-string">      &quot;ip&quot;: &quot;204.116.105.67&quot;,</span><br><span class="hljs-string">      &quot;description&quot;: &quot;Sensor embedded in exhaust pipes in the ceilings&quot;,</span><br><span class="hljs-string">      &quot;temp&quot;: 40,</span><br><span class="hljs-string">      &quot;c02_level&quot;: 1574,</span><br><span class="hljs-string">      &quot;geo&quot;: &#123;&quot;lat&quot;:35.93, &quot;long&quot;:-85.46&#125;</span><br><span class="hljs-string">    &#125;</span><br><span class="hljs-string">  &#125;</span><br><span class="hljs-string">&#125;&quot;&quot;&quot;</span>).toDS()<br><span class="hljs-comment">// should only be one item</span><br>dataDS.count()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> df = spark                  <span class="hljs-comment">// spark session </span><br>.read                           <span class="hljs-comment">// get DataFrameReader</span><br>.schema(schema)                 <span class="hljs-comment">// use the defined schema above and read format as JSON</span><br>.json(dataDS.rdd)               <span class="hljs-comment">// RDD[String]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="explode"><a href="#explode" class="headerlink" title="explode()"></a><code>explode()</code></h3><p>The <a target="_blank" rel="noopener" href="https://spark.apache.org/docs/latest/api/scala/index.html#org.apache.spark.sql.functions$"><code>explode()</code></a> function is used to show how to extract nested structures. Plus, it sheds more light when we see how it works alongside <code>to_json()</code> and <code>from_json()</code> functions, when extracting attributes and values from complex JSON structures. So on occasion, you will want to use <code>explode()</code>, alongside <code>to_json()</code> and <code>from_json()</code> functions. And here’s one case where we do.</p>
+<p>The <code>explode()</code> function creates a new row for each element in the given map column. In this case, the map column is <code>source</code>. Note that for each key-value in the map, you have a respective Row, in this case four.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> explodedDF = df.select($<span class="hljs-string">&quot;dc_id&quot;</span>, explode($<span class="hljs-string">&quot;source&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>Now we can access the data from our exploded data using Map</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">//case class to denote our desired Scala object</span><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DeviceAlert</span>(<span class="hljs-params">dcId: <span class="hljs-type">String</span>, deviceType:<span class="hljs-type">String</span>, ip:<span class="hljs-type">String</span>, deviceId:<span class="hljs-type">Long</span>, temp:<span class="hljs-type">Long</span>, c02_level: <span class="hljs-type">Long</span>, lat: <span class="hljs-type">Double</span>, lon: <span class="hljs-type">Double</span></span>)</span><br><span class="hljs-comment">//access all values using getItem() method on value, by providing the &quot;key,&quot; which is attribute in our JSON object.</span><br><span class="hljs-keyword">val</span> notifydevicesDS = explodedDF.select( $<span class="hljs-string">&quot;dc_id&quot;</span> as <span class="hljs-string">&quot;dcId&quot;</span>,<br>                        $<span class="hljs-string">&quot;key&quot;</span> as <span class="hljs-string">&quot;deviceType&quot;</span>,<br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;ip&quot;</span>) as <span class="hljs-symbol">&#x27;ip</span>,<br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;id&quot;</span>) as <span class="hljs-symbol">&#x27;deviceId</span>,<br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;c02_level&quot;</span>) as <span class="hljs-symbol">&#x27;c02_level</span>,<br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;temp&quot;</span>) as <span class="hljs-symbol">&#x27;temp</span>,<br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;geo&quot;</span>).getItem(<span class="hljs-string">&quot;lat&quot;</span>) as <span class="hljs-symbol">&#x27;lat</span>,                <span class="hljs-comment">//note embedded level requires yet another level of fetching.</span><br>                        <span class="hljs-symbol">&#x27;value</span>.getItem(<span class="hljs-string">&quot;geo&quot;</span>).getItem(<span class="hljs-string">&quot;long&quot;</span>) as <span class="hljs-symbol">&#x27;lon</span>)<br>                        .as[<span class="hljs-type">DeviceAlert</span>]  <span class="hljs-comment">// return as a Dataset</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note that we use <code>getItem()</code> to retrieve a value in a map</p>
+</blockquote>
+<h1 id="Working-with-complex-type-Columns"><a href="#Working-with-complex-type-Columns" class="headerlink" title="Working with complex type Columns"></a>Working with complex type Columns</h1><h2 id="Map-Type-Columns"><a href="#Map-Type-Columns" class="headerlink" title="Map Type Columns"></a>Map Type Columns</h2><h3 id="Fetching-values-from-maps-with-dot"><a href="#Fetching-values-from-maps-with-dot" class="headerlink" title="Fetching values from maps with . (dot)"></a>Fetching values from maps with <code>.</code> (dot)</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala">singersDF<br>	.withColumn(<span class="hljs-string">&quot;song_to_love&quot;</span>, $<span class="hljs-string">&quot;songs.good_song&quot;</span>)<br>	.show(<span class="hljs-literal">false</span>)<br></code></pre></td></tr></table></figure>
+
+<h1 id="A-real-Example"><a href="#A-real-Example" class="headerlink" title="A real Example"></a>A real Example</h1><p>If your schema is wrong, there will <strong>not</strong> be exception thrown but the corresponding columns will be Null!!!! (Which is annoying but fundamentally due to the <strong>untyped</strong> nature of dataframe)</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-20%20%E4%B8%8B%E5%8D%886.37.38.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-20 下午6.37.38"></p>
+<p>对应解析代码：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> org.apache.spark.sql.types._<br><span class="hljs-keyword">import</span> org.apache.spark.sql.functions._                     <span class="hljs-comment">// include the Spark helper functions</span><br><span class="hljs-keyword">val</span> aidRecallInfoSchema<br> = <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>    .add(<span class="hljs-string">&quot;ad_type&quot;</span>, <span class="hljs-type">LongType</span>)<br>    .add(<span class="hljs-string">&quot;dpa_id&quot;</span>, <span class="hljs-type">LongType</span>)<br>    .add(<span class="hljs-string">&quot;cids&quot;</span>, <br>        <span class="hljs-type">ArrayType</span> (<br>            <span class="hljs-type">LongType</span>, <span class="hljs-literal">true</span><br>        )<br>    )<br>    .add(<span class="hljs-string">&quot;aid&quot;</span>, <span class="hljs-type">LongType</span>)<br>    .add(<span class="hljs-string">&quot;direct_id_infos&quot;</span>, <br>        <span class="hljs-type">MapType</span> (<br>            <span class="hljs-type">StringType</span>,<br>            <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>            .add (<span class="hljs-string">&quot;check_id_infos&quot;</span>,<br>                <span class="hljs-type">MapType</span>  (<br>                    <span class="hljs-type">StringType</span>,<br>                    <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>                    .add(<span class="hljs-string">&quot;through_count&quot;</span>, <span class="hljs-type">LongType</span>, <span class="hljs-literal">true</span>)<br>                    .add(<span class="hljs-string">&quot;step_count&quot;</span>, <span class="hljs-type">LongType</span>, <span class="hljs-literal">true</span>)<br>                    .add(<span class="hljs-string">&quot;pid_infos&quot;</span>, <br>                        <span class="hljs-type">ArrayType</span> (<br>                            <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>                            .add(<span class="hljs-string">&quot;product_id&quot;</span>, <span class="hljs-type">LongType</span>, <span class="hljs-literal">true</span>)<br>                            .add(<span class="hljs-string">&quot;recallInfo&quot;</span>, <br>                                <span class="hljs-keyword">new</span> <span class="hljs-type">StructType</span>()<br>                                .add(<span class="hljs-string">&quot;source_type&quot;</span>, <span class="hljs-type">StringType</span>, <span class="hljs-literal">true</span>)<br>                                .add(<span class="hljs-string">&quot;source_key&quot;</span>, <span class="hljs-type">StringType</span>, <span class="hljs-literal">true</span>)<br>                                .add(<span class="hljs-string">&quot;sim_score&quot;</span>, <span class="hljs-type">FloatType</span>, <span class="hljs-literal">true</span>)<br>                                , <span class="hljs-literal">true</span>)<br>                            .add(<span class="hljs-string">&quot;recommend_pkg_name&quot;</span>, <span class="hljs-type">StringType</span>, <span class="hljs-literal">true</span>)<br>                        ), <span class="hljs-literal">true</span>)<br>                )<br>            )<br>        )<br>    )<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Scala/">Scala</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Big-Data/">Big Data</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spark/">Spark</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Big Data Analysis with Scala and Spark</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/01/Introduction-to-scala/">
+                        <span class="hidden-mobile">Introduction to scala</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,651 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Linear Algebra - DefinitionsVectorsVector SpaceA vector space $\mathcal{V}$ is a set of elements (called “vectors”) that is closed under addition and scaler multiplication.  SubspaceA subspace of a ve">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notes on Linear Algebra">
+<meta property="og:url" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Linear Algebra - DefinitionsVectorsVector SpaceA vector space $\mathcal{V}$ is a set of elements (called “vectors”) that is closed under addition and scaler multiplication.  SubspaceA subspace of a ve">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/image-20210206120924169.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/image-20210206122437157.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/image-20210206122821319.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/image-20210206123114266.png">
+<meta property="article:published_time" content="2020-01-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:26.176Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Cambridge">
+<meta property="article:tag" content="Maths">
+<meta property="article:tag" content="Note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2020/01/01/Notes-on-Linear-Algebra/image-20210206120924169.png">
+  
+  <title>Notes on Linear Algebra - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Notes on Linear Algebra">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-01-01 00:00" pubdate>
+        January 1, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      10 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Notes on Linear Algebra</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Linear-Algebra-Definitions"><a href="#Linear-Algebra-Definitions" class="headerlink" title="Linear Algebra - Definitions"></a>Linear Algebra - Definitions</h1><h2 id="Vectors"><a href="#Vectors" class="headerlink" title="Vectors"></a>Vectors</h2><h3 id="Vector-Space"><a href="#Vector-Space" class="headerlink" title="Vector Space"></a>Vector Space</h3><p>A vector space $\mathcal{V}$ is a set of elements (called “vectors”) that is <strong>closed under addition and scaler multiplication</strong>. </p>
+<h3 id="Subspace"><a href="#Subspace" class="headerlink" title="Subspace"></a>Subspace</h3><p>A subspace of a vector space is a subset that obeys the rules of a vector space.</p>
+<h3 id="Inner-Product"><a href="#Inner-Product" class="headerlink" title="Inner Product"></a>Inner Product</h3><p>The dot (or scaler, or inner) product is an operation between two equal length vectors that yields a scaler.</p>
+<p>$$x^H y = \sum_i \bar x_i y_i$$</p>
+<p>The dot product yields a complex number, and $x^Hy = (y^{H}x)^*$.</p>
+<blockquote>
+<p>Note that if we are dealing with complex vectors, the order of dot product matters for this precise reason.</p>
+</blockquote>
+<h2 id="Matrices"><a href="#Matrices" class="headerlink" title="Matrices"></a>Matrices</h2><h3 id="Conjugate-Transpose"><a href="#Conjugate-Transpose" class="headerlink" title="Conjugate Transpose"></a>Conjugate Transpose</h3><p>The conjugate transpose of a matrix $M$ is denoted as $M^H$. </p>
+<blockquote>
+<p>A Matrix $M$ is Hermitian if $M^H = M$</p>
+</blockquote>
+<h3 id="Eigenpairs"><a href="#Eigenpairs" class="headerlink" title="Eigenpairs"></a>Eigenpairs</h3><p>For an $n\times n$ matrix $A$, $(\lambda, x)$ is an eigenpair if</p>
+<p>$$Ax = \lambda x$$</p>
+<p>where $\lambda$ is an eigenvalue of $A$, and $x$ is the corresponding eigenvector. Recall that $\lambda$ can be zero, but $x$ must be non-zero.</p>
+<p>For special matrices, their eigenpairs have the following properties:</p>
+<ul>
+<li>For <strong>Hermitian matrix</strong>, the eigenvalues are <em>real</em>, the eigenvectors are <em>orthogonal</em></li>
+</ul>
+<h3 id="Unitary-Matrix"><a href="#Unitary-Matrix" class="headerlink" title="Unitary Matrix"></a>Unitary Matrix</h3><p>A matrix $Q\in\mathbb{C}^{n\times n}$ is a <em>unitary</em> matrix if $Q^H=Q^{-1}$. That is, $Q^HQ =QQ^H=I$. If $Q$ is real, we would call it a <em>orthogonal</em> matrix.</p>
+<h3 id="Positive-definite-and-semi-positive-definite"><a href="#Positive-definite-and-semi-positive-definite" class="headerlink" title="Positive definite and semi-positive definite"></a>Positive definite and semi-positive definite</h3><p>A Hermitian matrix is <em>positive definite</em> if $x^HMx&gt;0\space \text{for any } x\in \mathbb{C}^n \text{\}0$</p>
+<p>A Hermitian matrix is <em>semi-positive definite</em> if $x^HMx\geq0\space \text{for any } x\in \mathbb{C}^n \text{\}0$ </p>
+<p>In mathematics, <strong>Sylvester’s criterion</strong> is a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Necessary_and_sufficient_condition">necessary and sufficient</a> criterion to determine whether a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Hermitian_matrix">Hermitian matrix</a> is <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Positive-definite_matrix">positive-definite</a>. It is named after <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/James_Joseph_Sylvester">James Joseph Sylvester</a>.</p>
+<p>Sylvester’s criterion states that a <em>n</em> × <em>n</em> Hermitian matrix <em>M</em> is positive definite if and only if all the following matrices have a positive <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Determinant">determinant</a>:</p>
+<ul>
+<li>the upper left 1-by-1 corner of <em>M</em>,</li>
+<li>the upper left 2-by-2 corner of <em>M</em>,</li>
+<li>the upper left 3-by-3 corner of <em>M</em>,</li>
+<li>…</li>
+<li><em>M</em> itself.</li>
+</ul>
+<h3 id="Matrix-Rank"><a href="#Matrix-Rank" class="headerlink" title="Matrix Rank"></a>Matrix Rank</h3><p>The rank of the matrix $A\in\mathbb{C}^{m\times n}$ is the number of linearly independent rows or columns (the number is equal). it satisfies $rank(A)\leq\min(m,n)$</p>
+<p>A matrix is <em>full rank</em> if $rank(A)=\min(m,n)$, and <em>rank deficient</em> if $rank(A)&lt;\min(m,n)$.</p>
+<h2 id="Norms"><a href="#Norms" class="headerlink" title="Norms"></a>Norms</h2><p>A norm of an object is a non-negative, real-valued number that is a measure of ‘how big’ something is and which allows ordering. A norm must statisfy the following properties:</p>
+<p>$$||x||&gt;0\ \text{when }x\neq 0,\ ||x||=0\ \text{when } x=0$$</p>
+<p>$$||kx||=|k|||x||$$</p>
+<p>$$||x+y||\leq||x||+||y||$$ <strong>Triangle inequality</strong></p>
+<h3 id="Vector-norms"><a href="#Vector-norms" class="headerlink" title="Vector norms"></a>Vector norms</h3><p>A particular family of norms are known as $l_p$-norms:</p>
+<p>$$||x||<em>p=\left(\sum</em>{i=1}^n|x_i|^p\right)^{1/p}$$</p>
+<p>For example, the familiar $l_2$ norm is $||x||_2=(|x_1|^2+…+|x_n|^2)^{1/2}$</p>
+<p>and the $l_\infty$ norm (also norm as the maximum norm):</p>
+<p>$||x||_\infty=\max_i|x_i|$</p>
+<p>We can also define vector norms with respect to a matrix $A$, subject to some restrictions on the matrix:</p>
+<p>$$||x||^2_A=&lt;x,Ax&gt;$$ </p>
+<p>where $&lt;\cdot,\cdot&gt;$ is an inner product. The above definition is often referred to as an “energy norm”, in which $A$ is positive definite.</p>
+<h3 id="Matrix-norms"><a href="#Matrix-norms" class="headerlink" title="Matrix norms"></a>Matrix norms</h3><h4 id="Operator-norms"><a href="#Operator-norms" class="headerlink" title="Operator norms"></a>Operator norms</h4><p>A norm of a matrix $A$ is defined as:</p>
+<p>$$||A||=\max_{x\in\mathcal{C}^n\text{\}0}\frac{||Ax||}{||x||}$$</p>
+<p>The operator norm measures the ‘maximum amount’ by which the matrix $A$ can re-scale a vector $x$ (in relative terms). We can write $||Ax||\leq||A||\ ||x||\text{ for any }x$ </p>
+<p>$||A||<em>1$ (1-norm) is the max column norm. $||A||_\infty$ ($\infty$ norm) extracts the maximum row norm and $$||A||_2^2=\lambda</em>{max}(A^HA)$$. If $A$ is Hermitian, then $||A||<em>2 = |\lambda</em>{max}(A)|$ </p>
+<p>Apparently, the vector and matrix <strong>2-norms are invariant under rotation</strong>. That is, pre-multiplying a unitary matrix doesn’t change the norm. </p>
+<blockquote>
+<p>Note that operator norm also obeys triangle inequality $||A+B||\leq||A||+||B||$ and multiplication inequality $||AB||\leq||A||\times||B||$</p>
+</blockquote>
+<h4 id="Frobenius-norm"><a href="#Frobenius-norm" class="headerlink" title="Frobenius norm"></a>Frobenius norm</h4><p>Some matrix norms treat the entries of a matrix like the entries of a vector. One such norm is the Frobenius norm, defined by $||A||<em>F=\sqrt{\sum_i\sum_j|a</em>{ij}|^2}$. It is also invariant to rotations.</p>
+<h2 id="Condition-Number"><a href="#Condition-Number" class="headerlink" title="Condition Number"></a>Condition Number</h2><p>The condition number of a matrix $A$ is:</p>
+<p>$$\kappa(A) = ||A||\ ||A^{-1}||$$</p>
+<p>For the 2-norm, we see that $\kappa_2(A)=\frac{\sqrt{\lambda_{max}(A^HA)}}{\sqrt{\lambda_{min}(A^HA)}}$, if $A$ is Hermitian, $\kappa_2(A)=\frac{|\lambda(A)|<em>{max}}{|\lambda(A)|</em>{min}}$</p>
+<h1 id="Iterative-Methods-for-Linear-System"><a href="#Iterative-Methods-for-Linear-System" class="headerlink" title="Iterative Methods for Linear System"></a>Iterative Methods for Linear System</h1><h2 id="Direct-Methods"><a href="#Direct-Methods" class="headerlink" title="Direct Methods"></a>Direct Methods</h2><p>A direct method computes a solution of $Ax=b$ in a known/predictable number of operations. Solving a system via LU decomposition is an example of a direct method.</p>
+<h2 id="Iterative-Methods"><a href="#Iterative-Methods" class="headerlink" title="Iterative Methods"></a>Iterative Methods</h2><p>An iterative method seeks an approximate solution via a series of steps (iterations), and is usually terminated when the error/residual falls below a prescribed threshold (in the chosen norm).</p>
+<h3 id="Finding-the-largest-eigenvalue-and-eigenvector"><a href="#Finding-the-largest-eigenvalue-and-eigenvector" class="headerlink" title="Finding the largest eigenvalue and eigenvector"></a>Finding the largest eigenvalue and eigenvector</h3><h4 id="Rayleigh-quotient"><a href="#Rayleigh-quotient" class="headerlink" title="Rayleigh quotient"></a>Rayleigh quotient</h4><p>The Rayleigh quotient gives us a way to estimate the eigenvalue based on an estimate of the eigenvector. It is defined as the following:</p>
+<p>$$\lambda^*=R(A,x)=\frac{x^HAx}{x^Hx}$$</p>
+<p>where $x$ is our estimated eigenvector with $Ax\approx \lambda x$. We can show that this minimizes the $l_2$ cost $||Ax-\lambda x||_2^2$ </p>
+<blockquote>
+<p>To show that, we start with any $\mu\in \mathcal{C}$ and show that  $||Ax-\mu x||_2^2 \geq ||Ax-\lambda x||_2^2$</p>
+</blockquote>
+<p>The Rayleigh quotient is often defined for Hermitian matrices only, in which case it must be real-valued. For Hermitian matrices, if the error in the eigenvector is $O(\epsilon)$, than the error in the eigenvalue estimated is $O(\epsilon^2)$</p>
+<h3 id="Stationary-methods-for-Ax-b"><a href="#Stationary-methods-for-Ax-b" class="headerlink" title="Stationary methods for $Ax=b$"></a>Stationary methods for $Ax=b$</h3><p>We decompose the matrix operator $A = N-P$. So rather than solving the exact problem, we have $Nx = b + Px$, and we compute each iteration using:</p>
+<p>$$Nx_{k+1}=b+Px_k$$</p>
+<p>The key is to split $A$ such that $Nx=f$ are easy to solve, examples involve:</p>
+<ol>
+<li>Richardson iteration:    $N=I$</li>
+<li>Jacobi method: $N = diag(A)$</li>
+<li>Gauss-Seidel: $N = L(A)$ is the lower triangular </li>
+</ol>
+<h4 id="Convergence"><a href="#Convergence" class="headerlink" title="Convergence"></a>Convergence</h4><p>Defining the error at the $k$-th iteration $e_k = x_{exact}-x_k$. We have</p>
+<p>$$Ne_{k+1} = Pe_k\ \rightarrow e_{k+1} = N^{-1}Pe_k$$</p>
+<p>For convergence, we need the eigenvalues (absolute value) of $N^{-1}P$ to be smaller than $1$. The largest absolute eigenvalue is often denoted $\rho(A)$ and is known as the <em>spectral radius</em>. The stationary methods based on spliting will converge if $\rho(N^{-1}P)&lt;1$</p>
+<blockquote>
+<p>Smaller $\rho$ leads to faster convergence.</p>
+</blockquote>
+<h3 id="Conjugate-Gradient-Method-CG"><a href="#Conjugate-Gradient-Method-CG" class="headerlink" title="Conjugate Gradient Method (CG)"></a>Conjugate Gradient Method (CG)</h3><p>The Conjugate gradient method is a <em>Krylov subspace</em> method, which is a more powerful family of the methods than the stationary methods.</p>
+<h1 id="Singular-Value-Decomposition"><a href="#Singular-Value-Decomposition" class="headerlink" title="Singular Value Decomposition"></a>Singular Value Decomposition</h1><h2 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h2><p>The Sigular Value Decomposition (SVD) is defined as follows: for an $m\times n$ matrix A, its singular value decomposition is</p>
+<p>$$A = U\Sigma V^H$$ </p>
+<p>where  $U$ and $V$ are unitary matrices. $\Sigma$ is a diagonal matrix, with diagonal entries $\sigma_i$ (the ‘singular value’) stored such that $\sigma_1 &gt; \sigma_2 &gt; … &gt; \sigma_p &gt; 0$. If $A$ is Hermitian, then the definition falls back to that of eigen-decomposition.</p>
+<p>The columns of $V$ is the eigenvectors of $A^HA$. The columns of $U$ is the eigenvectors of $AA^H$.</p>
+<blockquote>
+<p>To ensure the eigenvectos have the correct sign, we need to enforce $AV = U\Sigma$ because doing eigen-decomposition on $A^HA$ and $AA^H$ (note both are Hermitian) brings ambiguity to the signs $Q\Lambda Q^H = (-Q)\Lambda (-Q^H)$</p>
+</blockquote>
+<p><img src="image-20210206120924169.png" srcset="/img/loading.gif" lazyload alt="image-20210206120924169"></p>
+<h2 id="Low-rank-approximations"><a href="#Low-rank-approximations" class="headerlink" title="Low rank approximations"></a>Low rank approximations</h2><p>If we expand the SVD, we get $A = \sum_{i=1}^r \sigma_i u_iv_i^H$ where $r$ is the number of non-zero singular values. $u_i$ is the $i$th column of $U$ and $v_i$ is the $i$th column of $V$. The above is the expression of a matrix as a sum of rank-1 matrices.</p>
+<p>If we just take $k&lt;r$ singular values we can obtain a low rank approximation of $A = \sum_{i=1}^k\sigma_i u_iv_i^H$.  We can show that this is the best approximation of $A$ than <strong>any</strong> other matrix of rank $k$.</p>
+<p>![Screen Shot 2021-02-06 at 12.13.32](Screen Shot 2021-02-06 at 12.13.32.png)</p>
+<p>The low rank approximation allows us to <em>compress</em> large matrices (e.g. images etc).</p>
+<h2 id="Effective-Rank"><a href="#Effective-Rank" class="headerlink" title="Effective Rank"></a>Effective Rank</h2><p>When taking measurements, noise is often unavoidable and this can make it hard to detect (near) linear dependencies. For example:</p>
+<p>![Screen Shot 2021-02-06 at 12.15.21](Screen Shot 2021-02-06 at 12.15.21.png)</p>
+<p>SVD can be used to obtain the effective ranks of the matrix by saving ranks with singular values that are greater than the noise level.</p>
+<h2 id="Least-Square-Solutions"><a href="#Least-Square-Solutions" class="headerlink" title="Least Square Solutions"></a>Least Square Solutions</h2><p>Recall that the least square solution of $Ax=b$ is $\hat x = (A^HA)^{-1}A^H b$. Where $A^+=(A^HA)^{-1}A^H$ is the psuedoinverse.</p>
+<p>We can use SVD to solve least square problems. It is known to be the <strong>most stable</strong> method to solve such problems.</p>
+<h3 id="Full-Rank-Case"><a href="#Full-Rank-Case" class="headerlink" title="Full Rank Case"></a>Full Rank Case</h3><p>Since the matrix is full rank, the least square solution is <em>unique</em>. </p>
+<p><img src="image-20210206122437157.png" srcset="/img/loading.gif" lazyload alt="image-20210206122437157"></p>
+<p>This also relates to the normal equations as follows:</p>
+<p>![Screen Shot 2021-02-06 at 12.25.39](Screen Shot 2021-02-06 at 12.25.39.png)</p>
+<p>A simple analysis on the 2-norm of the solution $x$ implies that the sensitivity (or stability) of the solution is related to the <em>smallest singular value</em> $\sigma_{min}$. If $\sigma_{min}$ is small, then the least square solution will be large and very sensitive to changes in $b$.</p>
+<p><img src="image-20210206122821319.png" srcset="/img/loading.gif" lazyload alt="image-20210206122821319"></p>
+<h3 id="Rank-Deficient-Case"><a href="#Rank-Deficient-Case" class="headerlink" title="Rank Deficient Case"></a>Rank Deficient Case</h3><p>Rank deficient refers to situation when the corresponding singular values are <em>zero</em> or <em>small</em>. The least square solution is <strong>not unique</strong> but we can find a solution that is <strong>minimized in 2-norm</strong>. </p>
+<p><img src="image-20210206123114266.png" srcset="/img/loading.gif" lazyload alt="image-20210206123114266"></p>
+<p>where $V_1$ and $U_1$ are truncated from $V$ and $U$ as follows:</p>
+<p>![Screen Shot 2021-02-06 at 12.31.52](Screen Shot 2021-02-06 at 12.31.52.png)</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Cambridge/">Cambridge</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Maths/">Maths</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Note/">Note</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/01/Python-a-short-manual/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python a short manual</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/01/Data-Transmission-Notes/">
+                        <span class="hidden-mobile">Data Transmission Notes</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

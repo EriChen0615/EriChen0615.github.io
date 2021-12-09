@@ -1,0 +1,1013 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Course Link: https:&#x2F;&#x2F;www.coursera.org&#x2F;learn&#x2F;scala-spark-big-data&#x2F; IntroductionWhy Scala? Why Spark?When the dataset gets too large to fit into memory, languages like R&#x2F;Python&#x2F;Matlab will not be able t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Big Data Analysis with Scala and Spark">
+<meta property="og:url" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Course Link: https:&#x2F;&#x2F;www.coursera.org&#x2F;learn&#x2F;scala-spark-big-data&#x2F; IntroductionWhy Scala? Why Spark?When the dataset gets too large to fit into memory, languages like R&#x2F;Python&#x2F;Matlab will not be able t">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%887.57.09.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.00.24.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.14.12.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.16.03.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.16.32.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.17.42.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.18.30.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.50.18.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.50.34.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%889.12.08.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%889.12.33.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.16.53.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.29.50.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.42.55.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.43.05.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.43.59.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.44.28.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.44.52.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%883.36.51.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%883.47.18.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.23.51.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.33.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.42.27.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.07.43.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.22.01.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.34.32.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.36.33.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.38.17.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.43.27.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.46.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.47.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.49.58.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.57.07.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.59.30.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.00.03.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.06.09.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.07.07.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.21.33.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.24.15.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.30.39.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.47.23.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.49.55.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.51.54.png">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.56.51.png">
+<meta property="article:published_time" content="2021-07-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.492Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Scala">
+<meta property="article:tag" content="Big Data">
+<meta property="article:tag" content="Spark">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2021/07/01/Big-Data-Analysis-with-Scala-and-Spark/%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%887.57.09.png">
+  
+  <title>Big Data Analysis with Scala and Spark - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Big Data Analysis with Scala and Spark">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-01 00:00" pubdate>
+        July 1, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      22k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Big Data Analysis with Scala and Spark</h1>
+            
+            <div class="markdown-body">
+              <p>Course Link: <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/scala-spark-big-data/">https://www.coursera.org/learn/scala-spark-big-data/</a></p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="Why-Scala-Why-Spark"><a href="#Why-Scala-Why-Spark" class="headerlink" title="Why Scala? Why Spark?"></a>Why Scala? Why Spark?</h2><p>When the dataset gets too large to fit into memory, languages like R/Python/Matlab will not be able to work with it.</p>
+<p>By working in Scala, in a functional style, you can quickly scale your algorithms</p>
+<p>In this course you will learn:</p>
+<ol>
+<li>Extending data parallel paradigm to the distributed case, uisng Spark</li>
+<li>Spark’s programming model</li>
+<li>Distributing computation, and cluster topology in Spark</li>
+<li>How to improve performance; data locality, how to avoid recomputation and shuffles in Spark</li>
+<li>Relational operations with DataFrames and Datasets</li>
+</ol>
+<p>Prerequisites:</p>
+<ul>
+<li>Principles of Functional Programming in Scala</li>
+<li>Functional Program Design in Scala</li>
+<li>Parallel Programming (in Scala)</li>
+</ul>
+<p>Recommended books: <em>Learning Spark</em>, <em>Spark in Action</em>, <em>Advanced Analytics with Spark</em></p>
+<h2 id="Data-Parallel-to-Distributed-Data-Parallel"><a href="#Data-Parallel-to-Distributed-Data-Parallel" class="headerlink" title="Data-Parallel to Distributed Data-Parallel"></a>Data-Parallel to Distributed Data-Parallel</h2><h3 id="Shared-memory-data-parallelism"><a href="#Shared-memory-data-parallelism" class="headerlink" title="Shared memory data parallelism"></a>Shared memory data parallelism</h3><p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%887.57.09.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午7.57.09"></p>
+<h3 id="Distributed-data-parallelism"><a href="#Distributed-data-parallelism" class="headerlink" title="Distributed data parallelism"></a>Distributed data parallelism</h3><p>Although the code looks identical using the collection abstraction, the internal working is very different. In particular we need to consider the <strong>latency</strong> that is introduced by the network between the nodes.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.00.24.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.00.24"></p>
+<h3 id="RDD-Resilient-Distributed-Dataset"><a href="#RDD-Resilient-Distributed-Dataset" class="headerlink" title="RDD (Resilient Distributed Dataset)"></a>RDD (Resilient Distributed Dataset)</h3><p>Spark implements a distributed data parallel model called RDD. It is the counterpart of shared memory collection abstraction in data parallelism paradigm.</p>
+<h2 id="Latency"><a href="#Latency" class="headerlink" title="Latency"></a>Latency</h2><p>Distribution introduces important concerns beyond what we had to worry about when dealing with parallelism in the shared memory case:</p>
+<ul>
+<li><em>Parial failure</em>: crash failure of a subset of the machines involved in a distributed computation</li>
+<li><em>Latency</em>: certain operations have a much higher latency than other operations due to network communication</li>
+</ul>
+<p>Spark handles this two issues particularly well.</p>
+<blockquote>
+<p><strong>Latency cannot be masked completely; it will be an important aspect that also impacts the programming model</strong></p>
+</blockquote>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.14.12.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.14.12"></p>
+<p>Reading from memory is 100x times faster than reading from disk</p>
+<p>If we multiplied the number by <strong>a billion</strong>, we get a humanized latency number</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.16.03.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.16.03"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.16.32.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.16.32"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.17.42.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.17.42"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.18.30.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.18.30"></p>
+<h3 id="Why-is-Spark-faster-than-Hadoop"><a href="#Why-is-Spark-faster-than-Hadoop" class="headerlink" title="Why is Spark faster than Hadoop"></a>Why is Spark faster than Hadoop</h3><p><strong>Idea</strong>: Keep all data <strong>immutable and in-memory</strong>. All operations on data are just functional transformations, like regular Scala collections. <strong>Fault tolerance</strong> is achieved by replaying functional transformations over original dataset.</p>
+<p><strong>Result</strong>: Spark has been shown to be 100x more perforant than Hadoop while adding even more expressive APIs</p>
+<h2 id="Basics-of-Spark’s-RDDs"><a href="#Basics-of-Spark’s-RDDs" class="headerlink" title="Basics of Spark’s RDDs"></a>Basics of Spark’s RDDs</h2><p>RDDs seem like <strong>immutable</strong> sequential or parallel Scala collections.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RDD</span>[<span class="hljs-type">T</span>] </span>&#123;<br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">map</span></span>[<span class="hljs-type">U</span>](f: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">U</span>): <span class="hljs-type">RDD</span>[<span class="hljs-type">U</span>] = ...<br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">flatMap</span></span>[<span class="hljs-type">U</span>](f: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">TraversableOnce</span>[<span class="hljs-type">U</span>]): <span class="hljs-type">RDD</span>[<span class="hljs-type">U</span>] = ...<br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">filter</span></span>(f: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">Boolean</span>): <span class="hljs-type">RDD</span>[<span class="hljs-type">T</span>] = ...<br>	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reduce</span></span>(f: (<span class="hljs-type">T</span>, <span class="hljs-type">T</span>) =&gt; <span class="hljs-type">T</span> ): <span class="hljs-type">T</span> = ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>RDD makes heavy use of higher-order functions.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-comment">// word count with RDD</span><br><br><span class="hljs-keyword">val</span> rdd = sparks.textFile(<span class="hljs-string">&quot;hdfs://...&quot;</span>)<br><span class="hljs-keyword">val</span> count = rdd.flatMap(line =&gt; line.split(<span class="hljs-string">&quot; &quot;</span>)) <span class="hljs-comment">// separate lines into words</span><br>							.map(word =&gt; (word, <span class="hljs-number">1</span>)) <span class="hljs-comment">// include something to count</span><br>							.reduceByKey(_ + _) <span class="hljs-comment">// sum up the 1s in the pairs</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Creating-RDDs"><a href="#Creating-RDDs" class="headerlink" title="Creating RDDs"></a>Creating RDDs</h3><p>RDDs can be created in two ways:</p>
+<ol>
+<li><p>Transforming an existing RDD</p>
+<p>Just like a call to <code>map</code> on a <code>List</code></p>
+</li>
+<li><p>From a <code>SparkContext</code> or <code>SparkSession</code> object</p>
+<p>The <code>SparkContext</code> object (renamed <code>SparkSession</code>) can be thought of as your handle to the Spark cluster. It represents the connection between the Spark cluster and your running application. It defines a handful of methods which can be used to create and populate a new RDD:</p>
+<ul>
+<li><code>parallelize</code>: convert a local Scala collection to an RDD</li>
+<li><code>textFile</code>: read a text file from HDFS or a local file system and return an RDD of <code>String</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="Transformations-and-Actions"><a href="#Transformations-and-Actions" class="headerlink" title="Transformations and Actions"></a>Transformations and Actions</h3><p><strong>Transformers</strong> return new collections as results (Not single value)</p>
+<p>Examples: map, filter, flatMap, groupBy</p>
+<p><strong>Accessors</strong>: Return single values as results (Not collection)</p>
+<p>Example: reduce, fold, aggregate</p>
+<p>Similarly, Spark defines <strong><em>transformations</em></strong> and <strong><em>actions</em></strong> on RDDS</p>
+<p><strong>Transformation</strong>: Return new RDDs as result</p>
+<blockquote>
+<p><strong>They are lazy</strong>, their result RDD is not immediately computed</p>
+</blockquote>
+<p><strong>Actions</strong>: Compute a result based on an RDD,  and either returned or saved to an external storage system</p>
+<blockquote>
+<p> <strong>They are eager</strong>, their result is immediately computed</p>
+</blockquote>
+<p><strong>Laziness / eagerness</strong> is how we can limit network communication using the programming model</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> largeList: <span class="hljs-type">List</span>[<span class="hljs-type">String</span>] = ...<br><span class="hljs-keyword">val</span> wordsRdd = sc.parallelize(largeList)<br><span class="hljs-keyword">val</span> lengthsRdd = wordsRdd.map(_.length) <span class="hljs-comment">// nothing happens in cluster (yet)!</span><br><span class="hljs-keyword">val</span> totalChars = lengthsRdd.reduce(_ + _) <span class="hljs-comment">// actual computation begins</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.50.18.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.50.18"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%888.50.34.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午8.50.34"></p>
+<p>The action will get the result back to your machine, so typically you will need some transformations beforehand to reduce the size of your RDD.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%889.12.08.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午9.12.08"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%889.12.33.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午9.12.33"></p>
+<h3 id="Evaluations-in-Spark-Unlike-Scala-Collections"><a href="#Evaluations-in-Spark-Unlike-Scala-Collections" class="headerlink" title="Evaluations in Spark: Unlike Scala Collections"></a>Evaluations in Spark: Unlike Scala Collections</h3><p>Spark is faster in terms of running iterations because it doesn’t need to persist the data in HDFS (disk) as in Hadoop but in memory.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.16.53.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.16.53"></p>
+<p>By default, RDDS are recomputed each time you run an action on them. This can be expansive (in time) if you need to a dataset more than once. <strong>Spark allows you to contorl what is cached in memory</strong> using <code>persist()</code> or <code>cache()</code> </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> lastYearsLogs: <span class="hljs-type">RDD</span>[<span class="hljs-type">String</span>] = ...<br><span class="hljs-keyword">val</span> logsWithErrors = lastYearsLogs.filter(_.contains(<span class="hljs-string">&quot;ERROR&quot;</span>)).persist()<br><span class="hljs-keyword">val</span> firstLogsWithErrors = logsWithErrors.take(<span class="hljs-number">10</span>)<br><span class="hljs-keyword">val</span> numErrors = logsWithErrors.count() <span class="hljs-comment">// faster</span><br></code></pre></td></tr></table></figure>
+
+<p>Without the <code>persist()</code> we will run the transformation <code>filter(_.contains(&quot;ERROR&quot;))</code> two times in the above snippet. </p>
+<p>There are many ways to configure how your data is persisted.</p>
+<ul>
+<li>in memory as regular Java objects</li>
+<li>on disk as regular Java objects</li>
+<li>in memory as serialized Java objects (more compact)</li>
+<li>on disk as serialized Java objects (more compact)</li>
+<li>both in memory and on disk (spill over to disk to avoid re-computation)</li>
+</ul>
+<p><strong>cache()</strong>: is the shorthand for using the default storage level, which is in memory only as regular Java objects</p>
+<p><strong>persist</strong>(): Persistance can be customized with this method. Pass the storage level you’d like as a parameter to <code>persist</code>.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.29.50.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.29.50"></p>
+<p>The default is the <strong>MEMORY_ONLY</strong> storage level.</p>
+<blockquote>
+<p>The deferred semantics of Spark’s RDDs are very unlike Scala Collections</p>
+</blockquote>
+<p><strong>…One of the most common performance bottlenecks of newcomers of Spark arises from unknowingly re-evaluating several transformations when caching could be used.</strong></p>
+<p>Lazy evaluation allows Spark to <strong>stage</strong> computations and make important <strong>optimization</strong> to the <strong>chain of operations</strong> before execution (e.g., <code>map()</code> followed by <code>filter() </code>can be traversed once only)</p>
+<h2 id="Cluster-Topology-Matters"><a href="#Cluster-Topology-Matters" class="headerlink" title="Cluster Topology Matters!"></a>Cluster Topology Matters!</h2><p>An example to kick start:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span>(<span class="hljs-params">name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> people: <span class="hljs-type">RDD</span>[<span class="hljs-type">Person</span>] = ...<br>people.foreach(println) <span class="hljs-comment">// this prints in the executor, can&#x27;t see in the driver (master)</span><br><span class="hljs-keyword">val</span> first10 = people.take(<span class="hljs-number">10</span>) <span class="hljs-comment">// this ends up in the driver program </span><br></code></pre></td></tr></table></figure>
+
+<p>The atonomy of a Spark job.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.42.55.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.42.55"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.43.05.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.43.05"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.43.59.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.43.59"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.44.28.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.44.28"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-17%20%E4%B8%8B%E5%8D%8810.44.52.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-17 下午10.44.52"></p>
+<h1 id="Reduction-Ops-amp-Distributed-Key-Value-Pairs"><a href="#Reduction-Ops-amp-Distributed-Key-Value-Pairs" class="headerlink" title="Reduction Ops &amp; Distributed Key-Value Pairs"></a>Reduction Ops &amp; Distributed Key-Value Pairs</h1><h2 id="Reduction-Operations"><a href="#Reduction-Operations" class="headerlink" title="Reduction Operations"></a>Reduction Operations</h2><p>Operations such as <code>fold</code>, <code>reduce</code> and <code>aggreate</code> from Scala sequential collections.</p>
+<p>They <strong>walk through a collection and combine neighbouring. elements of the collection together to product a single combined result</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Taco</span>(<span class="hljs-params">kind: <span class="hljs-type">String</span>, price: <span class="hljs-type">Double</span></span>)</span><br><span class="hljs-keyword">val</span> tacoOrder = <br>  <span class="hljs-type">List</span>(<br>  <span class="hljs-type">Taco</span>(<span class="hljs-string">&quot;...&quot;</span>, <span class="hljs-number">2.25</span>),<br>  <span class="hljs-type">Taco</span>(<span class="hljs-string">&quot;xxx&quot;</span>, <span class="hljs-number">1.1</span>)<br> )<br><br><span class="hljs-keyword">val</span> cost = tacoOrder.foldLeft(<span class="hljs-number">0</span>)((sum, taco) =&gt; sum + taco.price)<br><br></code></pre></td></tr></table></figure>
+
+<p><code>foldLeft</code> is not parallelizable due to its signature <code>def foldLeft[B](z:B)(f: (B,A) =&gt; B ): B</code>, because if you try to parallelize the computation, the types wouldn’t match in the combine stage.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%883.36.51.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午3.36.51"></p>
+<p><code>fold</code> enables us to parallelize things. Because it’s signiture restricts us to always returning the same type <code>def fold(z: A)(f: (A,A) =&gt; A): A</code></p>
+<p><code>aggregate</code> lets you still do sequential-style folds in chunks and then combine them together. It is the generalization of <code>foldLeft</code></p>
+<p><code>aggregate[B] (z: =&gt; B) (seqop: (B, A) =&gt; A, combop: (B,B) =&gt; B): B</code></p>
+<p>Spark doesn’t give you the option to use <code>foldLeft/foldRight</code>, which means that if you have to change the return type of your reduction operation, your only choice is <code>aggregate</code></p>
+<blockquote>
+<p>It simply doesn’t make sense to enforce sequential execution across a cluster.</p>
+</blockquote>
+<h2 id="Distributed-Key-Value-Pairs-Pair-RDDs"><a href="#Distributed-Key-Value-Pairs-Pair-RDDs" class="headerlink" title="Distributed Key-Value Pairs (Pair RDDs)"></a>Distributed Key-Value Pairs (Pair RDDs)</h2><p>In single-node Scala, key-value pairs can be thought of as <strong>maps</strong></p>
+<p>Large datasets are often made up of unfathomably large numbers of complex, nested data records. To be able to work with such datasets, it’s often desirable to project down these complex datatypes into <strong>key-vlaue pairs</strong></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%883.47.18.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午3.47.18"></p>
+<p>Pair RDDs have additional, specialized methods for working with data associated with keys <code>RDD[(K,V)]</code>. Commonly used ones are <code>groupBykey(), reduceByKey, join()</code></p>
+<h3 id="Creating-a-Pair-RDD"><a href="#Creating-a-Pair-RDD" class="headerlink" title="Creating a Pair RDD"></a>Creating a Pair RDD</h3><p>Pair RDDs are most often created from already-existing non-pair RDDs, for example by using the <code>map</code> operation on RDDs.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> rdd: <span class="hljs-type">RDD</span>[<span class="hljs-type">WikipediaPage</span>]<br><br><span class="hljs-keyword">val</span> pairRdd = rdd.map(page =&gt; (page.title, page.text))<br><span class="hljs-comment">// now you have a lot more operations at hand!</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Transformation-and-Action-for-pair-RDD"><a href="#Transformation-and-Action-for-pair-RDD" class="headerlink" title="Transformation and Action for pair RDD"></a>Transformation and Action for pair RDD</h3><p>Transformations:</p>
+<ul>
+<li>groupByKey</li>
+<li>reduceByKey</li>
+<li>mapValues</li>
+<li>keys</li>
+<li>join</li>
+<li>leftOuterJoin/rightOuterJoin</li>
+</ul>
+<h4 id="groupByKey"><a href="#groupByKey" class="headerlink" title="groupByKey"></a><strong>groupByKey</strong></h4><p><em>Regular Scala</em></p>
+<p><code>def groupBy[K](f: A =&gt; K): Map[K, Traversable[A]]</code></p>
+<p>Partions this traversable collection into a map of traversable collections according to some discriminator function.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> ages = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">52</span>, <span class="hljs-number">44</span>, <span class="hljs-number">23</span>, <span class="hljs-number">88</span>)<br><span class="hljs-keyword">val</span> grouped = ages.groupBy&#123; age =&gt;<br>	<span class="hljs-keyword">if</span> (age &gt;= <span class="hljs-number">18</span> &amp;&amp; age &lt; <span class="hljs-number">65</span>) <span class="hljs-string">&quot;adult&quot;</span><br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (age &lt; <span class="hljs-number">18</span>) <span class="hljs-string">&quot;child&quot;</span><br>	<span class="hljs-keyword">else</span> <span class="hljs-string">&quot;senior&quot;</span><br>&#125;<br><span class="hljs-comment">// Map(senor-&gt;List(88), audlt -&gt; List(52, 44, 23), child -&gt; List(2))</span><br></code></pre></td></tr></table></figure>
+
+<p><em>Spark</em></p>
+<p><code>def groupByKey(): RDD[(K, Iterable[V])]</code></p>
+<p>It is specialized at collection values of the same key, because the RDD is already paired, we don’t need a discrimitive function.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Event</span>(<span class="hljs-params">organizer: <span class="hljs-type">String</span>, name: <span class="hljs-type">String</span>, budget: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> eventsRdd = sc.parallelize(...)<br>								.map(event =&gt; event.organizer, event.budget)<br><br><span class="hljs-keyword">val</span> groupedRdd = eventsRdd.groupByKey() <span class="hljs-comment">// LAZY!!!</span><br>groupedRdd.collect().foreach(println) <span class="hljs-comment">// executed here</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="reduceByKey"><a href="#reduceByKey" class="headerlink" title="reduceByKey"></a><strong>reduceByKey</strong></h4><p>Conceptually, <code>reduceByKey</code> can be thought of as a combination of <code>groupByKey</code> aand <code>reduce</code>-ing on all the values per key.</p>
+<blockquote>
+<p>But <code>reduceByKey</code> is much more efficient than applying separate steps!!!</p>
+</blockquote>
+<p><code>def reduceByKey(func: (V,V) =&gt; V): RDD[(K,V)]</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Event</span>(<span class="hljs-params">organizer: <span class="hljs-type">String</span>, name: <span class="hljs-type">String</span>, budget: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> eventsRdd = sc.parallelize(...)<br>								.map(event =&gt; event.organizer, event.budget)<br><br><span class="hljs-keyword">val</span> budgetsRdd = eventsRdd.reduceByKey(_ + _)<br>budgetsRdd.collect().foreach(println)<br></code></pre></td></tr></table></figure>
+
+<h4 id="mapValues"><a href="#mapValues" class="headerlink" title="mapValues"></a><strong>mapValues</strong></h4><p><code>def mapValues[U] (f: V =&gt; U): RDD[(K,U)]</code> can be thought of as a shorthand for <code>rdd.map&#123; case(x,y): (x, func(y))&#125;</code> That is, it simply applies a function to only the values in a Pair RDD.</p>
+<h4 id="countByKey"><a href="#countByKey" class="headerlink" title="countByKey"></a><strong>countByKey</strong></h4><p><code>def countByKey(): Map[K, Long]</code> simply counts the number of elements per key in a pair RDD, returning a normal scala map.</p>
+<p>Let’s compute the <strong>average budget of the organziers</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> res = <br>	eventsRdd.mapValues(b =&gt; (b,<span class="hljs-number">1</span>))<br>  .reduceByKey((v1, v2) =&gt; (v1._1+v2._1, v1._2 + v2._2))<br>  .mapValues(<span class="hljs-keyword">case</span> (total, cnt) =&gt; total/cnt )<br>	.collect().foreach(println)<br></code></pre></td></tr></table></figure>
+
+<h4 id="keys"><a href="#keys" class="headerlink" title="keys"></a><strong>keys</strong></h4><p><code>def keys; RDD[K]</code> returns an RDD with the keys of each tuple</p>
+<blockquote>
+<p>This method is a transformation and thus returns an RDD because the number of keys in a pair RDD may be unbounded.</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Visitor</span>(<span class="hljs-params">ip: <span class="hljs-type">String</span>, timestamp: <span class="hljs-type">String</span>, duration: <span class="hljs-type">String</span></span>)</span><br><span class="hljs-keyword">val</span> visits: <span class="hljs-type">RDD</span>[<span class="hljs-type">Visitor</span>] = sc.textfile(...)<br><span class="hljs-keyword">val</span> numUniqueVisits = visits.keys.distinct().count()<br></code></pre></td></tr></table></figure>
+
+<h4 id="Joins"><a href="#Joins" class="headerlink" title="Joins"></a>Joins</h4><p>Joins are another sort of transformation on pair RDDS. They’re used to combine multiple datasets . They are one of the most commonly-used operations on Pair RDDs</p>
+<p>There are two kinds of joins:</p>
+<ul>
+<li>Inner joins <code>join</code></li>
+<li>Outer joins <code>leftOuterJoin / rightOuterJoin</code></li>
+</ul>
+<p>The key difference between the two is what happens to the keys when both RDDs don’t contain the key</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.23.51.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午4.23.51"></p>
+<p><strong>Inner Joins</strong></p>
+<p>Inner joins returns a new RDD containing combined pairs whose <strong>keys are present in both input RDDs</strong></p>
+<p><code>def join[W] (other: RDD[(K,W)]): RDD[(K, (V, W))]</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> abos = ...<br><span class="hljs-keyword">val</span> locations = ...<br><br><span class="hljs-keyword">val</span> trackedCustomers = <br>	abos.join(location)<br>	.keys.distinct().count()										<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Inner joins are <strong>lossy</strong></p>
+</blockquote>
+<p><strong>Outer Joins (leftOuterJoin, rightOuterJoin)</strong></p>
+<p>Outer joins return a new RDD containing combined pairs <strong>whose keys don’t have to be present in both input RDDS</strong></p>
+<p><code>def leftOuterJoin[W] (other: RDD[(K,W)]): RDD[(K, (V, Option[W]))]</code></p>
+<p><code>def rightOuterJoin[W] (other: RDD[(K,W)]): RDD[(K, (Option[V], W))]</code></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.33.45.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午4.33.45"></p>
+<h1 id="Partition-and-Shuffling"><a href="#Partition-and-Shuffling" class="headerlink" title="Partition and Shuffling"></a>Partition and Shuffling</h1><h2 id="Shuffling"><a href="#Shuffling" class="headerlink" title="Shuffling"></a>Shuffling</h2><p>Shuffles happen with operation like <code>groupByKey</code> because data has to move around the network. </p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%884.42.27.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午4.42.27"></p>
+<p>Shuffling is bad because the network transport is very slow (in humanized scale from seconds to days)</p>
+<p>The <code>reduceByKey</code> operation will <strong>reduce whenever possible to reduce the amount of data shuffled between the nodes</strong>.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.07.43.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.07.43"></p>
+<p>But how does Spark know which key to put on which machine?</p>
+<h2 id="Partitioning"><a href="#Partitioning" class="headerlink" title="Partitioning"></a>Partitioning</h2><p>The dat withint an RDD is split into many <em>partitions</em></p>
+<ul>
+<li>Partitions never span multiple machines. </li>
+<li>Each machine in the cluster contains one or more partitions</li>
+<li>THe number of partitions to use is configurable. By default, it equals the <em>total number of cores on executor nodes</em></li>
+</ul>
+<p>There are two kinds of partitioning available in Spark:</p>
+<ul>
+<li>Hash partitioning</li>
+<li>Range partitioning</li>
+</ul>
+<blockquote>
+<p>Partitioning only works with pair RDDs</p>
+</blockquote>
+<h3 id="Hash-Partitioning"><a href="#Hash-Partitioning" class="headerlink" title="Hash Partitioning"></a>Hash Partitioning</h3><p>Hash partitioning attempts to spread data evenly across partitions <em>based on the keys</em>. </p>
+<h3 id="Range-Partitioning"><a href="#Range-Partitioning" class="headerlink" title="Range Partitioning"></a>Range Partitioning</h3><p>Pair RDDs may contain keys that have an ordering defined: Int, Char, String, …</p>
+<p>For such RDDs, <em>range partitioning</em> may be more efficient -&gt; tuples with keys in the same range will live on the same node</p>
+<h3 id="Partitioning-Data"><a href="#Partitioning-Data" class="headerlink" title="Partitioning Data"></a>Partitioning Data</h3><ol>
+<li>Call <code>partitionBy</code>, providing specific <code>partitioner</code></li>
+<li>Using transformations that return RDDs with specific partitioners</li>
+</ol>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> pairs = purchasesRdd.map(p =&gt; (p.customerId, p.price))<br><br><span class="hljs-keyword">val</span> tunedPartitioner = <span class="hljs-keyword">new</span> <span class="hljs-type">RangePartitioner</span>(<span class="hljs-number">8</span>, pairs)<br><span class="hljs-keyword">val</span> partitioned =<br>	pairs.partitionBy(tunedPartitioner)<br>	.persist() <span class="hljs-comment">// persist! Otherwise shuffled every time</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Important: the result of the partition should always be persisted</p>
+</blockquote>
+<p>Partitioner from parent RDD:</p>
+<p>Automatically-set partitioners:</p>
+<p><code>sortByKey</code> invokes a <code>RangePartitioner</code></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.22.01.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.22.01"></p>
+<p><strong>All other operations will produce a result without a partitioner</strong></p>
+<p>Make sure you use these transformations if you want to keep the partition. Notice <code>map</code> and <code>flatMap</code> are <strong>NOT</strong> on the list. Because <code>map</code> and <code>flatMap</code> can change the keys of the pair RDDs.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">rdd.map((k: <span class="hljs-type">String</span>, v: <span class="hljs-type">Int</span>) =&gt; (<span class="hljs-string">&quot;doh!&quot;</span>, v))<br></code></pre></td></tr></table></figure>
+
+<p>That is why you should always try to use <code>mapValues</code> if possible, because it’s impossible to change the key, hence keeping the partitioning.</p>
+<h3 id="Improve-Efficiency-with-Partitioning"><a href="#Improve-Efficiency-with-Partitioning" class="headerlink" title="Improve Efficiency with Partitioning"></a>Improve Efficiency with Partitioning</h3><p>From <em>Learning Spark</em> Page 61- 64</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.34.32.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.34.32"></p>
+<p>There are two common scenarios where partition can reduce shuffling:</p>
+<ol>
+<li><code>reduceByKey</code> running on a pre-partitioned RDD will cuase the values to be computed <strong>locally</strong>.</li>
+<li><code>join</code> called on two RDDs that are pre-partitioned with the same partitioner are cached on the same machine will cause the join to be computed <strong>locally</strong>.</li>
+</ol>
+<h2 id="Know-when-shuffle-will-occur"><a href="#Know-when-shuffle-will-occur" class="headerlink" title="Know when shuffle will occur"></a>Know when shuffle will occur</h2><p><strong>A shuffle <em>can</em> occur when the resulting RDD depends on other elements from the same RDD or another RDD.</strong> Paritioning is often the solution.</p>
+<p>Or look at the return type, or use the function <code>toDebugString</code> to see its execution plan.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.36.33.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.36.33"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.38.17.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.38.17"></p>
+<h1 id="Wide-vs-Narrow-Dependencies"><a href="#Wide-vs-Narrow-Dependencies" class="headerlink" title="Wide vs Narrow Dependencies"></a>Wide vs Narrow Dependencies</h1><p>Some transformationnns are significantly more expensive than others </p>
+<h2 id="Linages"><a href="#Linages" class="headerlink" title="Linages"></a>Linages</h2><p>Computations on RDDs are represented as a <strong>lineage graph</strong>; a Direct Acyclic Graph (DAG) representing the computations done on the RDD.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.43.27.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.43.27"></p>
+<h2 id="How-are-RDDs-represented"><a href="#How-are-RDDs-represented" class="headerlink" title="How are RDDs represented?"></a>How are RDDs represented?</h2><p>RDDs are made up of 4 important parts</p>
+<ul>
+<li><strong>Partitions</strong>: Atomic pieces of the dataset. One or many per compute node</li>
+<li><strong>Dependencies</strong>: Models relationship between this RDD <em>and its partitions</em> with the RDD(s) it was derived from</li>
+<li><strong>A function</strong>: for computing the dataset based on its parent RDDs</li>
+<li><strong>Metadata</strong> about its partitioning scheme</li>
+</ul>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.46.45.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.46.45"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.47.45.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.47.45"></p>
+<p>RDD dependencies encode when data must move across the network. There are two kinds of dependencies:</p>
+<ol>
+<li><strong>Narrow Dependency</strong>: Each partition of the parent RDD is used by at most one partition of the child RDD </li>
+<li><strong>Wide Dependency</strong>: Each partition of the parent RDD may be depended on by <strong>multiple</strong> child partitions</li>
+</ol>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.49.58.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.49.58"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.57.07.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.57.07"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%886.59.30.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午6.59.30"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.00.03.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午7.00.03"></p>
+<p>You can use <code>dependencies</code> method on RDDs to figure out the dependency</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> pairs = wordsRdd.map(c =&gt; (c,<span class="hljs-number">1</span>))<br>										.groupByKey()<br>										.dependencies <span class="hljs-comment">// or toDebugString</span><br></code></pre></td></tr></table></figure>
+
+<p>The <em>lineage graph</em> is composed of <em>stages</em>. </p>
+<h2 id="Fault-Tolerance"><a href="#Fault-Tolerance" class="headerlink" title="Fault Tolerance"></a>Fault Tolerance</h2><p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.06.09.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午7.06.09"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%887.07.07.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午7.07.07"></p>
+<p>Recomputing missing partitions is fast for narrow dependencies, but slow for wide dependencies.</p>
+<h1 id="SQL-Dataframes-and-Datasets"><a href="#SQL-Dataframes-and-Datasets" class="headerlink" title="SQL, Dataframes and Datasets"></a>SQL, Dataframes and Datasets</h1><p>Given a bit of extra structural information, Spark can do many optimizations for you.</p>
+<p><strong>Unstructured</strong>: Log files, images</p>
+<p><strong>Semi-structured</strong>: json, xml (self-describing)</p>
+<p><strong>Structured</strong>: database tables </p>
+<p>Spark + regular RDDs don’t know anything about the <strong>schema</strong> of the data it’s dealing with.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.21.33.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.21.33"></p>
+<p><strong>Structured vs Unstructured Computation</strong></p>
+<p>In Spark: we do functional transformations on data. We pass user-defined function literals to higher-order functions like <code>map</code>, <code>flatMap</code> and <code>filter</code></p>
+<p>In database/Hive: We do declarative transformation on data.</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.24.15.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.24.15"></p>
+<h2 id="Spark-SQL"><a href="#Spark-SQL" class="headerlink" title="Spark SQL"></a>Spark SQL</h2><p>SQL is the lingua franca for doing analytics. But it’s a pain in the neck to connect big data processing pipelines like Spark or Hadoop to an SQL database</p>
+<p>Spark SQL makes it possible to seamlessly <strong>intermix</strong> SQL queries with Scala and to get all of the <strong>optimization</strong> we’re used to in the databases community on Spark Jobs. </p>
+<p>Three main goals:</p>
+<ol>
+<li>Support <strong>relational processing</strong> both within Spark programs (on RDDs) and on external data sources with a friendly API</li>
+<li>High performance</li>
+<li>Easily support new data sources such as semi-structured data and external databases</li>
+</ol>
+<p>Three main APIs:</p>
+<ol>
+<li>SQL literal syntax</li>
+<li>DataFrames</li>
+<li>Datasets</li>
+</ol>
+<p>Two specialized backend components:</p>
+<ol>
+<li>Catalyst, query optimizer</li>
+<li>Tungsten, off-heap serializer</li>
+</ol>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.30.39.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.30.39"></p>
+<p>To get started using Spark SQL, everything starts with <code>SparkSession</code>. (rather than <code>SparkContext</code>)</p>
+<h2 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h2><p><strong>DataFrame</strong> is Spark SQL’s core abstraction. DataFrames are conceptually RDDs full of records with a known schema. DataFrames are <strong>untyped</strong></p>
+<p>Transformations on DataFrames are also known as <strong>untyped transformation</strong></p>
+<h3 id="Creating-DataFrames"><a href="#Creating-DataFrames" class="headerlink" title="Creating DataFrames"></a>Creating DataFrames</h3><ol>
+<li>From an existing RDD <code>toDF()</code>, or explicitly specify the schema</li>
+<li>Reading in specific <strong>data source</strong> from file</li>
+</ol>
+<p>toDF()</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> tupleRDD = ...<br><span class="hljs-keyword">val</span> tupleDF = tupleRDD.toDF(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;city&quot;</span>, <span class="hljs-string">&quot;country&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> schemaString = <span class="hljs-string">&quot;name age&quot;</span><br><span class="hljs-keyword">val</span> fields = schemaString.split(<span class="hljs-string">&quot; &quot;</span>)<br> .map(fieldName =&gt; <span class="hljs-type">StructField</span>(fieldName, <span class="hljs-type">StringType</span>, nullable = <span class="hljs-literal">true</span>))<br><br><span class="hljs-keyword">val</span> schema = <span class="hljs-type">StructType</span>(fields)<br><br><span class="hljs-keyword">val</span> rowRDD = peopleRDD<br>	.map(_.split(<span class="hljs-string">&quot;,&quot;</span>))<br>	.map(attributes =&gt; <span class="hljs-type">Row</span>(attributes(<span class="hljs-number">0</span>), attributes(<span class="hljs-number">1</span>).trim))<br>	<br><span class="hljs-keyword">val</span> peopleDF = spark.createDataFrame(rowRDD, schema)<br></code></pre></td></tr></table></figure>
+
+<p>Semi-structured sources: Json, csv, parquet, JDBC</p>
+<h3 id="SQL-Literals"><a href="#SQL-Literals" class="headerlink" title="SQL Literals"></a>SQL Literals</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala">peopleDF.createOrReplaceTempView(<span class="hljs-string">&quot;people&quot;</span>)<br><span class="hljs-keyword">val</span> adultsDF<br> = spark.sql(<span class="hljs-string">&quot;SELECT * FROM people WHERE age &gt; 17&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>The SQL statements available to you are largely what’s available in HiveQL. </p>
+<h2 id="DataFrames-API"><a href="#DataFrames-API" class="headerlink" title="DataFrames API"></a>DataFrames API</h2><p>DataFrames are <strong>a relational API over Spark’s RDDs</strong></p>
+<h3 id="DataFrames-Data-Types"><a href="#DataFrames-Data-Types" class="headerlink" title="DataFrames Data Types"></a>DataFrames Data Types</h3><p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.47.23.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.47.23"></p>
+<p>Complex Spark SQL Data Types</p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.49.55.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.49.55"></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.51.54.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.51.54"></p>
+<p>It is possible to arbitrarily nest complex data types</p>
+<blockquote>
+<p>In order to use Spark SQL Types you need to import <code>import org.apache.spark.types._</code></p>
+</blockquote>
+<h3 id="Common-Transformations"><a href="#Common-Transformations" class="headerlink" title="Common Transformations"></a>Common Transformations</h3><p>Common transformation includes <code>select</code> ,<code>agg</code>, <code>groupBy</code> and <code>join</code></p>
+<p><img src="%E6%88%AA%E5%B1%8F2021-07-18%20%E4%B8%8B%E5%8D%888.56.51.png" srcset="/img/loading.gif" lazyload alt="截屏2021-07-18 下午8.56.51"></p>
+<p><code>select</code> selects a set of named columns and returns a new DataFrame with these columns as a result</p>
+<p><code>agg</code> performs aggregations of a series of columns and returns a new DataFrame with the calculated output</p>
+<p><code>groupBy</code> groups the DataFrame using the specified columns. <strong>Intended to be used before an aggregation</strong></p>
+<p><code>join</code> inner join with another DataFrame</p>
+<p>Other transformations include: <code>filter, limit, orderBy, where, as, sort, union, drop</code> etc </p>
+<blockquote>
+<p><strong>Three ways to specify Columns:</strong> </p>
+<ol>
+<li>Using $-notation: <code>df.filter($&quot;age&quot; &gt; 18)</code> It requries <code>import spark.implicits._</code></li>
+<li>Referring to the DataFrame <code>df.filter(df(&quot;age&quot; &gt; 18))</code></li>
+<li>Using SQL query string <code>df.filter(&quot;age&gt; 18&quot;)</code></li>
+</ol>
+</blockquote>
+<p>An example:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span>(<span class="hljs-params">id: <span class="hljs-type">Int</span>, fname: <span class="hljs-type">String</span>, lname: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span>, <span class="hljs-type">Stirng</span></span>)</span><br><span class="hljs-keyword">val</span> sydneyEmployeesDF = employeeDF.select(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;lanme&quot;</span>)<br>																	.where(<span class="hljs-string">&quot;city == &#x27;sydney&#x27;&quot;</span>)<br>																	.orderBy(<span class="hljs-string">&quot;id&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><code>filter</code> and <code>where</code> are the same</p>
+<blockquote>
+<p>Note that to use equal condition for filter, the syntax is</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">df.filter($<span class="hljs-string">&quot;col_name&quot;</span> === <span class="hljs-symbol">&#x27;valu</span>e&#x27;) <span class="hljs-comment">// note &#x27;===&#x27;!</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="Grouping-and-Aggregating-on-DataFrames"><a href="#Grouping-and-Aggregating-on-DataFrames" class="headerlink" title="Grouping and Aggregating on DataFrames"></a>Grouping and Aggregating on DataFrames</h3><p>One of the most common tasks on tables is to (1) group data by a ceratin attribute, and then (2) do some kind of aggregation on it like a count</p>
+<p>a <code>groupy</code> function which returns a <code>RelationalGroupedDataset</code> </p>
+<p><strong>Example</strong></p>
+<p>Compute the most expensive and least expensive homes for sale per zip code.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Listing</span>(<span class="hljs-params">street: <span class="hljs-type">String</span>, zip: <span class="hljs-type">Int</span>, price: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> listingsDF = ... <span class="hljs-comment">// DataFrame of Listing</span><br><br><span class="hljs-keyword">import</span> org.apache.spark.sql.functions._<br><span class="hljs-keyword">val</span> mostExpensiveDF = listingsDF.groupBy($<span class="hljs-string">&quot;zip&quot;</span>)<br>																.max(<span class="hljs-string">&quot;price&quot;</span>)<br><span class="hljs-keyword">val</span> mostExpensiveDF = listingsDF.groupBy($<span class="hljs-string">&quot;zip&quot;</span>)<br>																.min(<span class="hljs-string">&quot;price&quot;</span>)				<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Post</span>(<span class="hljs-params">authorID: <span class="hljs-type">Int</span>, subforum: <span class="hljs-type">String</span>, likes: <span class="hljs-type">Int</span>, date: <span class="hljs-type">String</span></span>)</span><br><span class="hljs-keyword">val</span> postDF = ... <span class="hljs-comment">// DataFrame of Posts</span><br><br><span class="hljs-keyword">import</span> org.apache.spark.sql.functions._<br><br><span class="hljs-keyword">val</span> rankedDF = <br> postsDF.groupBy($<span class="hljs-string">&quot;authorID&quot;</span>,$<span class="hljs-string">&quot;subforum&quot;</span>)<br> 				.agg(count($<span class="hljs-string">&quot;authorID&quot;</span>)) <span class="hljs-comment">// new DF with columns authorID, subforum, count(authorID)</span><br> 				.orderBy($<span class="hljs-string">&quot;subforum&quot;</span>, $<span class="hljs-string">&quot;count(authorID)&quot;</span>.desc)<br></code></pre></td></tr></table></figure>
+
+<h3 id="Getting-a-look-at-your-data"><a href="#Getting-a-look-at-your-data" class="headerlink" title="Getting a look at your data"></a>Getting a look at your data</h3><p>You can us <code>show()</code> which pretty prints the DataFrame in tabular form (by default 20 row). <code>printSchema()</code> prints the schema of your DataFrame in a tree format.</p>
+<h2 id="Closer-look-in-DataFrame"><a href="#Closer-look-in-DataFrame" class="headerlink" title="Closer look in DataFrame"></a>Closer look in DataFrame</h2><h3 id="Cleaning-Data-with-DataFrames"><a href="#Cleaning-Data-with-DataFrames" class="headerlink" title="Cleaning Data with DataFrames"></a>Cleaning Data with DataFrames</h3><p>It’s desirable to do one of the following:</p>
+<ul>
+<li>drop row/records with unwanted values like <code>null</code> or <code>NaN</code></li>
+<li>replace certain values with a constant</li>
+</ul>
+<p><strong>Dropping</strong></p>
+<p>We can use <code>drop()</code> which drops rows that contain <code>null</code> or NaN values in <strong>any</strong> columns and returns a new DataFrame</p>
+<p><code>drop(&quot;all&quot;)</code> drops rows that contain <code>null</code> or <code>NaN</code> values in <strong>all</strong> columns</p>
+<p><code>drop(Array(&quot;id&quot;, &quot;name&quot;))</code> drops rows that contain <code>null</code> or <code>NaN</code>values in the <strong>specified</strong> columns and returns a new <code>DataFrame</code></p>
+<p><strong>Replacing</strong></p>
+<p><code>fill(0)</code> replaces all occurrences of <code>null</code> or <code>NaN</code> in <strong>numeric columns</strong> with <strong>specified vlaue</strong> and returns a new <code>DataFrame</code></p>
+<p><code>fill(Map(&quot;column_name&quot;-&gt;0))</code> replaces all occurrences of <code>null</code> or <code>NaN</code> in <strong>specified column</strong> with <strong>specified value</strong> and returns a new <code>DataFrame</code></p>
+<p><code>replace(Array(&quot;id&quot;), Map(1234-&gt;8923))</code> replaces <strong>specified value</strong> in <strong>specified column</strong> with <strong>specified replacemet value</strong> and returns a new <code>DataFrame</code></p>
+<h3 id="Common-Actions-on-DataFrames"><a href="#Common-Actions-on-DataFrames" class="headerlink" title="Common Actions on DataFrames"></a>Common Actions on DataFrames</h3><p><code>collect(): Array[Row]</code> Returns an array that contains all of Rows in this DataFrame</p>
+<p><code>count(): Long</code> </p>
+<p><code>first(): Row/head(): Row</code>: returns the first row in the DataFrame</p>
+<p><code>show(): Unit</code>: Displays the top 20 rows of DataFrame </p>
+<p><code>take(n: Int): Array[Row]</code></p>
+<h3 id="Joins-on-DataFrames"><a href="#Joins-on-DataFrames" class="headerlink" title="Joins on DataFrames"></a>Joins on DataFrames</h3><p>We need to specify which columns we should join on. <code>inner</code>, <code>outer</code>, <code>left_outer</code>, <code>right_outer</code>, <code>left_semi</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala">df1.join(df2, $<span class="hljs-string">&quot;df1.id&quot;</span> === $<span class="hljs-string">&quot;df2.id&quot;</span>)<br>df1.join(df2, $<span class="hljs-string">&quot;df1.id&quot;</span> === $<span class="hljs-string">&quot;df2.id&quot;</span>, <span class="hljs-string">&quot;right_outer&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Different methods are specified as an argument</p>
+</blockquote>
+<h3 id="Optimizations"><a href="#Optimizations" class="headerlink" title="Optimizations"></a>Optimizations</h3><p><strong>Catalyst</strong>: query optimizer</p>
+<p><em>Reordering operations</em> (Laziness + structure gives us the ability to analyze and rearrange DAG of computation, often pushing filter up)</p>
+<p>Reduce the amount of data we must read</p>
+<p><strong>Tungsten</strong>: off-heap data encoder (searializer)</p>
+<ul>
+<li>highly-specialized data encoders</li>
+<li><strong>column-based</strong></li>
+<li>off-heap (free from garbage collection overhead)</li>
+</ul>
+<blockquote>
+<p>Tungsten can take schema information and tightly pack serialized data into memory. This means more data can fit in memory and faster serialization/deserialization.</p>
+<p>Column-based data storage is well-known to be more efficient across DBMS</p>
+</blockquote>
+<h3 id="Limitations-of-DataFrmaes"><a href="#Limitations-of-DataFrmaes" class="headerlink" title="Limitations of DataFrmaes"></a>Limitations of DataFrmaes</h3><p>DFs are <strong>untyped</strong>.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">listingDF.filter($<span class="hljs-string">&quot;state&quot;</span> === <span class="hljs-string">&quot;CA&quot;</span>) <span class="hljs-comment">// compile, but state can be non-existent</span><br></code></pre></td></tr></table></figure>
+
+<p>We can only use a <strong>Limited Data Types</strong>. This is can be hard when you already uses some kind of complicated regular Scala class</p>
+<p>DF requires <strong>Semi-structured / Structured Data</strong>. There might be no structure to it. </p>
+<h2 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> averagePrices = averagePricesDF.collect()<br><span class="hljs-comment">// averagePrices: Array[org.apache.spark.sql.Row]</span><br><br><span class="hljs-keyword">val</span> averagePrices = averagePrice.map &#123;<br>  row =&gt; (row(<span class="hljs-number">0</span>).asInstanceOf[<span class="hljs-type">Int</span>], row(<span class="hljs-number">1</span>).asInstanceOf[<span class="hljs-type">Double</span>])<br>&#125; <span class="hljs-comment">// inconvenient</span><br></code></pre></td></tr></table></figure>
+
+<p>We can check the schema using</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">averagePrices.head.printSchema()<br></code></pre></td></tr></table></figure>
+
+<p>The motivation is that we want type safety as well as the optimization.</p>
+<p>DataFrame is <strong>untyped</strong>. Dataset is <strong>typed</strong>.  DataFrame is actually a dataset</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">DataFrame</span> = Dataset[Row]<br></code></pre></td></tr></table></figure>
+
+<p>A Dataset is a <strong>typed</strong> distributed collections of data. It unifies the <code>DataFrame</code> and <code>RDD</code> APIs. It requires structured/ semi-structured data. Schemas and <code>Encoder</code> s are core parts of <code>Dataset</code> </p>
+<p>Datasets are something in the middle between DataFrames and RDDs. You can use relational operations and functional operations like <code>map</code>, <code>flatMap</code> and <code>filter</code>. It’s a good choice when you need to mix and match.</p>
+<h3 id="Creating-Dataset"><a href="#Creating-Dataset" class="headerlink" title="Creating Dataset"></a>Creating Dataset</h3><p><strong>From a Dataset</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">myDF.toDS	 <span class="hljs-comment">// requires import spark.implicits._</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>From File</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> myDS = spark.read.json(<span class="hljs-string">&quot;people.json&quot;</span>).as[<span class="hljs-type">Person</span>]<br><span class="hljs-comment">// if case class Person match </span><br></code></pre></td></tr></table></figure>
+
+<p><strong>From an RDD &amp; Common Scala types</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">.toDS<br></code></pre></td></tr></table></figure>
+
+<h3 id="Typed-Columns"><a href="#Typed-Columns" class="headerlink" title="Typed Columns"></a>Typed Columns</h3><p>A <code>TypedColumn</code> is different from <code>Column</code> , you can cast it with </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">$<span class="hljs-string">&quot;price&quot;</span>.as[<span class="hljs-type">Double</span>] <span class="hljs-comment">// this is a TypedColumn</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Transformations-on-Dataset"><a href="#Transformations-on-Dataset" class="headerlink" title="Transformations on Dataset"></a>Transformations on Dataset</h3><p>Dataset introduces <strong>typed transformations</strong>. </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala">map[<span class="hljs-type">U</span>](f: <span class="hljs-type">T</span>=&gt;<span class="hljs-type">U</span>): <span class="hljs-type">Dataset</span>[<span class="hljs-type">U</span>]<br>flatMap[<span class="hljs-type">U</span>](f: <span class="hljs-type">T</span>=&gt;<span class="hljs-type">TraversableOnce</span>[<span class="hljs-type">U</span>]): <span class="hljs-type">Dataset</span>[<span class="hljs-type">U</span>]<br><br>groupByKey[<span class="hljs-type">K</span>](f: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">K</span>): <span class="hljs-type">KeyValueGroupedDataset</span>[<span class="hljs-type">K</span>,<span class="hljs-type">T</span>]<br></code></pre></td></tr></table></figure>
+
+<h3 id="Grouping-Operations-on-Datasets"><a href="#Grouping-Operations-on-Datasets" class="headerlink" title="Grouping Operations on Datasets"></a>Grouping Operations on Datasets</h3><p>Calling <code>groupByKey</code> on a <code>Dataset</code> returns a <code>KeyValueGroupedDataset</code>, it contains a number of aggregation operations which return <code>Datasets</code></p>
+<h1 id="Practicals"><a href="#Practicals" class="headerlink" title="Practicals"></a>Practicals</h1><h2 id="Create-Column-with-literal-values"><a href="#Create-Column-with-literal-values" class="headerlink" title="Create Column with literal values"></a>Create Column with literal values</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala">df2 = df1.withColumn(<span class="hljs-string">&quot;col_name&quot;</span>, lit(<span class="hljs-string">&quot;value&quot;</span>))<br>df2 = df1.select($<span class="hljs-string">&quot;*&quot;</span>, lit(<span class="hljs-string">&quot;value&quot;</span>).as(<span class="hljs-string">&quot;col_name&quot;</span>))<br></code></pre></td></tr></table></figure>
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Scala/">Scala</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Big-Data/">Big Data</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Spark/">Spark</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/10/01/Huggingface-transformers/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Huggingface transformers</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/01/complex-datatype-in-dataframe/">
+                        <span class="hidden-mobile">complex datatype in dataframe</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

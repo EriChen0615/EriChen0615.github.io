@@ -1,0 +1,1568 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Excerpts from the book A Tour of C++ ModularityNamespacesnamespaces is a mechanism for expressing that some declarations belong together and that their names shouldn’t clash with other names. For exam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Tour of C++">
+<meta property="og:url" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Excerpts from the book A Tour of C++ ModularityNamespacesnamespaces is a mechanism for expressing that some declarations belong together and that their names shouldn’t clash with other names. For exam">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig1.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig2.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig3.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig4.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig6.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig7.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig8.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig9.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig10.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig11.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig12.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig13.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig14.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig15.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig16.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig17.png">
+<meta property="article:published_time" content="2020-12-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.412Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2020/12/01/A-tour-of-Cpp/fig1.png">
+  
+  <title>A Tour of C++ - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="A Tour of C++">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-01 00:00" pubdate>
+        December 1, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      41k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      51 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">A Tour of C++</h1>
+            
+            <div class="markdown-body">
+              <p>Excerpts from the book <em>A Tour of C++</em></p>
+<h1 id="Modularity"><a href="#Modularity" class="headerlink" title="Modularity"></a>Modularity</h1><h2 id="Namespaces"><a href="#Namespaces" class="headerlink" title="Namespaces"></a>Namespaces</h2><p><em>namespaces</em> is a mechanism for expressing that some declarations belong together and that their names shouldn’t clash with other names. For example:</p>
+<pre><code>namespace My_code &#123;
+    class complex &#123;
+        // ..
+    &#125;;
+&#125;
+
+int My_code::main()&#123;
+    complex z &#123;1, 2&#125;;
+    // ...
+&#125;
+
+int main() &#123;
+    return My_code::main();
+&#125;
+</code></pre>
+<p>Here the <code>main</code> and <code>complex</code> class are not to be confused with the global <code>main</code> and std <code>complex</code>. </p>
+<h2 id="Error-Handling"><a href="#Error-Handling" class="headerlink" title="Error Handling"></a>Error Handling</h2><h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><pre><code>double&amp; Vector::operator[](int i)
+&#123;
+    if (i&lt;0 || size()&lt;i)
+        throw out_of_range&#123;&quot;Vector::operator[]&quot;&#125;;
+    return elem[i];
+&#125;
+</code></pre>
+<p>The <code>throw</code> transger control to a handler for exceptions of type <code>out_of_range</code> in some functions that directly or indirectly called <code>Vector::operator[]()</code>. It will exit scopes and functions as needed to get back to a caller that has <em>expressed interests in handling that kind of exception</em>, invoking deconstructors along the way as needed. For example:</p>
+<pre><code>void f(Vector&amp; v)
+&#123;
+    try &#123;
+        v[v.size()] = 7; // beyond the end of v
+    &#125;
+    catch (out_of_range) &#123;
+        // ...handle range error...
+    &#125;
+&#125;
+</code></pre>
+<p>We put code for which we are interested in handling exceptions into a <code>try</code>-block. The <code>out_of_range</code> type is defined in the standard library (in <code>&lt;stdexcept&gt;</code>).</p>
+<p>A function that should never throw an exception can be declared <code>noexcept</code>. </p>
+<pre><code>void user(int sz) no except
+&#123;
+    Vector v(sz);
+    iota(&amp;v[0],&amp;v[sz],1)
+    // ...
+&#125;
+</code></pre>
+<p>If <code>user()</code> still throws, the standard-library function <code>terminate()</code> is called to immediately terminate the program.</p>
+<h2 id="static-assert"><a href="#static-assert" class="headerlink" title="static_assert"></a>static_assert</h2><p>The <code>static_assert</code> mechanism can be used for anything that can be expressed in terms of constant expressions. That is, expressions that only involves values computed during compliation (in contrast to runtime).</p>
+<pre><code>constexpr double C = 299792.458;
+const double local_max = 160.0/(60*60);
+static_assert(local_max &lt; C, &quot;can&#39;t go that fast&quot;);
+</code></pre>
+<p>In general, <code>static_assert(A,S)</code> prints <code>S</code> as a compiler error message if <code>A</code> is not <code>true</code></p>
+<h1 id="Classes"><a href="#Classes" class="headerlink" title="Classes"></a>Classes</h1><p>Here, we only consider three basic kinds of classes. They are:</p>
+<ol>
+<li>Concrete classes</li>
+<li>Abstract Classes</li>
+<li>Classes in class hierarchies</li>
+</ol>
+<h2 id="Concrete-Types"><a href="#Concrete-Types" class="headerlink" title="Concrete Types"></a>Concrete Types</h2><p>The basic idea of <em>concrete classes</em> is that they behave “just like built-in types”. The defining characteristic of a concrete type is that its representation is part of its definition. </p>
+<p>To increase flexibility, a concrete type can keep major parts of its representation on the free store (dynamic memory, heap) and access them through the part stored in the class object itself.</p>
+<h3 id="A-Container-Example"><a href="#A-Container-Example" class="headerlink" title="A Container Example"></a>A Container Example</h3><p>A container is an object holding a collection of elements. </p>
+<pre><code>class Vector &#123;
+private:
+    double* elem;
+    int sz;
+public:
+    Vector(int s):elem&#123;new double[s]&#125;, sz&#123;s&#125; &#123;
+        for (int i=0; i!=s; i++)
+            elem[i]=0;
+    &#125;
+
+    ~Vector() &#123; delete[] elem; &#125;
+
+    double&amp; operator[](int i);
+    int size() const;
+&#125;;
+</code></pre>
+<p><code>~Vector()</code> is a <em>destructor</em>. The function will be called when the life cycle of the object ends.</p>
+<h3 id="Initializing-Containers"><a href="#Initializing-Containers" class="headerlink" title="Initializing Containers"></a>Initializing Containers</h3><pre><code>class Vector &#123;
+public:
+    Vector(std::initializer_list&lt;double&gt;);
+    void push_back(double);
+&#125;;
+</code></pre>
+<p>The <code>push_back()</code> is useful for input of arbitrary numbers of elements. For example:</p>
+<pre><code>Vector read(istream&amp; is)&#123;
+    Vector v;
+    for (double d; is&gt;&gt;d;)
+        v.push_back(d)
+    return v;
+&#125;
+</code></pre>
+<p>The input loop is terminated by an end-of-file. The initializer-list constructor might be defined like this:</p>
+<pre><code>Vector::Vector(std::initializer_list&lt;double&gt; lst)
+    : elem&#123;new double[lst.size()&#125;, sz&#123;static_cast&lt;int&gt;(lst.size())&#125;
+&#123;
+    copy(lst.begin(),lst.end(),elem);
+&#125;
+</code></pre>
+<p>A <code>static_cast</code> does not check the value it is converting; the programmer is trusted to use it correctly.</p>
+<h2 id="Abstract-Type"><a href="#Abstract-Type" class="headerlink" title="Abstract Type"></a>Abstract Type</h2><p>An <em>abstract type</em> is a type that completely that completely insulates a user from implementation details. To do that, we decouple the interface from the representation and give up genuine local variables. Since we don’t know anything about the representation of an abstract type (not even its size), we must allocate objects on the free store and access them through references or pointers.</p>
+<pre><code>class Container &#123;
+public:
+    virtual double&amp; operator[](int) = 0;
+    virtual int size() const = 0;
+    virtual ~Container() &#123;&#125;
+&#125;;
+</code></pre>
+<p>This class is a pure interface to specific containers defined later. The word <code>virtual</code> means <em>may be redefined later in a class derived from this one.</em> A class derived from <code>Container</code> provides an implementation for the <code>Container</code> interface. The <code>= 0</code> syntax says the function is <em>pure virtual</em>; that is, some class derived from <code>Container</code> <strong>must</strong> define the function.Thus, it is not possible to define an object that is just a <code>Container</code>.</p>
+<p>A class with a pure virtual function is called an <em>abstract class</em>. The <code>Container</code> can be used like this to display <em>polymorphic</em></p>
+<pre><code>void use(Container&amp; c)&#123;
+    const int sz = c.size();
+
+    for (int i=0; i!=sz; i++)
+        cout &lt;&lt; c[i] &lt;&lt; &#39;\n&#39;;
+&#125;
+</code></pre>
+<p>Note how <code>use()</code> is completely ignorance of implementation details. It uses <code>size()</code> and <code>[]</code> without any idea of exactly which type provides their implementation.</p>
+<p><code>Container</code> does not have a constructor, <strong>which is common</strong> for abstract classes. Because it does not have any data to initialize. On the other hand, <code>Container</code> does have a destructor and that destructor is <code>virtual</code>, <strong>which is common</strong> for abstract classes.</p>
+<p>A container that implements the functions required by the interface could use the concrete class <code>Vector</code></p>
+<pre><code>class Vector_container : public Container &#123;
+    Vector v;
+public:
+    Vector_container(int s): v(s) &#123;&#125;
+    ~Vector_container() &#123;&#125;
+
+    double&amp; operator[](int i) 
+&#125;;
+</code></pre>
+<h3 id="Virutal-Functions"><a href="#Virutal-Functions" class="headerlink" title="Virutal Functions"></a>Virutal Functions</h3><p>The compiler will convert the name of a virtual function into an index into a <em>table of pointers to functions</em>. The table is usuallly called <em>virtual function table</em> or simply the <code>vtbl</code>. Each class with virtual functions has its own <code>vtbl</code> identifying its virtual functions.</p>
+<p><img src="fig1.png" srcset="/img/loading.gif" lazyload></p>
+<p>This mechanism allows polymorphism and decision at runtime. The overhead is essentially a table and can be made almost as efficient as the “normal function call”.</p>
+<h3 id="Explicit-Overriding"><a href="#Explicit-Overriding" class="headerlink" title="Explicit Overriding"></a>Explicit Overriding</h3><p>A function in a derived class overrides a virtual function in a base class if that function has exactly the same <em>name and type</em>. In large hierachies, it’s not always obvious if overriding is intended. To avoid confusin in such cases, a programmer can explicitly state that a function is meant to override. For example:</p>
+<pre><code>class Smiley : public Circle &#123;
+public:
+    Smiley(Point p, int r) : Circle&#123;p,r&#125;, mouth&#123;nullptr&#125; &#123;&#125;
+    ~Smiley() &#123;
+        delete mouth;
+        for (auto p : eyes)
+            delete p;
+    &#125;
+    
+    void move(Point to) override;
+
+    void draw() const override;
+    void rotate(int) override;
+
+    void add_eye(Shape* s) &#123; eyes.push_back(s); &#125;
+    void set_mouth(Shape* );
+    virtual void wink(int i);
+
+private:
+    vector&lt;Shape*&gt; eyes;
+    Shape* mouth;
+&#125;;
+</code></pre>
+<p>Now the compiler will complain if you are to mis-spell <code>move</code> as <code>mve</code></p>
+<h3 id="Benefits-from-Hierarchies"><a href="#Benefits-from-Hierarchies" class="headerlink" title="Benefits from Hierarchies"></a>Benefits from Hierarchies</h3><p>A class hierachy offers two kinds of benefits:</p>
+<ol>
+<li><p><em>Interface inheritance</em>: The base class acts as an interface for the derived class. Such base classes are often abstract.</p>
+</li>
+<li><p><em>Implementation inheritance</em>: A base class provides functions or data that simplifies the implementation of a derived class. Such base classes often have their data members and constructors.</p>
+</li>
+</ol>
+<p>We tend to define concrete classes as local variables much like built-in types. But tend to allocate classes in class hierarchies using <code>new</code>, and access them through pointer or references. This is because we would like to use <code>delete</code> (i.e, explicitly invoking the derived class’s deconstructor) to manage resources.</p>
+<h3 id="Hierarchy-Navigation"><a href="#Hierarchy-Navigation" class="headerlink" title="Hierarchy Navigation"></a>Hierarchy Navigation</h3><p>We can use <code>dynamic_cast</code> to cast a base type to its derived type. For example:</p>
+<pre><code>Shape* ps &#123;read_shape(cin)&#125;;
+
+if (Smiley* p = dynamic_cast&lt;Smiley*&gt;(ps)) &#123;
+    // ... is a pointer pointing to Smiley
+&#125;
+else &#123;
+    // ... not a Smiley, try something else
+&#125;
+</code></pre>
+<p>After casting, we can use the functions that is only defined in <code>Smiley</code> but not in <code>Shape</code>. If <code>dynamic_cast</code> fails it will return a <code>nullptr</code>.</p>
+<p>When a different type is unacceptable, we can simply <code>dynamic_cast</code> to a referene type. If the object is not of the expected type, <code>bad_cast</code> is thrown.</p>
+<pre><code>Shape* ps &#123;read_shape(cin)&#125;;
+Smiley&amp; r &#123;dynamic_cast&lt;Smiley&amp;&gt;(*ps)&#125;;
+</code></pre>
+<h3 id="Avoiding-Resource-Leaks"><a href="#Avoiding-Resource-Leaks" class="headerlink" title="Avoiding Resource Leaks"></a>Avoiding Resource Leaks</h3><p>We note that the owner of a container of <code>Shape</code> pointers might not <code>delete</code> the objects pointed to.</p>
+<p>One solution is to return a standard-library <code>unique_ptr</code> rather than a “naked pointer” and store <code>unique_ptr</code>s in the container.</p>
+<pre><code>unique_ptr&lt;Shape&gt; read_shape(istream&amp; is)
+&#123;
+    switch(k) &#123;
+    case Kind::circle:
+        // read circle data into p and r
+        return unique_ptr&lt;Shape&gt;&#123;new Circle&#123;p,r&#125;&#125;;
+    &#125;
+    // ...
+&#125;
+
+void user()
+&#123;
+    vector&lt;unique_ptr&lt;Shape&gt;&gt; v;
+    while (cin)
+        v.push_back(read_shape(cin));
+    draw_all(v);
+    rotate_all(v,45);
+&#125; // all shapes implicitly destroyed
+</code></pre>
+<p>Now the object is owned by the <code>unique_ptr</code> and will <code>delete</code> the object when it’s no longer needed, that is, when its <code>unique_ptr</code> goes out of scope.</p>
+<h2 id="Copy-and-Move"><a href="#Copy-and-Move" class="headerlink" title="Copy and Move"></a>Copy and Move</h2><p>By default, objects can be copied. That is true for objects of user-defined types as well as for built-in types. The default meaning of copy is memberwise copy: <strong>copy each member</strong>.</p>
+<h3 id="Copying-Containers"><a href="#Copying-Containers" class="headerlink" title="Copying Containers"></a>Copying Containers</h3><p>When a class is a <em>resource handle</em> - that is, when the class is responsible for an object accessed through a pointer - the default memberwise copy is a disaster.</p>
+<pre><code>void bad_copy(Vector v1)
+&#123;
+    Vector v2 = v1;
+    v1[0] = 2;     // v2[0] is also 2!
+    v2[1] = 3;    // v1[1] is also 3!
+&#125;
+</code></pre>
+<p><img src="fig2.png" srcset="/img/loading.gif" lazyload></p>
+<p>Copying of an object of a class is defined by two members: a <em>copy constructor</em> and a <em>copy assignment</em></p>
+<pre><code>class Vector &#123;
+private:
+    double* elem
+    int sz;
+public:
+    Vector(int s);
+    ~Vector() &#123; delete[] elem; &#125;
+
+    Vector(const Vector&amp; a);
+    Vector&amp; operator=(const Vector&amp; a);
+
+    double&amp; operator[](int i);
+    const double&amp; operator[](int i) const;
+
+    int size() const;
+&#125;;
+</code></pre>
+<p>A situable definition of a copy constructor for <code>Vector</code> allocates the space for the required number of elements then copies the elements into it. </p>
+<pre><code>Vector::Vector(const Vector&amp; a)
+    :elem(new double[a.size]),
+    sz&#123;a.sz&#125;
+&#123;
+    for (int i=0; i!=sz; i++)
+        elem[i] = a.elem[i]
+&#125;
+</code></pre>
+<p>And we need a copy assignment in addition to the copy constructor.</p>
+<p><img src="fig3.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="Moving-Containers"><a href="#Moving-Containers" class="headerlink" title="Moving Containers"></a>Moving Containers</h3><p>We can control copying by defining a copy constructor and copy assignment, but copying can be costly for large container. We avoid the cost of copying when we pass objects to a function by using references, but we can’t return a reference to a local object as the result ( the local object would be destroyed by the time the caller got a chance to look at it). Consider:</p>
+<pre><code>Vector operator+(const Vector&amp; a, const Vector&amp; b)
+&#123;
+    if (a.size()!=b.size())
+        throw Vector_size_mismatch&#123;&#125;;
+
+    Vector res(a.size());
+    for (int i=0; i!=a.size();++i)
+        res[i]=a[i]+b[i];
+    return res;
+&#125;
+</code></pre>
+<p>Returning from a <code>+</code> involves copying the result out of the local variable into some place where the caller can access it. We might use this <code>+</code> like</p>
+<pre><code>Vector r;
+r = x + y + z;
+</code></pre>
+<p>This would be copying a <code>Vector</code> at least twice (one for each use of <code>+</code>). In these cases, we don’t want to copy but to <strong>move the object out of a function</strong>. This can be done as follows:</p>
+<pre><code>class Vector &#123;
+    Vector(Vector&amp;&amp; a);        // move constructor
+    Vector&amp; operator=(Vector&amp;&amp; a);    // move assignment
+&#125;;
+</code></pre>
+<p>Given that definition, the compiler will choose the <em>move constructor</em> to implement the transfer of the return value out of the function. This means <code>r=x+y+z</code> will involve no copying of <code>Vector</code>s.</p>
+<p>As is typical, <code>Vector</code>‘s move constructor is trivial to define.</p>
+<pre><code>Vector::Vector(Vector&amp;&amp; a)
+    :elem&#123;a.elem&#125;,
+    sz&#123;a.sz&#125;
+&#123;
+    a.elem = nullptr; // now a has no elements
+    a.sz = 0;
+&#125;
+// after this, a&#39;s destructor is likely to be called, we
+// set the handle to nullptr to avoid deleting resources
+</code></pre>
+<p>The <code>&amp;&amp;</code> means <strong>rvalue reference</strong> and is a reference to which we can bind an rvalue. <em>rvalue</em> is intended to complement <em>lvalue</em>, which roughly means “something that can appear on the left-hand side of an assignment”. So rvalue is a value that <strong>you can’t assign to</strong>, such as an integer returned by a function call. Thus, an rvaule is a reference to something that nobody else can assign to, so that we can safely “steal” its value.</p>
+<blockquote>
+<p>The move operation is applied when an rvalue reference is used as an initializer or as the right-hand side of an assignment.</p>
+</blockquote>
+<p>Where the programmer knows that a value will not be used again, but the compiler can’t be expected to be smart enough to figure that out, the programmer can be specific:</p>
+<pre><code>Vector f()
+&#123;
+    Vector x(1000);
+    Vector y(1000);
+    Vector z(1000);
+    z = x;             // we get a copy
+    y = std::move(x);     // we get a move
+    return z;         // we get a move
+&#125;
+</code></pre>
+<p>The standard-library function <code>move()</code> returns doesn’t actually move anything, instead it returns an <strong>rvalue reference</strong> of its argument, much like a typecast.</p>
+<p>Just before return we have:</p>
+<p><img src="fig4.png" srcset="/img/loading.gif" lazyload></p>
+<p>A nice <a target="_blank" rel="noopener" href="https://www.cprogramming.com/c++11/rvalue-references-and-move-semantics-in-c++11.html">reference</a> for rvalue and move. In short, remember we are ‘stealing’ the pointer and the object which get stolen needs set its pointer to <code>nullptr</code> because its destructor will soon be called.</p>
+<h3 id="Essential-Operations"><a href="#Essential-Operations" class="headerlink" title="Essential Operations"></a>Essential Operations</h3><p>Constructor, destructor, copy and move operations for a type are not logically separate. We must define them as a matched set or suffer logical or performance problems. If a class <code>X</code> has a destructor that performs a nontrivial task, such as free-store deallocation or lock release, the class is likely to need the full complement of functions:</p>
+<pre><code>class X &#123;
+public:
+    X(sometype);         // &quot;ordinary constructor&quot;
+    X();             // default constructor
+    X(const X&amp;);        // copy constructor
+    X(X&amp;&amp;);            // move constructor
+    X&amp; operator=(const X&amp;);    // copy assignment: clean up target and copy 
+    X&amp; operator=(X&amp;&amp;);    // move assignment: clean up target and move
+    ~X();            // deconstructor: clean up
+
+&#125;;
+</code></pre>
+<p>We can be explicit about generating default implementations as follows:</p>
+<pre><code>class Y &#123;
+public:
+    Y(sometype);
+    Y(const Y&amp;) = default;    // I do want the default copy constructor (member-wise assignment)
+    Y(Y&amp;&amp;) = default;    // and the default move constructor
+&#125;;
+</code></pre>
+<blockquote>
+<p>If you are explicit about some defaults, other default definitions will not be generated. It is good practice to be explicit if the class have reference or pointer to some resources</p>
+</blockquote>
+<p>A consructor taking a single argument defines a conversion from its argument type. For example, <code>complex</code> provides a constructor for a <code>double</code>:</p>
+<pre><code>complex z1 = 3.14;    // z1 becomes &#123;3.14, 0.0&#125;
+complex z2 = z1*2;     // z2 becomes &#123;6.28, 0.0&#125;
+</code></pre>
+<p>But this is not always desired. For example, <code>Vector</code> provides a constructor from an <code>int</code></p>
+<pre><code>Vector v1 = 7; // OK: v1 has 7 elements
+</code></pre>
+<p>But this is not a desired behavior. And the standard-library <code>vector</code> does not allow this <code>int</code>-to-<code>vector</code> conversion. We can avoid this problem by saying only <strong>explicit construction</strong> is allowed. That is,</p>
+<pre><code>class Vector &#123;
+public:
+    explicit Vector(int s);    // no implicit conversion from int to Vector
+&#125;;
+</code></pre>
+<p>This gives us:</p>
+<pre><code>Vector v1(7);        // OK
+Vector v2 = 7;        // error: no implicit conversion allowed
+</code></pre>
+<p>It turns out more types are like <code>Vector</code> so it’s usually good practice to use <code>explicit</code> for constructor with a single argument unless there is a good reason not to.</p>
+<h3 id="Resource-Management"><a href="#Resource-Management" class="headerlink" title="Resource Management"></a>Resource Management</h3><p>//ADVANCED TOPIC CAN’T REALLY UNDERSTAND…</p>
+<h3 id="Suppressing-Operations"><a href="#Suppressing-Operations" class="headerlink" title="Suppressing Operations"></a>Suppressing Operations</h3><p>Using the default copy or move for a class in a hierarchy is typically a disaster: given only a pointer to a base, we simply don’t know what members the derived class has. So we can’t know how to copy them. So, the best thing to do is usually to <em>delete</em> the default copy and move operations, that is, to eliminate the default definitions of those two operations.</p>
+<pre><code>class Shape &#123;
+public:
+    Shape(const Shape&amp;) =delete;        // no copy ops
+    Shape&amp; operator=(const Shape&amp;) =delete;
+
+    Shape(Shape&amp;&amp;) =delete;            // no move ops
+    Shape&amp; operator=(Shape&amp;&amp;) = delete;    
+
+    ~Shape();
+&#125;;
+</code></pre>
+<p>A move operation is <em>not</em> implicitly generated for a class where the user has explicitly declared a destructor, so you get a compiler error if you try to move a <code>Shape</code>.</p>
+<p>The <code>=delete</code> mechanism is general and can be used to suppress any operation.</p>
+<h1 id="Templates"><a href="#Templates" class="headerlink" title="Templates"></a>Templates</h1><p>We can generalize our vector-of-doubles type to a vector-of-anything type by making it a <code>template</code> and replacing the specific type <code>double</code> with a parameter.</p>
+<pre><code>template&lt;typename T&gt;    
+class Vector &#123;
+private:
+    T* elem;
+    int sz;
+public:
+    explicit Vector(int s);
+    ~Vector() &#123; delete[] elem; &#125;
+
+    // ...copy and move operations
+
+    T&amp; operator[](int i)
+    const T&amp; operator[](int i) const;
+    int size() const &#123; return sz; &#125;
+&#125;;
+</code></pre>
+<blockquote>
+<p>C++ allows you to overload function just by const-ness. When the object is not modified by const, non-const version will be used, and vice versa.</p>
+</blockquote>
+<p>Note that <code>template&lt;class T&gt;</code> is equivalent to <code>template&lt;typename T&gt;</code>. The function can be defined similarly.</p>
+<pre><code>template&lt;typename T&gt;
+Vector&lt;T&gt;::Vector(int s)
+&#123;
+    if (s&lt;0)
+        throw Negative_size&#123;&#125;;
+    elem = new T[s];
+    sz = s;
+&#125;
+</code></pre>
+<p>Remembering the <code>template&lt;typename T&gt;</code> prefix.</p>
+<p>To support range-<code>for</code> loop for our vector, we must define suitable <code>begin()</code> and <code>end()</code> functions:</p>
+<pre><code>template&lt;typename T&gt;
+T* begin(Vector&lt;T&gt;&amp; x)
+&#123;
+    return x.size() ? &amp;x[0] : nullptr;
+&#125;
+
+template&lt;typename T&gt;
+T* end(Vector&lt;T&gt;&amp; x)
+&#123;
+    return begin(x)+x.size(); // pointer to one-past-last element
+&#125;
+</code></pre>
+<p>Given those, we can write:</p>
+<pre><code>void f2(Vector&lt;string&gt;&amp; vs)
+&#123;
+    for (auto&amp; s : vs)
+        cout &lt;&lt; s &lt;&lt; &#39;\n&#39;;
+&#125;
+</code></pre>
+<p>Templates are a compile-time mechansm, so their use incurs no runtime overhead compared to hand-crafted code.</p>
+<p>In addition to type arguments, a template can take value arguments. For example:</p>
+<pre><code>template&lt;typename T, int N&gt;
+struct Buffer &#123;
+    using value_type = T;
+    constexpr int size() &#123; return N; &#125;
+    T[N];
+    /// 
+&#125;;
+</code></pre>
+<h2 id="Function-Objects"><a href="#Function-Objects" class="headerlink" title="Function Objects"></a>Function Objects</h2><p>We can define <em>function object</em> (somtimes called a <em>functor</em>), which is objects that can be called like functions. For example:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Less_than</span> &#123;</span><br>	<span class="hljs-keyword">const</span> T val;	<span class="hljs-comment">// value to compare against</span><br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Less_than</span>(<span class="hljs-keyword">const</span> T&amp; v):<span class="hljs-built_in">val</span>(v) &#123;&#125;<br>	<span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">operator</span><span class="hljs-params">()</span><span class="hljs-params">(<span class="hljs-keyword">const</span> T&amp; x)</span> <span class="hljs-keyword">const</span> </span>&#123;<span class="hljs-keyword">return</span> x&lt;val;&#125; <span class="hljs-comment">// call operator</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>The function called <code>operator()</code> implements the “function call”, “call” or “application” operator <code>()</code>. We can define name variables of type <code>Less_than</code> for some argument type:</p>
+<pre><code>Less_than&lt;int&gt; lti &#123;42&#125;;        // lti(i) will compare i to 42 using (i&lt;42)
+Less_than&lt;string&gt; lts &#123;&quot;Backus&quot;&#125;;    // lts(s) will compare s to &quot;Backus&quot; using &lt;
+</code></pre>
+<p>We can call such an object, just as we call a function</p>
+<pre><code>void fct(int n, const string&amp; s)
+&#123;
+    bool b1 = lti(n);
+    bool b2 = lts(s);
+    // ...
+&#125;
+</code></pre>
+<p>Such function objects are widely used as arguments to algorithms. For example, we can count the occurrences of values for which a predicate returns <code>true</code>:</p>
+<pre><code>template&lt;typename C, typename P&gt;
+int count(const C&amp; c, P pred)
+&#123;
+    int cnt = 0;
+    for (const auto&amp; x: c)
+        if (pred(x))
+            ++cnt;
+    return cnt;
+&#125;
+</code></pre>
+<p>A <em>predicate</em> is something that we can invoke to return <code>true</code> or <code>false</code>. For example:</p>
+<pre><code>void f(const Vector&lt;int&gt;&amp; vec, const list&lt;string&gt;&amp; lst, int x, const string&amp; s)
+&#123;
+    cout &lt;&lt; &quot;number of values less than &quot; &lt;&lt; x
+         &lt;&lt; &quot;: &quot; &lt;&lt; count(vec, Less_than&lt;int&gt;&#123;x&#125;)
+         &lt;&lt; &quot;\n&quot;;
+    cout &lt;&lt; &quot;number of values less than &quot; &lt;&lt; s
+         &lt;&lt; &quot;: &quot; &lt;&lt; count(vec, Less_than&lt;string&gt;&#123;s&#125;)
+         &lt;&lt; &quot;\n&quot;;
+&#125;
+</code></pre>
+<p>where <code>Less_than&lt;int&gt;&#123;x&#125;</code> constructs an object for which the call operator compares to the <code>int</code> called <code>x</code>; They carry the value to be compared against with them. We don’t have to write a separate function for each value (and each type).</p>
+<p>Function objects used to specify the meaning of key operations of a general algorithm are often referred to as <em>policy objects</em>.</p>
+<p>We can also use a <em>lambda expression</em> to generate a function object exactly like <code>Less_than&lt;int&gt;&#123;x&#125;</code></p>
+<pre><code>void f(const Vector&lt;int&gt;&amp; vec, const list&lt;string&gt;&amp; lst, int x, const string&amp; s)
+&#123;
+    cout &lt;&lt; &quot;number of values less than &quot; &lt;&lt; x
+         &lt;&lt; &quot;: &quot; &lt;&lt; count(vec, [&amp;](int a)&#123; return a&lt;x;&#125;)
+         &lt;&lt; &quot;\n&quot;;
+    cout &lt;&lt; &quot;number of values less than &quot; &lt;&lt; s
+         &lt;&lt; &quot;: &quot; &lt;&lt; count(vec, [&amp;](const string&amp; a) &#123; return a&lt;s; &#125;)
+         &lt;&lt; &quot;\n&quot;;
+&#125;
+</code></pre>
+<p>The <code>[&amp;]</code> is a <em>capture list</em> specifying that local names used (such as <code>x</code>) will be accessed through references. Capture nothing is <code>[]</code>, capture all local names used by references is <code>[&amp;]</code>, and capture all local names used by value is <code>[=]</code></p>
+<blockquote>
+<p>Do not abuse lambda expression. If the expression is too complicated, do name the operation to be more clear about its purpose </p>
+</blockquote>
+<p>Function objects (in particular, lambdas) can help by allowing us to separate the traversal of the container from the specification of what is to be done with each element.</p>
+<pre><code>template&lt;typename C, typename Oper&gt;
+void for_all(C&amp; c, Oper op)     // assume that C is a container of pointers
+&#123;
+    for (auto&amp; x : c)
+        op(*x)        // pass op() a reference to each element pointed to 
+&#125;
+</code></pre>
+<p>Now, we can write a version of <code>user()</code>without writing a set of <code>_all</code> functions:</p>
+<pre><code>void user()
+&#123;
+    vector&lt;unique_ptr&lt;Shape&gt;&gt; v;
+    while(cin)
+        v.push_back(read_shape(cin));
+    for_all(v,[](Shape&amp; s)&#123; s.draw() &#125;;
+    for_all(v,[](Shape&amp; s)&#123; s.rotate(45) &#125;;
+&#125;
+</code></pre>
+<p>The lambda doesn’t have to care exactly how the objects are stored in the container because a reference to <code>Shape</code> is passed. Those <code>for_all()</code> calls would still work if <code>v</code> is changed to a <code>vector&lt;Shape*&gt;</code></p>
+<h2 id="Variadic-Templates"><a href="#Variadic-Templates" class="headerlink" title="Variadic Templates"></a>Variadic Templates</h2><p>A template can be defined to accept an arbitrary number of arguments of arbitrary types. Such a template is called a <em>variadic template</em>. For example:</p>
+<pre><code>void f() &#123;&#125;        // do nothing if no argument given
+
+template&lt;typename T, typename... Tail&gt;
+void f(T head, Tail... tail)
+&#123;
+    g(head);     // do something to head
+    f(tail...);    // try again with tail
+&#125;
+</code></pre>
+<p>The key to implementing a variadic template is to note that when you pass a list of arguments to it, you can separate the first argument from the rest. Here, we do something to the first argument (the <code>head</code>) and then recursively call <code>f()</code> with the rest of the arguments (the <code>tail</code>). THe ellipsis, <code>...</code>, is used to indicate “the rest” of a list. Eventually, <code>tail</code> will become empty and we need a separate function to deal with that.</p>
+<p>We can call <code>f()</code> like this:</p>
+<pre><code>int main()
+&#123;
+    cout &lt;&lt; &quot;first: &quot;;
+    f(1,2.2,&quot;hello&quot;);
+
+    cout &lt;&lt; &quot;\nsecond:&quot;;
+    f(0.2,&#39;c&#39;,&quot;yuck!&quot;,0,1,2);
+    cout &lt;&lt; &quot;\n&quot;;
+&#125;
+</code></pre>
+<p>Obviously, you can make <code>g(head)</code> do whatever you please.</p>
+<h2 id="Aliases"><a href="#Aliases" class="headerlink" title="Aliases"></a>Aliases</h2><p>It is very common for a prameterized type to provide an alias for types related to their template arguments. For example:</p>
+<pre><code>template&lt;typename T&gt;
+class Vector &#123;
+public: 
+    using value_type = T;
+    // ...
+&#125;;
+</code></pre>
+<p>In fact, every standard-library container provides a <code>value_type</code> as the name of its value type. This allows us to write code that will work for every container that follows this convention. For example:</p>
+<pre><code>template&lt;typename C&gt;
+using Element_type = typename C::value_type; // the type of C&#39;s element
+
+template&lt;typename Container&gt;
+void algo(Container&amp; c)
+&#123;
+    Vector&lt;Element_type&lt;Container&gt;&gt; vec;
+    // ...
+&#125;
+</code></pre>
+<p>The aliasing mechanism can be used to define a new template by binding some or all template arguments. For example:</p>
+<pre><code>template&lt;typename Key, typename Value&gt;
+class Map &#123;
+    // ...
+&#125;;
+
+template&lt;typename Value&gt;
+using String_map = Map&lt;string, Value&gt;;
+
+String_map&lt;int&gt; m;    // m is a Map&lt;string, int&gt;
+</code></pre>
+<h2 id="Template-Compilation-Model"><a href="#Template-Compilation-Model" class="headerlink" title="Template Compilation Model"></a>Template Compilation Model</h2><p>The compiler generates the code for the specific types only when you instantiates the object with specific types. For example,</p>
+<pre><code>template&lt;typename T&gt;
+class Foo
+&#123;
+public:
+    T&amp; bar()
+    &#123;
+        return subject;
+    &#125;
+private:
+    T subject;
+&#125;;
+</code></pre>
+<p>as soon as you have the following instantiations</p>
+<pre><code>Foo&lt;int&gt;  fooInt;
+</code></pre>
+<p>You will <strong>effectively generate</strong> the same linkable code as you would have defined classes like</p>
+<pre><code>class FooInt
+&#123;
+public:
+    int&amp; bar()
+    &#123;
+        return subject;
+    &#125;
+private:
+    int subject;
+&#125;;
+</code></pre>
+<p>And instantiate the variable like</p>
+<pre><code>FooInt foInt;
+</code></pre>
+<p>A consequence is that <strong>the template definitions need to be seen with the header (included) files</strong>. Otherwise the compiler won’t be able to generate the code.</p>
+<h1 id="Library-Overview"><a href="#Library-Overview" class="headerlink" title="Library Overview"></a>Library Overview</h1><p>The facilities provided by the standard library can be classified as:</p>
+<ol>
+<li>Run-time language support (for allocation and run-time type information)</li>
+<li>The C standard library </li>
+<li>Strings (with support for international character sets and localization)</li>
+<li>Support for regular expression matching</li>
+<li>I/O streams is an extensible framework for input and output to which users can add their own types, streams, buffering strategies, locales and character sets</li>
+<li>A framework of containers (such as <code>vector</code> and <code>map</code>) and algorithms (such as <code>find()</code>, <code>sort()</code>, and <code>merge()</code>)</li>
+<li>Support for numerical computation (such as standard mathematical functions, complex numbers, vectors with arithmetic operations, and random number generators)</li>
+<li>Support for concurrent programming, including <code>threads</code> and locks </li>
+<li>Utilities to support template metaprogramming</li>
+<li>“Smart pointers” for resource management (<code>unique_ptr</code> and <code>shared_ptr</code>) and an interface to garbage collector</li>
+<li>Special-purpose container, such as <code>array</code>, <code>bitset</code> and <code>tuple</code></li>
+</ol>
+<h1 id="Strings-and-Regular-Expressions"><a href="#Strings-and-Regular-Expressions" class="headerlink" title="Strings and Regular Expressions"></a>Strings and Regular Expressions</h1><h2 id="Strings"><a href="#Strings" class="headerlink" title="Strings"></a>Strings</h2><p>You can concatenate a <code>string</code> with a <em>string literral</em>, a <em>C-style string</em> or <em>a character</em> to a string using <code>+</code> or <code>+=</code> operator. The standard <code>string</code> has a move constructor so returning even long <code>string</code>s by value is efficient.</p>
+<p>A <code>string</code> is mutable. In addition to <code>=</code> and <code>+=</code>, subscripting <code>[]</code>, and substring operations are supported. Among other useful features, it provides the ability to manipulate substrings. For example:</p>
+<pre><code>string name = &quot;Niels Stroustrup&quot;;
+
+void m3()
+&#123;
+    string s = name.substr(6,10);    // s = &quot;Stroustrup&quot;
+    name.replace(0,5,&quot;nicholas&quot;);    // name becomes &quot;nicholas Stroustrup&quot;
+    name[0] = toupper(name[0]);    // name becomes &quot;nicholas Stroustrup&quot;
+&#125;
+</code></pre>
+<p>The <code>substr()</code> operation returns a <code>string</code> that is a copy of the substring indicated by its arguments. The first argument is an index and the second a length.</p>
+<p>The <code>replace()</code> operation replaces a substring with a value. If you need a <em>C-style</em> string, you can use <code>string::c_str()</code>, but this is READ ONLY.</p>
+<h2 id="string-Implementation"><a href="#string-Implementation" class="headerlink" title="string Implementation"></a><code>string</code> Implementation</h2><p><code>string</code> is usually implemented using the <em>short-string optimization</em>. That is, short string values are kept in the <code>string</code> object itself and only longer strings are placed on free store. Consider:</p>
+<pre><code>string s1 &#123;&quot;Annemarie&quot;&#125;;        // short string
+string s2 &#123;&quot;Annemarie Stroustrup&quot;&#125;;    // long string
+</code></pre>
+<p>The memory layout will be something like:</p>
+<p><img src="fig6.png" srcset="/img/loading.gif" lazyload></p>
+<p>The actual performance of <code>string</code>s can dependent critically on the run-time environment.</p>
+<p>To handle multiple character sets, <code>string</code> is really an alias for a general template <code>basic_string</code> with the character type <code>char</code></p>
+<pre><code>template&lt;typename Char&gt;
+class basic_string &#123;
+    // ...string of Char
+&#125;;
+
+using string = basic_string&lt;char&gt;;
+</code></pre>
+<p>A user can define strings of arbitrary character types. For example, assuming we are using Japancese character type <code>Jchar</code>, we can write:</p>
+<pre><code>using Jstring  = basic_string&lt;Jchar&gt;;
+</code></pre>
+<p>Similarly, we can handle Unicode string.</p>
+<h2 id="Regular-Expression"><a href="#Regular-Expression" class="headerlink" title="Regular Expression"></a>Regular Expression</h2><p>Regular expression are powerful tool for text processing. In <code>&lt;regex&gt;</code>, the standard library provides suport for regular expressions in the form of the <code>std::regex</code> clas and its supporting functions. </p>
+<p>To express the pattern, <em>raw string literal</em> are often used which starts with <code>R&quot;(</code> and terminated by <code>)&quot;</code>. This allows backslashes and quotes to be used directy in the string.</p>
+<p>In <code>&lt;regex&gt;</code>, the standard library provides support for regular expressions:</p>
+<ul>
+<li><code>regex_match()</code>: Match a regular expression against a string (of known size)</li>
+<li><code>regex_search()</code>: Search for a string that matches a regular expression in an (arbitrarily long) stream of data</li>
+<li><code>regex_replace()</code>: Search for strings that match a regular expression in an (arbitrarily long) stream of data and replace them</li>
+<li><code>regex_iterator</code>: Iterate over matches and submatches</li>
+<li><code>regex_token_iterator</code>: Iterate over non-matches</li>
+</ul>
+<h3 id="Searching"><a href="#Searching" class="headerlink" title="Searching"></a>Searching</h3><p>The simplest way of using a pattern is to search for it in a stream:</p>
+<pre><code>int lineno = 0;
+for (string line; getline(cin,line); )&#123;
+    ++lineno;
+    smatch matches;
+    if (regex_search(line, matches, pat))
+        cout &lt;&lt; lineno &lt;&lt; &quot;:&quot; &lt;&lt;  matches[0] &lt;&lt; &quot;\n&quot;;
+&#125;
+</code></pre>
+<p>The <code>regex_search(line,matches,pat)</code> searches the <code>line</code> for anything that matches the regular expression stored in <code>pat</code> and if it finds any matches, it stores them in <code>matches</code>. If no match was found, <code>regex_search(line, matches, pat)</code> returns false. The <code>s</code> preceeding <code>smatch</code> means “sub” or “string”, and an <code>smatch</code> is a <code>vector</code> of sub-matches of type <code>string</code>. The first element <code>matches[0]</code>, is the complete match. </p>
+<blockquote>
+<p>matches[0] is similar to re.search(pat).group(0) in Python. matches[1] is the first group which is user defined.</p>
+</blockquote>
+<h3 id="Regular-Expression-Notation"><a href="#Regular-Expression-Notation" class="headerlink" title="Regular Expression Notation"></a>Regular Expression Notation</h3><p><img src="fig7.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="fig8.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="fig9.png" srcset="/img/loading.gif" lazyload></p>
+<p>Below are some examples of regular expressions:</p>
+<p><img src="fig10.png" srcset="/img/loading.gif" lazyload></p>
+<p>A <code>group</code> (a subpattern) potentially to be represented by a <code>sub_match</code> is delimited by parentheses. If you need parentheses that should not define a subpattern, use <code>(?</code> rather than the plain <code>(</code>.</p>
+<h1 id="I-O-Streams"><a href="#I-O-Streams" class="headerlink" title="I/O Streams"></a>I/O Streams</h1><p>An <code>ostream</code> converts typed objects to a stream of characters (bytes). An <code>istream</code> convers a stream of characters (bytes) to typed objects.</p>
+<p><img src="fig11.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="fig12.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h2><p>In <code>&lt;ostream&gt;</code>, the I/O stream library defines output for every built-in type. The operator <code>&lt;&lt;</code> (“put to”) is used as an output operator on objects of type <code>ostream</code>; <code>cout</code> is the standard output stream and <code>cerr</code> is the standard stream for reporting errors. Basic usage is as follows:</p>
+<pre><code>void h2(int i)
+&#123;
+    cout &lt;&lt; &quot;the value of i is &quot; &lt;&lt; i &lt;&lt; &quot;\n&quot;;
+&#125;
+</code></pre>
+<h2 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h2><p>In <code>&lt;istream</code>, the standard library offers <code>istream</code>s for input. The operator <code>&gt;&gt;</code> (“get from”) is used as an input operator; <code>cin</code> is the standard input stream. The type of the right-hand operand of <code>&gt;&gt;</code> determines what input is accepted and what is the target of the input operation. For example:</p>
+<pre><code>void f()
+&#123;
+    int i;
+    cin &gt;&gt; i;
+
+    double d;
+    cin &gt;&gt; d;
+&#125;
+</code></pre>
+<p>Input operations can be chained as well, so equivalently:</p>
+<pre><code>void f()
+&#123;
+    int i;
+    double d;
+    cin &gt;&gt; i &gt;&gt; d; // read into i and d
+&#125;
+</code></pre>
+<p>By default, a whitespace chatacter, such as a space or a newline, terminates the read. You can read a whole line <strong>including the terminating newline character, but not delivered to the target</strong> using the <code>getline()</code> function. For example:</p>
+<pre><code>void hello_line()
+&#123;
+    cout &lt;&lt; &quot;Please enter your name\n&quot;;
+    string str;
+    getline(cin, str);
+    cout &lt;&lt; &quot;Hello,&quot; &lt;&lt; str &lt;&lt; &quot;!\n&quot;;
+&#125;
+</code></pre>
+<p>The newline that terminated the line is discarded, so <code>cin</code> is ready for the next input line.</p>
+<h2 id="I-O-State"><a href="#I-O-State" class="headerlink" title="I/O State"></a>I/O State</h2><p>An <code>iostream</code> has a state that we can examine to determine whether an operation succeeded. The most common use is to read a sequence of values:</p>
+<pre><code>vector&lt;int&gt; read_ints(istream&amp; is)
+&#123;
+    vector&lt;int&gt; res;
+    int i;
+    while (is &gt;&gt; i)
+        res.push_back(i);
+    return res;
+&#125;
+</code></pre>
+<p>This reads from <code>is</code> until something that is not an integer is encountered. That something will typically be the end of input. Because <code>is&gt;&gt;i</code> returns a reference to <code>is</code>, and teting an <code>iostream</code> yields <code>true</code> if the stream is ready or another operation.</p>
+<p>In genral, the I/O state holds all the information needed to read or write, such as formatting information, error state, and what kind of buffering is used. In particular, the user can set the state to reflect that an error has occurred and clear the state if an error wasn’t serious. For example:</p>
+<pre><code>while(cin) &#123;
+    for (int i; cin&gt;&gt;i;) &#123;
+        // ...use the integer
+    &#125;
+
+    if(cin.eof()) &#123;
+        // ...all is well we reach the end-of-file
+    &#125;
+    else if (cin.fail()) &#123;    // a potentailly recoverable error
+        cin.clear();    // reset the state to good()
+        char ch;
+        if (cin&gt;&gt;ch) &#123;
+            switch(ch) &#123;
+            case &#39;&#123;&#39;:
+                // ...start nested structure...
+                break;
+            case &#39;&#125;&#39;:
+                // ...end nested structure...
+                break;
+            default:
+                cin.setstate(ios_base::failbit);    // add fail() to cin&#39;s state
+            &#125;
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<h2 id="I-O-of-User-Defined-Types"><a href="#I-O-of-User-Defined-Types" class="headerlink" title="I/O of User-Defined Types"></a>I/O of User-Defined Types</h2><p>The <code>iostream</code> library allows programmers to define I/O for their own types. For example, consider a simple <code>Entry</code> that we might use to represent entries in a telephone book;</p>
+<pre><code>struct Entry &#123;
+    string name;
+    int number;
+&#125;;
+</code></pre>
+<p>We can define a simple output operator to write an <code>Entry</code> using a <code>&#123;&quot;name&quot;, number&#125;</code> format.</p>
+<pre><code>ostream&amp; operator&lt;&lt;(ostream&amp;os, const Entry&amp; e)
+&#123;
+    return os &lt;&lt; &quot;&#123;\&quot;&quot; &lt;&lt; e.name &lt;&lt; &quot;\&quot;,&quot; &lt;&lt; e.number &lt;&lt; &quot;&#125;&quot;;
+&#125;
+</code></pre>
+<p>A user-defined output operator takes its output stream (by reference) as its first argument and returns it as its result.</p>
+<p>The corresponding input operator is more complicated becuase it has to check for correct formatting and deal with errors:</p>
+<pre><code>istream&amp; operator&gt;&gt;(istream&amp; is, Entry&amp; e)
+    // read &#123;&quot;name&quot;, nummber&#125; pair. Note: formatted with &#123;&quot;&quot;,  and &#125;
+&#123;
+    char c,c2;
+    if (is&gt;&gt;c &amp;&amp; c==&#39;&#123;&#39; &amp;&amp; is&gt;&gt;c2 &amp;&amp; c2==&#39;&quot;&#39;)&#123; // start with a &#123;&quot;
+    string name;
+    while(is.get(c) &amp;&amp; c!=&#39;&quot;&#39;)
+        name+=c;
+
+    if(is&gt;&gt;c&amp;&amp;c==&#39;,&#39;)&#123;
+        int number = 0;
+        if (is&gt;&gt;number&gt;&gt;c &amp;&amp; c==&#39;&#125;&#39;) &#123; // read the number and a &#125;
+        e = &#123;name,number&#125;;
+        return is;
+        &#125;
+    &#125;
+    is.setstate(ios_base::failbit);    // add fail() to cin&#39;s state
+    return is;
+&#125;
+</code></pre>
+<p>When used as a condition, <code>is&gt;&gt;c</code> means “Did we succeed at reading from <code>is</code> into <code>c</code>?”</p>
+<p>The <code>is&gt;&gt;c</code> skips whitespace by default, but <code>is.get(c)</code> does not, so that this <code>Entry</code>-input operator ignores (skips) whitespace outside the name string, but not within it.</p>
+<h2 id="Formatting"><a href="#Formatting" class="headerlink" title="Formatting"></a>Formatting</h2><p>The simplest formatting controls are called <code>manipulators</code> and are found in <code>&lt;ios&gt;</code>, <code>&lt;istream&gt;</code>, <code>&lt;ostream&gt;</code> and <code>&lt;iomanip&gt;</code> (for manipulators that take arguments). For example, we can output integers as decimal, octal or hexadecimal numbers:</p>
+<pre><code>cout &lt;&lt; 1234 &lt;&lt; &#39;,&#39; &lt;&lt; hex &lt;&lt; 1234 &lt;&lt; &#39;,&#39; &lt;&lt; oct &lt;&lt; 1234 &lt;&lt; &#39;\n&#39;;
+</code></pre>
+<p>We can explicitly set the output format for floating-point numbers:</p>
+<pre><code>constexpr double d = 123.456;
+
+cout &lt;&lt; d &lt;&lt; &quot;;&quot;            // use the default format for d
+    &lt;&lt; scientific &lt;&lt; d &lt;&lt; &quot;;&quot;    // use 1.23e2 format
+    &lt;&lt; hexfloat &lt;&lt; d &lt;&lt; &quot;;&quot;        // use hexadecimal
+    &lt;&lt; fixed &lt;&lt; d &lt;&lt; &quot;;&quot;        // use 123.456 format
+    &lt;&lt; defaultfloat &lt;&lt; d &lt;&lt; &quot;\n&quot;;    // use the default
+</code></pre>
+<p>Precision is an integer that determines the number of digits used to display a floating-point number:</p>
+<ul>
+<li><p>The <em>general</em> format <code>defaultfloat</code> lets the implementation choose a format that best preserve the numerical value. The precision specifies the maximum number of digits</p>
+</li>
+<li><p>The <em>scientific</em> format <code>scientific</code> presents a value with one digit before a decimal point and an exponent. The precision specifies the maximum number of digits after the decimal point.</p>
+</li>
+<li><p>The <em>fixed</em> format <code>fixed</code> presents a value as an integer part followed by a decimal point and a fractional part. The precision spcifies the maximum number of digits after the decimal point.</p>
+<p>cout.precision(8);<br>cout &lt;&lt; 1234.56789 &lt;&lt; ‘ ‘ &lt;&lt; 1234.56789 &lt;&lt; ‘ ‘ &lt;&lt; 123456 &lt;&lt; ‘\n’;</p>
+<p>cout.precision(4);<br>cout &lt;&lt; 1234.56789 &lt;&lt; ‘ ‘ &lt;&lt; 1234.56789 &lt;&lt; ‘ ‘ &lt;&lt; 123456 &lt;&lt; ‘\n’;<br>The manipulators are “sticky”; it persists for subsequent floating-point operations.</p>
+</li>
+</ul>
+<h2 id="File-Streams"><a href="#File-Streams" class="headerlink" title="File Streams"></a>File Streams</h2><p>In <code>&lt;fstream&gt;</code>, the standard library provides streams to and from a file:</p>
+<ul>
+<li><code>ifstream</code>s for reading from a file</li>
+<li><code>ofstream</code>s for writing to a file</li>
+<li><code>fstream</code>s for reading from and writing to a file</li>
+</ul>
+<p>For example:</p>
+<pre><code>ofstream ofs(&quot;target&quot;);    // &quot;o&quot; for &quot;output&quot;
+if (!ofs)
+    error(&quot;couldn&#39;t open &#39;target&#39; for writing&quot;)
+</code></pre>
+<p>Testing that a file has been properly opened is usually done by checking its state.</p>
+<pre><code>ifstream ifs(&quot;source&quot;);
+if (!ifs)
+    error(&quot;couldn&#39;t open &#39;source&#39; for reading)
+</code></pre>
+<h2 id="String-Streams"><a href="#String-Streams" class="headerlink" title="String Streams"></a>String Streams</h2><p>In <code>&lt;sstream&gt;</code> the standard library provides streams to and from a <code>string</code></p>
+<ul>
+<li><code>istringstream</code>s for reading from a <code>string</code></li>
+<li><code>ostringstream</code>s for writing to a <code>string</code></li>
+<li><code>stringstream</code>s for reading from and writing to a <code>string</code></li>
+</ul>
+<p>For example:</p>
+<pre><code>void test()
+&#123;
+    ostringstream oss;
+    oss &lt;&lt; &quot;temperature&quot; &lt;&lt; scientific &lt;&lt; 123.4567890 &lt;&lt; &quot;.&quot;;
+    cout &lt;&lt; oss.str() &lt;&lt; &#39;\n&#39;;
+&#125;
+</code></pre>
+<p>The result from an <code>istringstream</code> can be read using <code>str()</code>. One common use of an <code>ostringstream</code> is to format before giving the resulting string to a GUI. Similarly, a strig received from a GUI can be read using formatted input operations by putting it into an <code>istringstream</code></p>
+<p>A <code>stringstream</code> can be used for both reading and writing. For example, we can define an operation that can convert any type with a string representation to another that also has a string representation:</p>
+<pre><code>template&lt;typename Target=string, typename Source=string&gt;
+Target to(Source arg)
+&#123;
+    stringstream interpreter;
+    Target result;
+
+    if (!(interpreter &lt;&lt; arg)          // writing arg into stream
+        || !(interpreter &gt;&gt; result)         // read result from stream
+        || !(interpreter &gt;&gt; std::ws).eof())     // stuff left in stream?
+        throw runtime_error&#123;&quot;to&lt;&gt;() fialed&quot;&#125;;
+      
+    retrun result;
+&#125;
+</code></pre>
+<h1 id="Containers"><a href="#Containers" class="headerlink" title="Containers"></a>Containers</h1><h2 id="vector"><a href="#vector" class="headerlink" title="vector"></a>vector</h2><p>A <code>vector</code> is a sequence of elements of a given type. The elements are stored contiguously in memory. A typical implementation of <code>vector</code> will consist of a handle holding pointers to the first element, one-past-the-last element, and one-past-the-last allocated space.</p>
+<p><img src="fig13.png" srcset="/img/loading.gif" lazyload></p>
+<p>In addition, it holds an allocator (<code>alloc</code>), from which the <code>vector</code> can acquire memory for its elements. The default allocator uses <code>new</code> and <code>delete</code> to acquire and release memory.</p>
+<p>We can initialize vector in following ways:</p>
+<pre><code>vector&lt;T&gt; vec = &#123; ... &#125;;     // init with values
+vector&lt;T&gt; vec;            // size 0
+vector&lt;T&gt; vec(23);        // size 23
+vector&lt;double&gt; vec(32,9.9);    // size 32, initial value: 9.9
+</code></pre>
+<p>By default the elements are initialized to the element type’s default value (e.g. <code>nullptr</code> for pointers and <code>0</code> for numbers). You can specify a value if not happy with the default.</p>
+<p>Copying and moving of <code>vector</code>s are implemented by constructors and assignment operators.</p>
+<h3 id="Elements"><a href="#Elements" class="headerlink" title="Elements"></a>Elements</h3><p>Like all standard-library containers, <code>vector</code> is a container of elements of some type <code>T</code>. If you have a class hierachy that relies on <code>virtual</code> functions to get polymorphic behavior, you should store a pointer.</p>
+<pre><code>vector&lt;Shape&gt; vs;    // No, don&#39;t - there is no room for a Circle or a Smiley
+vector&lt;Shape*&gt; vps;     // better
+vector&lt;unique_ptr&lt;Shape&gt;&gt; vups;    // OK
+</code></pre>
+<h3 id="Range-Checking"><a href="#Range-Checking" class="headerlink" title="Range Checking"></a>Range Checking</h3><p>The standard-library <code>vector</code> does not guarantee range checking. But it is easy to adapt it </p>
+<pre><code>template&lt;typename T&gt;
+class Vec : public std::vector&lt;T&gt; &#123;
+public:
+    using vector&lt;T&gt;::vector;
+
+    T&amp; operator[](int i)
+        &#123; return vector&lt;T&gt;::at(i); &#125;
+
+    const T&amp; operator[](int i) const
+        &#123; return vector&lt;T&gt;::at(i); &#125;
+&#125;
+</code></pre>
+<p><code>at()</code> operation will throw a <code>out_of_range</code> type exception if the index is out of bound.</p>
+<p>Some compiler version actually has this <code>vector</code> implementation.</p>
+<h2 id="list"><a href="#list" class="headerlink" title="list"></a>list</h2><p>The standard library offers a doubly-linked list called <code>list</code></p>
+<p><img src="fig14.png" srcset="/img/loading.gif" lazyload></p>
+<p>To delete or insert a new entry before a list node, we use an <em>iterator</em>: a <code>list</code> iterator identifies an element of a <code>list</code> and can be used to iterate through a <code>list</code>. Every standard-library container provides the functions <code>begin()</code> and <code>end()</code>, which returns an iterator to the first and one-past-the-last element respectively. So we have two methods to find a number in our <code>list</code></p>
+<pre><code>list&lt;Entry&gt; phone_book = &#123; ... &#125;;
+int get_number(const string&amp; s)
+&#123;
+    for (const auto&amp; x : phone_book ) // a for-range loop
+        if ( x.name == s )
+            return x.number;
+    return 0;
+&#125;
+</code></pre>
+<p>Or alternatively,</p>
+<pre><code>int get_number(const string&amp; s)
+&#123;
+    for (auto p = phone_book.begin(); p!=phone_book.end(); ++p)
+        if (p-&gt;name == s)
+            return p-&gt;number;
+    return 0;
+&#125;
+</code></pre>
+<p>Adding elements to a <code>list</code> and removing elements from a <code>list</code> is easy with iterator</p>
+<pre><code>void f(const Entry&amp; ee, list&lt;Entry&gt;::iterator p, list&lt;Entry&gt;::iterator q)
+&#123;
+    phone_book.insert(p, ee);
+    phone_book.erase(q);
+&#125;
+</code></pre>
+<blockquote>
+<p><code>vector</code> performs better for traversal and for sorting and searching</p>
+</blockquote>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>The standard library offers a search tree (a red-black tree) called <code>map</code>:</p>
+<p><img src="fig15.png" srcset="/img/loading.gif" lazyload></p>
+<p>In other contexts, a <code>map</code> is known as an associative array or a dictionary. It is implemented as a balanced binary tree.</p>
+<p>The STL    <code>map</code> is optimized for lookup.</p>
+<h2 id="unordered-map"><a href="#unordered-map" class="headerlink" title="unordered_map"></a>unordered_map</h2><p>The cost of a <code>map</code> lookup is <code>O(log(n))</code> where <code>n</code> is the number of elements in the <code>map</code>. That’s pretty good. However, in many case we can do better by using a hashed lookup.</p>
+<p><img src="fig16.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="Algorithms"><a href="#Algorithms" class="headerlink" title="Algorithms"></a>Algorithms</h1><h2 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h2><p>The standard library provides the most common algorithms for containers in addition to providing the most common container types. For example, we can simply and efficiently sort a <code>vector</code> of <code>Entry</code>s and place a copy of each unique <code>vector</code> element on a <code>list</code></p>
+<pre><code>void f(vector&lt;Entry&gt;&amp; vec, list&lt;Entry&gt;&amp; lst)
+&#123;
+    sort(vec.begin(), vec.end());
+    unique_copy(vec.begin(), vec.end(), lst.begin());
+&#125;
+</code></pre>
+<p>For this to work, less than (<code>&lt;</code>) must be defined for <code>Entry</code>s. For example:</p>
+<pre><code>bool operator&lt;(const Entry&amp; x, const Entry&amp; y)
+&#123;
+    return x.name &lt; y.name;
+&#125;
+</code></pre>
+<p>A standard algorithm is expressed in terms of (half-open sequences of elements. A <em>sequence</em> is represented by a pair of iterators specifying the first element and the one-beyond-the-last element.</p>
+<p>In the previous example, <code>lst</code> should at least have as many elements as there are unique elements in <code>vec</code>. If we want the algorithm to make room for the new elements automatically, we can use</p>
+<pre><code>list&lt;Entry&gt; f(vector&lt;Entry&gt;&amp; vec)
+&#123;
+    list&lt;Entry&gt; res;
+    sort(vec.begin(), vec.end());
+    unique_copy(vec.begin(), vec.end(), back_inserter(res));
+    return res;
+&#125;
+</code></pre>
+<p>The call <code>back_inserter(res)</code> constructs an iterator for <code>res</code> that adds elements at the end of a container, extending the container to make room for them. This saves us from having to allocate a fixed amount of space and then filling it.</p>
+<h2 id="Use-of-Iterators"><a href="#Use-of-Iterators" class="headerlink" title="Use of Iterators"></a>Use of Iterators</h2><p>Many algorithms return iterators. For example, the standard algorithm <code>find</code> looks for a value in a sequence and returns an iterator to the element found:</p>
+<pre><code>bool has_c(const string&amp; s, char c)
+&#123;
+    auto p = find(s.begin(), s.end(), c);
+    if ( p!=s.end() )
+        return true;
+    else
+        return false;
+&#125;
+</code></pre>
+<p>Like many standard-library search algorithms, <code>find</code> returns <code>end()</code> to indicate “not found”. </p>
+<p>We can generalized the algorithm so that it works on every standard container for which it makes sense, for example:</p>
+<pre><code>template&lt;typename C, typename V&gt;
+vector&lt;typename C::iterator&gt; find_all(C&amp; c, V v)
+&#123;
+    vector&lt;typename C::iterator&gt; res;
+    for ( auto p=c.begin();p!=c.end();p++)
+        if (*p==v)
+            res.push_back(p);
+    return res;
+&#125;
+</code></pre>
+<p>The <code>typename</code> is needed to inform the compiler that <code>C</code>‘s <code>iterator</code> is supposed to be a type and not a value of some type. We can hide this implementation detail by introducing a type alias for <code>Iterator</code>:</p>
+<pre><code>template&lt;typename T&gt;
+using Iterator = typename T::iterator; // T&#39;s iterator
+
+...
+vector&lt;Iterator&lt;C&gt;&gt; res;
+...
+</code></pre>
+<p>Iterators are used to separate algorithms and containers. An algorithm operates on its data through iterators and knows nothing about the container. Conversely, a container knows nothing about the algorithms operating on its elements; all it does is to supply iterators upon request (<code>begin()</code> and <code>end()</code>). This model of separation between data storage and algorithms delivers very general and flexible software.</p>
+<h2 id="Iterator-Types"><a href="#Iterator-Types" class="headerlink" title="Iterator Types"></a>Iterator Types</h2><p><em>Iterator</em> is a concept. It needs to obey a few simple rules:</p>
+<ol>
+<li><code>++</code> operation gives the iterator to the next element</li>
+<li><code>*</code> dereferences the iterator and retrieves the object</li>
+</ol>
+<p>The actual implementation of iterators depend on the data container we are using. Hence in gerneral, the iterators are available under the conventional names <code>iterator</code> and <code>const_iterator</code>. For example, <code>list&lt;Entry&gt;::iterator</code> is the general iterator for <code>list&lt;Entry&gt;</code>. We rarely have to worry abou the details of how that type is defined.</p>
+<h2 id="Stream-Iterators"><a href="#Stream-Iterators" class="headerlink" title="Stream Iterators"></a>Stream Iterators</h2><p>An input stream produces a sequence of values, and we write a sequence of values to an output stream. Consequently, the notion of iterators can be usefully applied to input and output.</p>
+<p>To make an <code>ostream_iterator</code>, we need to specify which stream will be used and the type of objects written to it. For example:</p>
+<pre><code>ostream_iterator&lt;string&gt; oo &#123;cout&#125;; // write strings to cout
+</code></pre>
+<p>The effect of assigning to <code>*oo</code> is to write the assigned value to <code>cout</code>. For example:</p>
+<pre><code>int main()
+&#123;
+    *oo = &quot;Hello,&quot;;
+    ++oo;
+    *oo = &quot;world!\n&quot;;
+&#125;
+</code></pre>
+<p>Similarly, an <code>istream_iterator</code> is something that allows us to treat an input stream as a read-only container. Again, we must specify the stream to be used and the type of values expected:</p>
+<pre><code>istream_iterator&lt;string&gt; ii &#123;cin&#125;;
+</code></pre>
+<p>Input iterators are used in pairs representing a sequence, so we must provide an <code>istream_iterator</code> to indicate the end of input. This is the default <code>istream_iterator</code>:</p>
+<pre><code>istream_iterator&lt;string&gt; eos &#123;&#125;;
+</code></pre>
+<p>Typically, <code>istream_iterator</code>s and <code>ostream_iterator</code>s are not used directly. Instead, they are provided as arguments to algorithms. For example, we can write a simple program to read a file, sort the words read, eliminate duplicates, and write the result to another file.</p>
+<pre><code>int main()
+&#123;
+    string from, to;
+    cin &gt;&gt; from &gt;&gt; to;    // get source and target filenames
+
+    ifstream is &#123;from&#125;;
+    istream_iterator&lt;string&gt; ii &#123;is&#125;;
+    istream_iterator&lt;string&gt; eos &#123;&#125;;
+
+    ofstream os &#123;to&#125;;
+    ostream_iterator&lt;string&gt; oo &#123;os, &quot;\n&quot;&#125;;
+
+    vector&lt;string&gt; b &#123;ii,eos&#125;;    // b is a vector initialized from input    
+    sort(b.begin(), b.end());    // sort the buffer
+
+    unique_copy(b.begin(), b.end(), oo); // copy buffer to output, discard replicated values
+
+    return !is.eof() || !os;    // return error state
+&#125;
+</code></pre>
+<p>The above can be done more elegantly with</p>
+<pre><code>set&lt;string&gt; b &#123;ii,eos&#125;;
+copy(b.begin(), b.end(),oo);
+</code></pre>
+<h2 id="Predicates"><a href="#Predicates" class="headerlink" title="Predicates"></a>Predicates</h2><p>In the examples above, the algorithms have simply “built in” the action to be done for each element of a sequence. However, we often want to make that action a parameter to the algorithm. A <em>predicate</em> lookf for an element that fulfills a specified requirement. For example, we might want to search a <code>map</code> for the first value larget than <code>42</code>. </p>
+<pre><code>void f(map&lt;string,int&gt;&amp; m)
+&#123;
+    auto p = find_if(m.begin(),m.end()),Greater_than&#123;42&#125;);
+    // ...
+&#125;
+</code></pre>
+<p>Here, <code>Greater_than</code> is a function object (functor) holding the value 42 to be compared against.</p>
+<pre><code>struct Greater_than &#123;
+    int val;
+    Greater_than(int v): val&#123;v&#125; &#123;&#125;
+    bool operator()(const pair&lt;string,int&gt;&amp; r) &#123;return r.second &gt; val;&#125;
+&#125;;
+</code></pre>
+<p>Alternatively, we can use lambda expression</p>
+<pre><code>auto p = find_if(m.begin(), m.end(), [](const pair&lt;string,int&gt;&amp; r) &#123;return r.second&gt;42;&#125;);
+</code></pre>
+<h2 id="Algorithm-Overview"><a href="#Algorithm-Overview" class="headerlink" title="Algorithm Overview"></a>Algorithm Overview</h2><p>The standard library provides dozens of algorithms. The algorithms are defined in namespace <code>std</code> and presente in the <code>&lt;algorithm&gt;</code> header. These standard-library algorithms take sequences as inputs. A half-open sequence from <code>b</code> to <code>e</code> is referred to as [b:e). Here are a few examples:</p>
+<p><img src="fig17.png" srcset="/img/loading.gif" lazyload></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Programming/">Programming</a>
+                    
+                      <a class="hover-with-bg" href="/tags/C/">C++</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/05/01/Attention-is-all-you-need/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Attention is all you need</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/01/Notes-on-Signal-and-System/">
+                        <span class="hidden-mobile">Notes on Signal and System</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

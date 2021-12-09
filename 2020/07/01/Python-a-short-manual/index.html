@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Pitfalls!!!Unexpectedly Appending ReferenceThe following code will produce unexpected result 1234567dict_a &#x3D; &amp;#123;&amp;#x27;a&amp;#x27; : 1&amp;#125;dict_list &#x3D; [dict_a]&gt;&gt;&gt; dict_list &gt;&gt;&gt; [&amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python a short manual">
+<meta property="og:url" content="http://erichen0615.github.io/2020/07/01/Python-a-short-manual/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Pitfalls!!!Unexpectedly Appending ReferenceThe following code will produce unexpected result 1234567dict_a &#x3D; &amp;#123;&amp;#x27;a&amp;#x27; : 1&amp;#125;dict_list &#x3D; [dict_a]&gt;&gt;&gt; dict_list &gt;&gt;&gt; [&amp;#123">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:26.596Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary_large_image">
+  
+  <title>Python a short manual - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Python a short manual">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-07-01 00:00" pubdate>
+        July 1, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python a short manual</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Pitfalls"><a href="#Pitfalls" class="headerlink" title="Pitfalls!!!"></a>Pitfalls!!!</h1><h2 id="Unexpectedly-Appending-Reference"><a href="#Unexpectedly-Appending-Reference" class="headerlink" title="Unexpectedly Appending Reference"></a>Unexpectedly Appending Reference</h2><p>The following code will produce unexpected result</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">dict_a = &#123;<span class="hljs-string">&#x27;a&#x27;</span> : <span class="hljs-number">1</span>&#125;<br>dict_list = [dict_a]<br><span class="hljs-meta">&gt;&gt;&gt; </span>dict_list <br><span class="hljs-meta">&gt;&gt;&gt; </span>[&#123;<span class="hljs-string">&#x27;a&#x27;</span> : <span class="hljs-number">1</span>&#125;]<br>dict_a[<span class="hljs-string">&#x27;a&#x27;</span>] = <span class="hljs-number">2</span><br><span class="hljs-meta">&gt;&gt;&gt; </span>dict_list<br><span class="hljs-meta">&gt;&gt;&gt; </span>[&#123;<span class="hljs-string">&#x27;a&#x27;</span> : <span class="hljs-number">2</span>&#125;]<br></code></pre></td></tr></table></figure>
+
+<p>That is, what’s in the list of dictionary is just a reference, not an object. Make sure to use <code>dict_list.append(dict_a.copy())</code>  if you don’t want this sort of behavior</p>
+<p>Similarly, appending list to list incurs the same behavior.</p>
+<blockquote>
+<p><code>.copy()</code> creates what’s called a shallow copy, see <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/5105517/deep-copy-of-a-dict-in-python">here</a> for a more thorough discussion</p>
+</blockquote>
+<p>The assignment operator <code>=</code> in Python does not create a copy, but bind the objects together. To get around that, we can use <code>copy</code>. However:</p>
+<p><strong>The shallow copy creates a copy of the object, but references each element of the object.</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">old_list = [[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>], [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]]<br>new_list = copy.copy(old_list) <span class="hljs-comment"># shallow copy</span><br>cold_list[<span class="hljs-number">0</span>][<span class="hljs-number">2</span>] = <span class="hljs-string">&#x27;c&#x27;</span> <br><span class="hljs-meta">&gt;&gt;&gt; </span>old_list<br><span class="hljs-meta">&gt;&gt;&gt; </span>[[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,c],[<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]]<br><span class="hljs-meta">&gt;&gt;&gt; </span>new_list<br><span class="hljs-meta">&gt;&gt;&gt; </span>[[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,c],[<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]]<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Shallow copy works fine if all the objects are immutable</p>
+</blockquote>
+<p> To get around the behavior above, we can use deep copy provided by <code>copy.deepcopy( obj )</code>. This will create copies of the objects that are hold by <code>obj</code></p>
+<h1 id="Virtual-Environment"><a href="#Virtual-Environment" class="headerlink" title="Virtual Environment"></a>Virtual Environment</h1><p>To create a virtual environment, decide upon a directory where you want to place it, and run the <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/venv.html#module-venv"><code>venv</code></a> module as a script with the directory path:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">python3 -m venv tutorial-env<br></code></pre></td></tr></table></figure>
+
+<p>This will create a virtual environment called <code>tutorial-env</code>, to activate the virtual environment, use</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">source</span> tutorial-env/bin/activate<br>(tutorial-env) $ ...<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h1><h2 id="Advanced-Methods"><a href="#Advanced-Methods" class="headerlink" title="Advanced Methods"></a>Advanced Methods</h2><h3 id="get-method"><a href="#get-method" class="headerlink" title="get() method"></a><code>get()</code> method</h3><p>The syntax is </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">dict</span>.get(key [,value])<br></code></pre></td></tr></table></figure>
+
+<p>where <code>value</code> is returned when the <code>key</code> is not found</p>
+<h3 id="update-method"><a href="#update-method" class="headerlink" title="update() method"></a><code>update()</code> method</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">dict</span>.update([other])<br></code></pre></td></tr></table></figure>
+
+<p>The <code>update()</code> method taks either a dictionary or an iterable object of key/value pairs (generally tuples). It adds the elements to the dictionary if the key is not in the dictionary. If the key is in the dictionary, it updates the key with the new value. <strong>It does not return any values</strong></p>
+<blockquote>
+<p>Note that the <code>update()</code> method assign with <strong>shallow copy</strong>. If this is unwanted, you should call <code>b_dict.update(copy.deepcopy(a_dict))</code></p>
+</blockquote>
+<h3 id="pop-method"><a href="#pop-method" class="headerlink" title="pop() method"></a><code>pop()</code> method</h3><p>The Python pop() method removes an item from a dictionary.</p>
+<p>This method can also be used to remove items from a list at a particular index value.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">dictionary.pop(key_to_remove, not_found)<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h1><p><code>__iter__()</code> is called with the iterator is created using <code>iter()</code> or on initializing a for loop. It should include <code>return self</code> or other iterator with <code>__next__()</code> defined.  </p>
+<p>The <code>__next__()</code> function must be implemented for an iterator. In a for loop, it is called until <code>StopIteration</code> is raised. Typically:  </p>
+<pre><code>def __next__(self):
+    if !end:
+        ...
+        return value
+    else:
+        raise StopIteration
+</code></pre>
+<p>You can use <code>next()</code> to get the next element of an iterator.  </p>
+<blockquote>
+<p>Call next() not iter.next()</p>
+</blockquote>
+<h1 id="List-Comprehension"><a href="#List-Comprehension" class="headerlink" title="List Comprehension"></a>List Comprehension</h1><h2 id="Cartesian-Product"><a href="#Cartesian-Product" class="headerlink" title="Cartesian Product"></a>Cartesian Product</h2><pre><code>[(a,b) for a in listA for b in listB]
+</code></pre>
+<h1 id="OOP-in-Python"><a href="#OOP-in-Python" class="headerlink" title="OOP in Python"></a>OOP in Python</h1><h2 id="Override-built-in-methods"><a href="#Override-built-in-methods" class="headerlink" title="Override built in methods"></a>Override built in methods</h2><p>This defines a functor like object.</p>
+<p>Override <code>__call__()</code> function:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FunctionLike</span>(<span class="hljs-params"><span class="hljs-built_in">object</span></span>):</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__call__</span>(<span class="hljs-params">self, a</span>):</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;I got called with &#123;!r&#125;!&quot;</span>.<span class="hljs-built_in">format</span>(a))<br><br>fn = FunctionLike()<br>fn(<span class="hljs-number">10</span>)<br><br><span class="hljs-comment"># --&gt; I got called with 10!</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Abstract-class"><a href="#Abstract-class" class="headerlink" title="Abstract class"></a>Abstract class</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Foo</span>:</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__getitem__</span>(<span class="hljs-params">self, index</span>):</span><br>        ...<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__len__</span>(<span class="hljs-params">self</span>):</span><br>        ...<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_iterator</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">iter</span>(self)<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyIterable</span>(<span class="hljs-params">ABC</span>):</span><br><br><span class="hljs-meta">    @abstractmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__iter__</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">False</span>:<br>            <span class="hljs-keyword">yield</span> <span class="hljs-literal">None</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_iterator</span>(<span class="hljs-params">self</span>):</span><br>        <span class="hljs-keyword">return</span> self.__iter__()<br><br><span class="hljs-meta">    @classmethod</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__subclasshook__</span>(<span class="hljs-params">cls, C</span>):</span><br>        <span class="hljs-keyword">if</span> cls <span class="hljs-keyword">is</span> MyIterable:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">any</span>(<span class="hljs-string">&quot;__iter__&quot;</span> <span class="hljs-keyword">in</span> B.__dict__ <span class="hljs-keyword">for</span> B <span class="hljs-keyword">in</span> C.__mro__):<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">NotImplemented</span><br><br>MyIterable.register(Foo)<br></code></pre></td></tr></table></figure>
+
+<h1 id="Functional"><a href="#Functional" class="headerlink" title="Functional"></a>Functional</h1><h2 id="functools-partial-fun-args-keywords"><a href="#functools-partial-fun-args-keywords" class="headerlink" title="functools.partial(fun, /, *args, **keywords)"></a><code>functools.partial(fun, /, *args, **keywords)</code></h2><p>Return a new <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functools.html#partial-objects">partial object</a> which when called will behave like <em>func</em> called with the positional arguments <em>args</em> and keyword arguments <em>keywords</em>. If more arguments are supplied to the call, they are appended to <em>args</em>. If additional keyword arguments are supplied, they extend and override <em>keywords</em>. Roughly equivalent to:<code>def partial(func, /, *args, **keywords):    def newfunc(*fargs, **fkeywords):        newkeywords = &#123;**keywords, **fkeywords&#125;        return func(*args, *fargs, **newkeywords)    newfunc.func = func    newfunc.args = args    newfunc.keywords = keywords    return newfunc </code>The <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functools.html#functools.partial"><code>partial()</code></a> is used for partial function application which “freezes” some portion of a function’s arguments and/or keywords resulting in a new object with a simplified signature. For example, <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functools.html#functools.partial"><code>partial()</code></a> can be used to create a callable that behaves like the <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/functions.html#int"><code>int()</code></a> function where the <em>base</em> argument defaults to two:&gt;&gt;&gt;<code>&gt;&gt;&gt; from functools import partial &gt;&gt;&gt; basetwo = partial(int, base=2) &gt;&gt;&gt; basetwo.__doc__ = &#39;Convert base 2 string to an int.&#39; &gt;&gt;&gt; basetwo(&#39;10010&#39;) 18 </code></p>
+<h1 id="Datatime-module"><a href="#Datatime-module" class="headerlink" title="Datatime module"></a>Datatime module</h1><h2 id="Current-date-and-time"><a href="#Current-date-and-time" class="headerlink" title="Current date and time"></a>Current date and time</h2><pre><code>from datetime import datetime
+now = datetime.now()
+date_time = now.strftime(&quot;%m/%d/%Y, %H:%M:%S&quot;)
+</code></pre>
+<h2 id="UNIX-timestamp-and-datetime-conversion"><a href="#UNIX-timestamp-and-datetime-conversion" class="headerlink" title="UNIX timestamp and datetime conversion"></a>UNIX timestamp and datetime conversion</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> datetime<br>timestamp = datetime(year, month, day, hour, minute, second) <span class="hljs-comment"># year etc. are all integers, convert to timestamp</span><br>datetime.datetime.fromtimestamp(timestamp) <span class="hljs-comment"># return datetime</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="string-gt-datetime"><a href="#string-gt-datetime" class="headerlink" title="string -&gt; datetime"></a>string -&gt; datetime</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">dt = datetime.strptime(time_str, <span class="hljs-string">&quot;%Y%m$d&quot;</span>) <span class="hljs-comment"># parse string like &quot;20210721&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>For formatting, checkout <a target="_blank" rel="noopener" href="https://www.journaldev.com/23365/python-string-to-datetime-strptime">reference from web</a></p>
+<h1 id="Logging"><a href="#Logging" class="headerlink" title="Logging"></a>Logging</h1><h2 id="Basics"><a href="#Basics" class="headerlink" title="Basics"></a>Basics</h2><pre><code>import logging
+logging.basicConfig(filename=&quot;fileanme&quot;,level=logging.INFO)
+logging.info(&#39;info msg&#39;)
+logging.warning(&#39;warning msg&#39;)
+logging.debug(&#39;debug msg&#39;)
+</code></pre>
+<h1 id="re-Regular-Expression"><a href="#re-Regular-Expression" class="headerlink" title="re (Regular Expression)"></a>re (Regular Expression)</h1><h2 id="Basics-1"><a href="#Basics-1" class="headerlink" title="Basics"></a>Basics</h2><p>You can compile a regular expression into a <em>pattern</em> object and then use various methods it provides. For example,  </p>
+<pre><code>import re
+
+p = re.compile(&#39;[a-z]+&#39;)
+
+p.match(text) # if the start of the string matches
+m = p.search(text) # search through the string
+m = p.findall(text)
+m.finditer(text) # find all the substrings and returns them as an iterator
+
+
+m.group() # return the string matched by the RE
+m.start() # return the starting position of the re
+m.end() # return the ending positionn of the re
+m.span() # return a tuple containing the start, end positions of the match
+</code></pre>
+<h2 id="Restricting-matched-string-length"><a href="#Restricting-matched-string-length" class="headerlink" title="Restricting matched string length"></a>Restricting matched string length</h2><p><code>&#123;n,m&#125;</code> will match repetition at least <code>n</code> tiems but not exceeding <code>m</code> times.  </p>
+<h1 id="Matplotlib"><a href="#Matplotlib" class="headerlink" title="Matplotlib"></a>Matplotlib</h1><p>Matplotlib is a library for plotting. </p>
+<h2 id="Generic-plotting-function"><a href="#Generic-plotting-function" class="headerlink" title="Generic plotting function"></a>Generic plotting function</h2><p>Below is a generic plotting function <code>plot_on_ax()</code> . It takes an <code>ax</code> object and plot data, add legend as well as setting title, xlabel and ylabel.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_on_ax</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-function">    data,</span></span><br><span class="hljs-params"><span class="hljs-function">    ax,</span></span><br><span class="hljs-params"><span class="hljs-function">    title=<span class="hljs-literal">None</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    xlabel=<span class="hljs-literal">None</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    ylabel=<span class="hljs-literal">None</span>, </span></span><br><span class="hljs-params"><span class="hljs-function">    legend=<span class="hljs-literal">None</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">    legend_loc=<span class="hljs-string">&#x27;best&#x27;</span>,</span></span><br><span class="hljs-params"><span class="hljs-function">    fontsize=&#123;&#125;,</span></span><br><span class="hljs-params"><span class="hljs-function">    aux_func=[]</span></span><br><span class="hljs-params"><span class="hljs-function">    </span>):</span><br>    line, = ax.plot(data)<br>    <span class="hljs-keyword">if</span> title:<br>        ax.set_title(title, fontsize=fontsize.get(<span class="hljs-string">&#x27;title&#x27;</span>,<span class="hljs-number">16</span>))<br>    <span class="hljs-keyword">if</span> xlabel:<br>        ax.set_xlabel(xlabel, fontsize=fontsize.get(<span class="hljs-string">&#x27;xlabel&#x27;</span>,<span class="hljs-number">12</span>))<br>    <span class="hljs-keyword">if</span> ylabel:<br>        ax.set_ylabel(ylabel, fontsize=fontsize.get(<span class="hljs-string">&#x27;ylabel&#x27;</span>,<span class="hljs-number">12</span>))<br>    ax.tick_params(axis=<span class="hljs-string">&#x27;both&#x27;</span>, which=<span class="hljs-string">&#x27;major&#x27;</span>, labelsize=fontsize.get(<span class="hljs-string">&#x27;tick&#x27;</span>, <span class="hljs-number">8</span>))<br>    <span class="hljs-keyword">for</span> func_ <span class="hljs-keyword">in</span> aux_func:<br>        ax = func_(ax)<br>    <span class="hljs-keyword">if</span> legend:<br>        line.set_label(legend)<br>        ax.legend(loc=legend_loc, prop=&#123;<span class="hljs-string">&#x27;size&#x27;</span>: fontsize.get(<span class="hljs-string">&#x27;legend&#x27;</span>, <span class="hljs-number">6</span>)&#125;, ncol=<span class="hljs-number">2</span>)<br>    <span class="hljs-keyword">return</span> ax<br><br><span class="hljs-comment"># a working example</span><br><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> partial<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_horizontal</span>(<span class="hljs-params">ax, y, color=<span class="hljs-string">&#x27;black&#x27;</span>, lstyle=<span class="hljs-string">&#x27;--&#x27;</span>, legend=<span class="hljs-literal">None</span></span>):</span><br>    line = ax.axhline(y=y, color=color, linestyle=lstyle)<br>    <span class="hljs-keyword">if</span> legend:<br>        line.set_label(legend)<br>    <span class="hljs-keyword">return</span> ax<br>plot_h = partial(plot_horizontal, y=thresh, legend=<span class="hljs-string">f&#x27;Threshold=<span class="hljs-subst">&#123;thresh&#125;</span>&#x27;</span>)<br><br>fig = plt.figure(figsize=(<span class="hljs-number">24</span>,<span class="hljs-number">8</span>))<br>plt.tight_layout()<br>ax1 = plt.subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)<br>ax2 = plt.subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>)<br><br><span class="hljs-comment"># plotting</span><br>p1_idx, p2_idx = <span class="hljs-number">0</span>, <span class="hljs-number">15</span><br>plot_on_ax(np.<span class="hljs-built_in">abs</span>(automat[p1_idx,:]), ax1, title=<span class="hljs-string">f&#x27;Auto-correlation for player <span class="hljs-subst">&#123;p1_idx&#125;</span>&#x27;</span>,xlabel=<span class="hljs-string">&#x27;Samples&#x27;</span>, ylabel=<span class="hljs-string">&#x27;Auto-correlation&#x27;</span>, legend=<span class="hljs-string">&#x27;(abs) Auto-correlation&#x27;</span>, aux_func=[plot_h])<br>plot_on_ax(np.<span class="hljs-built_in">abs</span>(automat[p2_idx,:]), ax2, title=<span class="hljs-string">f&#x27;Auto-correlation for player <span class="hljs-subst">&#123;p2_idx&#125;</span>&#x27;</span>,xlabel=<span class="hljs-string">&#x27;Samples&#x27;</span>, ylabel=<span class="hljs-string">&#x27;Auto-correlation&#x27;</span>, legend=<span class="hljs-string">&#x27;(abs) Auto-correlation&#x27;</span>, aux_func=[plot_h])<br><span class="hljs-comment"># saving </span><br>fig.savefig(<span class="hljs-string">&#x27;fig/fig2.png&#x27;</span>, dpi=<span class="hljs-number">80</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="Annotating-with-horizontal-vertical-lines"><a href="#Annotating-with-horizontal-vertical-lines" class="headerlink" title="Annotating with horizontal / vertical lines"></a>Annotating with horizontal / vertical lines</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># Horizontal line</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_horizontal</span>(<span class="hljs-params">ax, y, color=<span class="hljs-string">&#x27;black&#x27;</span>, lstyle=<span class="hljs-string">&#x27;--&#x27;</span>, legend=<span class="hljs-literal">None</span></span>):</span><br>    line = ax.axhline(y=y, color=color, linestyle=lstyle)<br>    <span class="hljs-keyword">if</span> legend:<br>        line.set_label(legend)<br>    <span class="hljs-keyword">return</span> ax<br>plot_h = partial(plot_horizontal, y=thresh, legend=<span class="hljs-string">f&#x27;Threshold=<span class="hljs-subst">&#123;thresh&#125;</span>&#x27;</span>)<br><br><span class="hljs-comment"># Vertical line</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_vertical</span>(<span class="hljs-params">ax, x, color=<span class="hljs-string">&#x27;black&#x27;</span>, lstyle=<span class="hljs-string">&#x27;--&#x27;</span>, legend=<span class="hljs-literal">None</span></span>):</span><br>    line = ax.axvline(x=x, color=color, linestyle=lstyle)<br>    <span class="hljs-keyword">if</span> legend:<br>        line.set_label(legend)<br>    <span class="hljs-keyword">return</span> ax<br>burn_in = <span class="hljs-number">100</span><br>plot_v = partial(plot_vertical, x=burn_in, legend=<span class="hljs-string">f&#x27;Burn_in=<span class="hljs-subst">&#123;burn_in&#125;</span>&#x27;</span>, color=<span class="hljs-string">&#x27;r&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="Ploting-horizontal-barplots"><a href="#Ploting-horizontal-barplots" class="headerlink" title="Ploting horizontal barplots"></a>Ploting horizontal barplots</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">plot_ranking</span>(<span class="hljs-params">skills, xlabel=<span class="hljs-literal">None</span>, title=<span class="hljs-literal">None</span></span>):</span><br>    fig = plt.figure(figsize=(<span class="hljs-number">16</span>,<span class="hljs-number">36</span>))<br>    player_skills = [(p, w) <span class="hljs-keyword">for</span> [p], w <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(W, skills)]<br>    sorted_skills = <span class="hljs-built_in">sorted</span>(player_skills, key=<span class="hljs-keyword">lambda</span> x: x[<span class="hljs-number">1</span>], reverse=<span class="hljs-literal">True</span>)<br>    plt.barh(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(sorted_skills)), [v <span class="hljs-keyword">for</span> _, v <span class="hljs-keyword">in</span> sorted_skills])<br>    plt.yticks(<span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(sorted_skills)),labels=[p <span class="hljs-keyword">for</span> p, _ <span class="hljs-keyword">in</span> sorted_skills], fontsize=<span class="hljs-number">16</span>)<br>    plt.gca().invert_yaxis()<br>    plt.xlabel(xlabel, fontsize=<span class="hljs-number">20</span>) <span class="hljs-keyword">if</span> xlabel <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span><br>    plt.ylabel(<span class="hljs-string">&#x27;Player Name&#x27;</span>, fontsize=<span class="hljs-number">20</span>)<br>    plt.title(title, fontsize=<span class="hljs-number">20</span>)<br>    <span class="hljs-comment"># plt.xticks(range(len(sorted_skills)),labels=[p for p, _ in sorted_skills], rotation=90)</span><br>    plt.show()<br>    <span class="hljs-keyword">return</span> sorted_skills, fig<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="Working-Examples"><a href="#Working-Examples" class="headerlink" title="Working Examples"></a>Working Examples</h2><pre><code>fig, ax = plt.subplots(2) # row_num, column_num, figsize=(x,y)
+fig.tight_layout()
+
+data = np.random.rand(1000)
+x = np.linspace(-3, 3, 100)
+y = x**2
+
+ax[0].hist(data, bins=100, density=True)
+ax[0].set_xlabel(&#39;...&#39;)
+ax[0].set_title(&#39;Gaussian Histogram&#39;)
+
+ax[1].plot(x, y, label=&quot;quadratic&quot;)
+ax[1].set_ylim(0, 3)
+
+plt.legend()
+plt.show()
+</code></pre>
+<h2 id="Setting-titles"><a href="#Setting-titles" class="headerlink" title="Setting titles"></a>Setting titles</h2><pre><code>fig.suptitle(&#39;title&#39;, fontsize=16, y=1)
+ax[0].set_title(&#39;...&#39;)
+</code></pre>
+<h2 id="Saving-figures"><a href="#Saving-figures" class="headerlink" title="Saving figures"></a>Saving figures</h2><pre><code>plt.savefig(&#39;plot.png&#39;, dpi=300, bbox_inches=&#39;tight&#39;)
+</code></pre>
+<p>Note that this must be called <strong>before</strong> <code>plt.show()</code>. Otherwise you will get a blank image.</p>
+<h1 id="Pandas"><a href="#Pandas" class="headerlink" title="Pandas"></a>Pandas</h1><p>Refer to the pandas handbook for details</p>
+<h2 id="Basics-2"><a href="#Basics-2" class="headerlink" title="Basics"></a>Basics</h2><h3 id="Creating-DataFrame-and-Series"><a href="#Creating-DataFrame-and-Series" class="headerlink" title="Creating DataFrame and Series"></a>Creating DataFrame and Series</h3><pre><code>import pandas as pd
+df = pd.DataFrame(&#123;&#39;col1_name&#39;:[v1,v2,v3,...], &#39;col2_name&#39;:[v1,v2,v3,...],index=[&#39;1&#39;,&#39;2&#39;,...])
+series = pd.Series([v1,v2,v3,...],index=[&#39;ind1&#39;,&#39;ind2&#39;,...])
+</code></pre>
+<h3 id="Appending-records"><a href="#Appending-records" class="headerlink" title="Appending records"></a>Appending records</h3><p>You can append another dataframe to existing one.</p>
+<pre><code>df = df.append(df2, ignore_index=True)
+</code></pre>
+<p>If the columns are named <code>A</code> and <code>B</code>, you may use:  </p>
+<pre><code>df = df.append(&#123;&#39;A&#39;:value,&#39;B&#39;:value&#125;,ignore_index=True)
+</code></pre>
+<p>To append a record, note the you need to <strong>ASSIGN</strong> back the new appended df.  </p>
+<h3 id="Reading-Saving-Data"><a href="#Reading-Saving-Data" class="headerlink" title="Reading/Saving Data"></a>Reading/Saving Data</h3><pre><code>df = pd.read_csv(&#39;path_to_file&#39;, index_col=0)
+df.to_csv(&#39;path_to_file&#39;)
+</code></pre>
+<h3 id="Chunk-write-read"><a href="#Chunk-write-read" class="headerlink" title="Chunk write/read"></a>Chunk write/read</h3><p>If the csv file is large, you can read the csv file in chunks with the <code>chucksize</code> argument  </p>
+<pre><code>for chunk in pd.read_csv(&#39;large.csv&#39;, chunksize=100): #reads 100 rows each time
+    process(chunk) # chunk is a DataFrame object 
+</code></pre>
+<p>To write a large csv file, use the following:</p>
+<pre><code>df.to_csv(filename, header=None, mode=&#39;a&#39;)
+</code></pre>
+<p>Note that you need to let <code>header = True</code> (default) for the first batch.  </p>
+<h2 id="Indexing"><a href="#Indexing" class="headerlink" title="Indexing"></a>Indexing</h2><h3 id="Naive-Indexing"><a href="#Naive-Indexing" class="headerlink" title="Naive Indexing"></a>Naive Indexing</h3><p>Just like with common python indexing, you may treat <code>df</code> as a fancy dictonary. Slicing works in the same way as well.  </p>
+<h3 id="loc-and-iloc"><a href="#loc-and-iloc" class="headerlink" title="loc and iloc"></a><code>loc</code> and <code>iloc</code></h3><p><code>loc</code> allows indexing with labels. For example, <code>df.loc[&#39;col_name&#39;]</code> is allowed. Whereas <code>iloc</code> is only <strong>index-based</strong>.<br>You can specify which columns to choose by conditioning in the <code>[]</code> operator. For example:  </p>
+<pre><code>    df.loc[df.country==&#39;China&#39;]
+</code></pre>
+<p>Returns a series with country name China. You can also specify a range of values using <code>isin()</code>, for example:  </p>
+<pre><code>    df.loc[df.country.isin([&#39;China&#39;,&#39;Japan&#39;])]
+</code></pre>
+<p>You can also use <code>&amp;</code> or <code>|</code> to form compound predicate. For example:  </p>
+<pre><code>    df.loc[(df.country==&#39;China&#39;) &amp; (df.id==1)]
+</code></pre>
+<p>Note that the parantheses is <strong>compulsory</strong>. <code>&amp;</code> stands for AND, <code>|</code> stands for OR.  </p>
+<h3 id="Iterating-over-DataFrame"><a href="#Iterating-over-DataFrame" class="headerlink" title="Iterating over DataFrame"></a>Iterating over DataFrame</h3><pre><code>for index, row in df.iterrows():
+    process(row)
+    ...
+</code></pre>
+<h2 id="Tricks"><a href="#Tricks" class="headerlink" title="Tricks"></a>Tricks</h2><h3 id="drop-to-drop-columns-rows"><a href="#drop-to-drop-columns-rows" class="headerlink" title="drop to drop columns/rows"></a><code>drop</code> to drop columns/rows</h3><pre><code>skip_list = [1,2,3,4]
+df = pd.read_csv(&#39;filename&#39;)
+df.drop(skip_list, erros=&#39;ignore&#39;)
+</code></pre>
+<p><code>errors</code> argument can be helpful for handling batch data, index not in list error will be ignored and only existing indices are dropped. Using <code>axis=1</code> to remove columns.  </p>
+<h2 id="Cautions"><a href="#Cautions" class="headerlink" title="Cautions"></a>Cautions</h2><h3 id="Assign-column-to-column"><a href="#Assign-column-to-column" class="headerlink" title="Assign column to column"></a>Assign column to column</h3><p>You need to do </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">res_df[bad_case_by] = anno_df[bad_case_by].tolist()<br></code></pre></td></tr></table></figure>
+
+<p>the <code>tolist()</code> method is important. Otherwise the column might be NaN.</p>
+<h1 id="json"><a href="#json" class="headerlink" title="json"></a>json</h1><h2 id="Basics-3"><a href="#Basics-3" class="headerlink" title="Basics"></a>Basics</h2><p>JSON (JavaScript Object Notation) is a popular data format to represent structured data. In python, JSON exists as a <strong>string</strong>. For example: </p>
+<pre><code>import json
+p = &#39;&#123;&quot;name&quot;: &quot;Bob&quot;, &quot;languages&quot;: [&quot;Python&quot;, &quot;Java&quot;]&#125;&#39;
+</code></pre>
+<h3 id="Json-string-gt-dict"><a href="#Json-string-gt-dict" class="headerlink" title="Json string -&gt; dict"></a><strong>Json string -&gt; dict</strong></h3><pre><code>dict = json.loads(json_str)
+</code></pre>
+<h3 id="Json-file-gt-dict"><a href="#Json-file-gt-dict" class="headerlink" title="Json file -&gt; dict"></a><strong>Json file -&gt; dict</strong></h3><pre><code>with open(filename,&#39;r&#39;) as f:
+    data = json.load(f)
+</code></pre>
+<h3 id="dict-gt-JSON-string-file"><a href="#dict-gt-JSON-string-file" class="headerlink" title="dict -&gt; JSON string/file"></a><strong>dict -&gt; JSON string/file</strong></h3><pre><code>json_str = json.dumps(dict)
+with open(filename, &#39;w&#39;) as f:
+    json.dump(dict, f)
+</code></pre>
+<h3 id="Pretty-print-JSON"><a href="#Pretty-print-JSON" class="headerlink" title="Pretty print JSON"></a><strong>Pretty print JSON</strong></h3><pre><code>py_dict = json.loads(json_str)
+print(json.dumps(person_dict, indent = 4, sort_keys=True))
+</code></pre>
+<h1 id="Numpy"><a href="#Numpy" class="headerlink" title="Numpy"></a>Numpy</h1><h2 id="Random-Number-Generation"><a href="#Random-Number-Generation" class="headerlink" title="Random Number Generation"></a>Random Number Generation</h2><h3 id="Random-Integer"><a href="#Random-Integer" class="headerlink" title="Random Integer"></a>Random Integer</h3><h4 id="np-random-choice-a-size-None-replace-True-p-None"><a href="#np-random-choice-a-size-None-replace-True-p-None" class="headerlink" title="np.random.choice(a, size=None, replace=True, p=None)"></a>np.random.choice(<em>a</em>, <em>size=None</em>, <em>replace=True</em>, <em>p=None</em>)</h4><p>Generates a random sample from a given 1-D array</p>
+<p><em>New in version 1.7.0.</em></p>
+<blockquote>
+<p>New code should use the <code>choice</code> method of a <code>default_rng()</code> instance instead; please see the <a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/random/index.html#random-quick-start">Quick Start</a>.</p>
+</blockquote>
+<ul>
+<li><p>Parameters</p>
+<p><strong>a</strong>: 1-D array-like or intIf an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if a were np.arange(a)<strong>size</strong>int or tuple of ints, optionalOutput shape. If the given shape is, e.g., <code>(m, n, k)</code>, then <code>m * n * k</code> samples are drawn. Default is None, in which case a single value is returned.</p>
+<p><strong>replace</strong>: boolean, optionalWhether the sample is with or without replacement</p>
+<p><strong>p</strong>: 1-D array-like, optionalThe probabilities associated with each entry in a. If not given the sample assumes a uniform distribution over all entries in a.</p>
+</li>
+<li><p>Returns</p>
+<p><strong>samples</strong> single item or ndarrayThe generated random samples</p>
+</li>
+<li><p>Raises</p>
+<p>ValueError If a is an int and less than zero, if a or p are not 1-dimensional, if a is an array-like of size 0, if p is not a vector of probabilities, if a and p have different lengths, or if replace=False and the sample size is greater than the population size</p>
+</li>
+</ul>
+<h3 id="np-where-condition-x-y"><a href="#np-where-condition-x-y" class="headerlink" title="np.where(condition, [,x,y])"></a>np.where(condition, [,x,y])</h3><p>Return elements chosen from <em>x</em> or <em>y</em> depending on <em>condition</em>.</p>
+<blockquote>
+<p> When only <em>condition</em> is provided, this function is a shorthand for <code>np.asarray(condition).nonzero()</code>. Using <a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.nonzero.html#numpy.nonzero"><code>nonzero</code></a> directly should be preferred, as it behaves correctly for subclasses. The rest of this documentation covers only the case where all three arguments are provided.</p>
+</blockquote>
+<ul>
+<li><p>Parameters</p>
+<p>**condition **: array_like, bool Where True, yield <em>x</em>, otherwise yield <em>y</em>.</p>
+<p><strong>x, y</strong>: array_like Values from which to choose. <em>x</em>, <em>y</em> and <em>condition</em> need to be broadcastable to some shape.</p>
+</li>
+<li><p>Returns</p>
+<p><strong>out</strong> ndarray An array with elements from <em>x</em> where <em>condition</em> is True, and elements from <em>y</em> elsewhere.</p>
+</li>
+</ul>
+<h3 id="Boolean-Mask"><a href="#Boolean-Mask" class="headerlink" title="Boolean Mask"></a>Boolean Mask</h3><p>Boolean mask can be used to select based on some condition</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">A[A[:,<span class="hljs-number">0</span>]==<span class="hljs-number">1</span>] <span class="hljs-comment"># select all rows whose first element equals 1</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Fast-Fourier-Transform"><a href="#Fast-Fourier-Transform" class="headerlink" title="Fast Fourier Transform"></a>Fast Fourier Transform</h1><h2 id="Inspecting-Spectrum-from-Samples"><a href="#Inspecting-Spectrum-from-Samples" class="headerlink" title="Inspecting Spectrum from Samples"></a>Inspecting Spectrum from Samples</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs maxima">psd = <span class="hljs-built_in">np</span>.<span class="hljs-built_in">fft</span>.fftshift(<span class="hljs-built_in">np</span>.<span class="hljs-built_in">abs</span>(<span class="hljs-built_in">np</span>.<span class="hljs-built_in">fft</span>.<span class="hljs-built_in">fft</span>(samples)))<br>f = <span class="hljs-built_in">np</span>.linspace(-fs/<span class="hljs-number">2.0</span>, fs/<span class="hljs-number">2.0</span>, len(psd)) # fs <span class="hljs-built_in">is</span> the sampling frequency<br>plt.plot(f, psd)<br>plt.<span class="hljs-built_in">show</span>()<br></code></pre></td></tr></table></figure>
+
+<h1 id="Fuzzy"><a href="#Fuzzy" class="headerlink" title="Fuzzy"></a>Fuzzy</h1><p>The code below shows how to do fuzzy matching with python</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">!pip install fuzzywuzzy<br>!pip install python-Levenshtein<br><span class="hljs-keyword">from</span> fuzzywuzzy <span class="hljs-keyword">import</span> fuzz<br><br>fuzz.token_sort_ratio(str1, str2) / <span class="hljs-number">100.0</span> &gt; <span class="hljs-number">0.9</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="Syntax-Sugar"><a href="#Syntax-Sugar" class="headerlink" title="Syntax Sugar"></a>Syntax Sugar</h1><h2 id="Unpacking-star-operator"><a href="#Unpacking-star-operator" class="headerlink" title="Unpacking (star operator *)"></a>Unpacking (star operator *)</h2><p>The single star <code>*</code> unpacks the sequence/collection into positional arguments, so you can do this:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sum</span>(<span class="hljs-params">a, b</span>):</span><br>    <span class="hljs-keyword">return</span> a + b<br><br>values = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><br>s = <span class="hljs-built_in">sum</span>(*values)<br></code></pre></td></tr></table></figure>
+
+<p>This will unpack the tuple so that it actually executes as:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">s = <span class="hljs-built_in">sum</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+
+<p>The double star <code>**</code> does the same, only using a dictionary and thus named arguments:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">values = &#123; <span class="hljs-string">&#x27;a&#x27;</span>: <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;b&#x27;</span>: <span class="hljs-number">2</span> &#125;<br>s = <span class="hljs-built_in">sum</span>(**values)<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Programming/">Programming</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/01/Notes-on-Marketing/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Notes on Marketing</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/01/01/Notes-on-Linear-Algebra/">
+                        <span class="hidden-mobile">Notes on Linear Algebra</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

@@ -1,0 +1,848 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="IntroductionWhat is Scala?Scala is a modern multi-paradigm programming language designed to express common programming patterns in a concise, elegant, and type-safe way. It seamlessly integrates featu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to scala">
+<meta property="og:url" content="http://erichen0615.github.io/2021/07/01/Introduction-to-scala/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="IntroductionWhat is Scala?Scala is a modern multi-paradigm programming language designed to express common programming patterns in a concise, elegant, and type-safe way. It seamlessly integrates featu">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2021/07/01/Introduction-to-scala/unified-types-diagram.svg">
+<meta property="og:image" content="https://docs.scala-lang.org/resources/images/tour/type-casting-diagram.svg">
+<meta property="article:published_time" content="2021-07-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:25.980Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Programming">
+<meta property="article:tag" content="Scala">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2021/07/01/Introduction-to-scala/unified-types-diagram.svg">
+  
+  <title>Introduction to scala - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Introduction to scala">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-01 00:00" pubdate>
+        July 1, 2021 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      30k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      38 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Introduction to scala</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><h2 id="What-is-Scala"><a href="#What-is-Scala" class="headerlink" title="What is Scala?"></a>What is Scala?</h2><p>Scala is a modern multi-paradigm programming language designed to express common programming patterns in a concise, elegant, and type-safe way. It seamlessly integrates features of object-oriented and functional languages.</p>
+<h2 id="Scala-is-object-oriented"><a href="#Scala-is-object-oriented" class="headerlink" title="Scala is object-oriented"></a>Scala is object-oriented</h2><p>Scala is a <strong>pure object-oriented language</strong> in the sense that <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/unified-types.html">every value is an object</a>. Types and behaviors of objects are described by <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/classes.html">classes</a> and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/traits.html">traits</a>. Classes can be extended by subclassing, and by using a flexible <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/mixin-class-composition.html">mixin-based composition</a> mechanism as a clean replacement for multiple inheritance.</p>
+<h2 id="Scala-is-functional"><a href="#Scala-is-functional" class="headerlink" title="Scala is functional"></a>Scala is functional</h2><p>Scala is also <strong>a functional language</strong> in the sense that <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/unified-types.html">every function is a value</a>. Scala provides a <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/basics.html#functions">lightweight syntax</a> for defining anonymous functions, it supports <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/higher-order-functions.html">higher-order functions</a>, it allows functions to be <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/nested-functions.html">nested</a>, and it supports <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/multiple-parameter-lists.html">currying</a>. Scala’s <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/case-classes.html">case classes</a> and its built-in support for <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/pattern-matching.html">pattern matching</a> provide the functionality of algebraic types, which are used in many functional languages. <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/singleton-objects.html">Singleton objects</a> provide a convenient way to group functions that aren’t members of a class.</p>
+<p>Furthermore, Scala’s notion of pattern matching naturally extends to the <a target="_blank" rel="noopener" href="https://github.com/scala/scala-xml/wiki/XML-Processing">processing of XML data</a> with the help of <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/regular-expression-patterns.html">right-ignoring sequence patterns</a>, by way of general extension via <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/extractor-objects.html">extractor objects</a>. In this context, <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/for-comprehensions.html">for comprehensions</a> are useful for formulating queries. These features make Scala ideal for developing applications like web services.</p>
+<h2 id="Scala-is-statically-typed"><a href="#Scala-is-statically-typed" class="headerlink" title="Scala is statically typed"></a>Scala is statically typed</h2><p>Scala’s expressive type system enforces, at compile-time, that abstractions are used in a safe and coherent manner. In particular, the type system supports:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/generic-classes.html">Generic classes</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/variances.html">Variance annotations</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/upper-type-bounds.html">Upper</a> and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/lower-type-bounds.html">lower</a> type bounds</li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/inner-classes.html">Inner classes</a> and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/abstract-type-members.html">abstract type members</a> as object members</li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/compound-types.html">Compound types</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/self-types.html">Explicitly typed self references</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/implicit-parameters.html">Implicit parameters</a> and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/implicit-conversions.html">conversions</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/polymorphic-methods.html">Polymorphic methods</a></li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/type-inference.html">Type inference</a> means the user is not required to annotate code with redundant type information. In combination, these features provide a powerful basis for the safe reuse of programming abstractions and for the type-safe extension of software.</p>
+<h2 id="Scala-is-extensible"><a href="#Scala-is-extensible" class="headerlink" title="Scala is extensible"></a>Scala is extensible</h2><p>In practice, the development of domain-specific applications often requires domain-specific language extensions. Scala provides a unique combination of language mechanisms that make it straightforward to add new language constructs in the form of libraries.</p>
+<p>In many cases, this can be done without using meta-programming facilities such as macros. For example:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/overviews/core/implicit-classes.html">Implicit classes</a> allow adding extension methods to existing types.</li>
+<li><a target="_blank" rel="noopener" href="https://docs.scala-lang.org/overviews/core/string-interpolation.html">String interpolation</a> is user-extensible with custom interpolators.</li>
+</ul>
+<h2 id="Scala-interoperates"><a href="#Scala-interoperates" class="headerlink" title="Scala interoperates"></a>Scala interoperates</h2><p>Scala is designed to interoperate well with the popular Java Runtime Environment (JRE). In particular, the interaction with the mainstream object-oriented Java programming language is as seamless as possible. Newer Java features like SAMs, <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/higher-order-functions.html">lambdas</a>, <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/annotations.html">annotations</a>, and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/generic-classes.html">generics</a> have direct analogues in Scala.</p>
+<p>Those Scala features without Java analogues, such as <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/default-parameter-values.html">default</a> and <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/named-arguments.html">named parameters</a>, compile as closely to Java as reasonably possible. Scala has the same compilation model (separate compilation, dynamic class loading) as Java and allows access to thousands of existing high-quality libraries.</p>
+<h1 id="Scala-Basics"><a href="#Scala-Basics" class="headerlink" title="Scala Basics"></a>Scala Basics</h1><h2 id="Values-and-Variables"><a href="#Values-and-Variables" class="headerlink" title="Values and Variables"></a>Values and Variables</h2><p>You can name the results of expressions using the <code>val</code> keyword.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> x = <span class="hljs-number">1</span> + <span class="hljs-number">1</span><br>println(x) <span class="hljs-comment">// 2</span><br>x = <span class="hljs-number">3</span> <span class="hljs-comment">// This does not compile</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Values cannot be reassigned.</strong> The type of a value can be omitted and inferred, or explicitly stated</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> x: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span> + <span class="hljs-number">1</span> <br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>However, if <code>val</code> defines an object of a class, its mutable members defined by <code>var</code> can be modified. </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">var x: <span class="hljs-type">Int</span>, var y: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> pt1 = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>pt1.x = <span class="hljs-number">2</span> <span class="hljs-comment">// This is valid!</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>Variables are like values, except you can re-assign them. You can define a variable with the <code>var</code> keyword</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">var</span> x = <span class="hljs-number">1</span> + <span class="hljs-number">1</span>;<br>x = <span class="hljs-number">3</span> <span class="hljs-comment">// valid</span><br>println(x*x)<br></code></pre></td></tr></table></figure>
+
+<h2 id="Blocks"><a href="#Blocks" class="headerlink" title="Blocks"></a>Blocks</h2><p>You can combine expressions by surrounding them with <code>&#123;&#125;</code>. We call this a block.</p>
+<p><strong>The result of the last expression in the block is the result of the overall block</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala">println(&#123;<br>  <span class="hljs-keyword">val</span> x = <span class="hljs-number">1</span> + <span class="hljs-number">1</span><br>  x + <span class="hljs-number">1</span><br>&#125;) <span class="hljs-comment">// 3</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><p>unctions are expressions that have parameters, and take arguments.</p>
+<p>You can define an anonymous function (i.e., a function that has no name) that returns a given integer plus one:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala">(x: <span class="hljs-type">Int</span>) =&gt; x + <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>On the left of <code>=&gt;</code> is a list of parameters. On the right is an expression involving the parameters.</p>
+<p>You can also name functions:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> addOne = (x: <span class="hljs-type">Int</span>) =&gt; x + <span class="hljs-number">1</span><br>println(addOne(<span class="hljs-number">1</span>)) <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<p>A function can have multiple parameters:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> add = (x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>) =&gt; x + y<br>println(add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)) <span class="hljs-comment">// 3</span><br></code></pre></td></tr></table></figure>
+
+<p>Or it can have no parameters at all:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> getTheAnswer = () =&gt; <span class="hljs-number">42</span><br>println(getTheAnswer()) <span class="hljs-comment">// 42</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>The syntax is similar to the JavaScript’s arrow function.</p>
+</blockquote>
+<h2 id="Methods"><a href="#Methods" class="headerlink" title="Methods"></a>Methods</h2><p>Methods look and behave very similar to functions, but there are a few key differences between them.</p>
+<p>Methods are defined with the <code>def</code> keyword. <code>def</code> is followed by a name, parameter list(s), a return type, and a body:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add</span></span>(x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>): <span class="hljs-type">Int</span> = x + y<br>println(add(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)) <span class="hljs-comment">// 3</span><br></code></pre></td></tr></table></figure>
+
+<p>Notice how the return type <code>Int</code> is declared <em>after</em> the parameter list and a <code>:</code>.</p>
+<p><strong>A method can take multiple parameter lists:</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">addThenMultiply</span></span>(x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>)(multiplier: <span class="hljs-type">Int</span>): <span class="hljs-type">Int</span> = (x + y) * multiplier<br>println(addThenMultiply(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)(<span class="hljs-number">3</span>)) <span class="hljs-comment">// 9</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Notice how the function is called with multiple parameter lists</p>
+</blockquote>
+<p>Or no parameter lists at all:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">name</span></span>: <span class="hljs-type">String</span> = <span class="hljs-type">System</span>.getProperty(<span class="hljs-string">&quot;user.name&quot;</span>)<br>println(<span class="hljs-string">&quot;Hello, &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="Classes"><a href="#Classes" class="headerlink" title="Classes"></a>Classes</h2><p>You can define classes with the <code>class</code> keyword, followed by its name and constructor parameters:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Greeter</span>(<span class="hljs-params">prefix: <span class="hljs-type">String</span>, suffix: <span class="hljs-type">String</span></span>) </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span></span>(name: <span class="hljs-type">String</span>): <span class="hljs-type">Unit</span> =<br>    println(prefix + name + suffix)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>T<strong>he return type of the method <code>greet</code> is <code>Unit</code>, which signifies that there is nothing meaningful to return. It is used similarly to <code>void</code> in Java and C.</strong> (A difference is that, because every Scala expression must have some value, there is actually a singleton value of type Unit, written (). It carries no information.)</p>
+<p>You can make an instance of a class with the <code>new</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> greeter = <span class="hljs-keyword">new</span> <span class="hljs-type">Greeter</span>(<span class="hljs-string">&quot;Hello, &quot;</span>, <span class="hljs-string">&quot;!&quot;</span>)<br>greeter.greet(<span class="hljs-string">&quot;Scala developer&quot;</span>) <span class="hljs-comment">// Hello, Scala developer!</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Case-Classes"><a href="#Case-Classes" class="headerlink" title="Case Classes"></a>Case Classes</h2><p>Scala has a special type of class called a “case” class. By default, instances of case classes are immutable, and they are compared by value (unlike classes, whose instances are compared by reference). This makes them additionally useful for <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/pattern-matching.html#matching-on-case-classes">pattern matching</a>.</p>
+<p>You can define case classes with the <code>case class</code> keywords:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span></span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>You can instantiate case classes without the <code>new</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> point = <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><span class="hljs-keyword">val</span> anotherPoint = <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><span class="hljs-keyword">val</span> yetAnotherPoint = <span class="hljs-type">Point</span>(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+
+<p>Instances of case classes are compared by value, not by reference:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">if</span> (point == anotherPoint) &#123;<br>  println(point + <span class="hljs-string">&quot; and &quot;</span> + anotherPoint + <span class="hljs-string">&quot; are the same.&quot;</span>)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  println(point + <span class="hljs-string">&quot; and &quot;</span> + anotherPoint + <span class="hljs-string">&quot; are different.&quot;</span>)<br>&#125; <span class="hljs-comment">// Point(1,2) and Point(1,2) are the same.</span><br><br><span class="hljs-keyword">if</span> (point == yetAnotherPoint) &#123;<br>  println(point + <span class="hljs-string">&quot; and &quot;</span> + yetAnotherPoint + <span class="hljs-string">&quot; are the same.&quot;</span>)<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>  println(point + <span class="hljs-string">&quot; and &quot;</span> + yetAnotherPoint + <span class="hljs-string">&quot; are different.&quot;</span>)<br>&#125; <span class="hljs-comment">// Point(1,2) and Point(2,2) are different.</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Note that if the Point is a class and its objects initialized with the <code>new</code> keyword, <code>point </code>will not equal <code>anotherPoint</code> because we are now comparing the addresses. Case classes is like an auto-implementation of the equal <code>=</code> operator with element-wise comparison </p>
+</blockquote>
+<h2 id="Objects"><a href="#Objects" class="headerlink" title="Objects"></a>Objects</h2><p>Objects are single instances of their own definitions. You can think of them as singletons of their own classes.</p>
+<p>You can define objects with the <code>object</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">IdFactory</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> counter = <span class="hljs-number">0</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create</span></span>(): <span class="hljs-type">Int</span> = &#123;<br>    counter += <span class="hljs-number">1</span><br>    counter<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>You can access an object by referring to its name:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> newId: <span class="hljs-type">Int</span> = <span class="hljs-type">IdFactory</span>.create()<br>println(newId) <span class="hljs-comment">// 1</span><br><span class="hljs-keyword">val</span> newerId: <span class="hljs-type">Int</span> = <span class="hljs-type">IdFactory</span>.create()<br>println(newerId) <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Traits"><a href="#Traits" class="headerlink" title="Traits"></a>Traits</h2><p>Traits are abstract data types containing certain fields and methods. In Scala inheritance, a class can only extend one other class, but it can extend multiple traits.</p>
+<p>You can define traits with the <code>trait</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Greeter</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span></span>(name: <span class="hljs-type">String</span>): <span class="hljs-type">Unit</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Traits can also have default implementations:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Greeter</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span></span>(name: <span class="hljs-type">String</span>): <span class="hljs-type">Unit</span> =<br>    println(<span class="hljs-string">&quot;Hello, &quot;</span> + name + <span class="hljs-string">&quot;!&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>You can extend traits with the <code>extends</code> keyword and override an implementation with the <code>override</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DefaultGreeter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Greeter</span></span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomizableGreeter</span>(<span class="hljs-params">prefix: <span class="hljs-type">String</span>, postfix: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Greeter</span> </span>&#123;<br>  <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greet</span></span>(name: <span class="hljs-type">String</span>): <span class="hljs-type">Unit</span> = &#123;<br>    println(prefix + name + postfix)<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">val</span> greeter = <span class="hljs-keyword">new</span> <span class="hljs-type">DefaultGreeter</span>()<br>greeter.greet(<span class="hljs-string">&quot;Scala developer&quot;</span>) <span class="hljs-comment">// Hello, Scala developer!</span><br><br><span class="hljs-keyword">val</span> customGreeter = <span class="hljs-keyword">new</span> <span class="hljs-type">CustomizableGreeter</span>(<span class="hljs-string">&quot;How are you, &quot;</span>, <span class="hljs-string">&quot;?&quot;</span>)<br>customGreeter.greet(<span class="hljs-string">&quot;Scala developer&quot;</span>) <span class="hljs-comment">// How are you, Scala developer?</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Main-Method"><a href="#Main-Method" class="headerlink" title="Main Method"></a>Main Method</h2><p>The main method is the entry point of a Scala program. The Java Virtual Machine requires a main method, named <code>main</code>, that takes one argument: an array of strings.</p>
+<p>Using an object, you can define the main method as follows:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Main</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span></span>(args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]): <span class="hljs-type">Unit</span> =<br>    println(<span class="hljs-string">&quot;Hello, Scala developer!&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="infix-syntax-and-dot-notation"><a href="#infix-syntax-and-dot-notation" class="headerlink" title="infix syntax and dot-notation"></a>infix syntax and dot-notation</h2><p>The following codes are equivalent</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-literal">true</span> &amp;&amp; <span class="hljs-literal">true</span>  <span class="hljs-comment">//infix</span><br><span class="hljs-literal">true</span>.&amp;&amp;(<span class="hljs-literal">true</span>) <span class="hljs-comment">//dot-notation</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Unified-Types"><a href="#Unified-Types" class="headerlink" title="Unified Types"></a>Unified Types</h1><p>In Scala, all values have a type, including numerical values and functions. The diagram below illustrates a subset of the type hierarchy.</p>
+<p><img src="unified-types-diagram.svg" srcset="/img/loading.gif" lazyload alt="Scala Type Hierarchy"></p>
+<p><a target="_blank" rel="noopener" href="https://www.scala-lang.org/api/2.12.1/scala/Any.html"><code>Any</code></a> is the supertype of all types, also called the top type. It defines certain universal methods such as <code>equals</code>, <code>hashCode</code>, and <code>toString</code>. <code>Any</code> has two direct subclasses: <code>AnyVal</code> and <code>AnyRef</code>.</p>
+<p><code>AnyVal</code> represents value types. There are nine predefined value types and they are non-nullable: <code>Double</code>, <code>Float</code>, <code>Long</code>, <code>Int</code>, <code>Short</code>, <code>Byte</code>, <code>Char</code>, <code>Unit</code>, and <code>Boolean</code>. <code>Unit</code> is a value type which carries no meaningful information. There is exactly one instance of <code>Unit</code> which can be declared literally like so: <code>()</code>. All functions must return something so sometimes <code>Unit</code> is a useful return type.</p>
+<p><code>AnyRef</code> represents reference types. All non-value types are defined as reference types. Every user-defined type in Scala is a subtype of <code>AnyRef</code>. If Scala is used in the context of a Java runtime environment, <code>AnyRef</code> corresponds to <code>java.lang.Object</code>.</p>
+<p>Here is an example that demonstrates that strings, integers, characters, boolean values, and functions are all of type <code>Any</code> just like every other object:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> list: <span class="hljs-type">List</span>[<span class="hljs-type">Any</span>] = <span class="hljs-type">List</span>(<br>  <span class="hljs-string">&quot;a string&quot;</span>,<br>  <span class="hljs-number">732</span>,  <span class="hljs-comment">// an integer</span><br>  &#x27;c&#x27;,  <span class="hljs-comment">// a character</span><br>  <span class="hljs-literal">true</span>, <span class="hljs-comment">// a boolean value</span><br>  () =&gt; <span class="hljs-string">&quot;an anonymous function returning a string&quot;</span><br>)<br><br>list.foreach(element =&gt; println(element))<br></code></pre></td></tr></table></figure>
+
+<h2 id="Type-Casting"><a href="#Type-Casting" class="headerlink" title="Type Casting"></a>Type Casting</h2><p>Value types can be cast in the following way: <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/resources/images/tour/type-casting-diagram.svg"><img src="https://docs.scala-lang.org/resources/images/tour/type-casting-diagram.svg" srcset="/img/loading.gif" lazyload alt="Scala Type Hierarchy"></a></p>
+<p>For example:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> x: <span class="hljs-type">Long</span> = <span class="hljs-number">987654321</span><br><span class="hljs-keyword">val</span> y: <span class="hljs-type">Float</span> = x  <span class="hljs-comment">// 9.8765434E8 (note that some precision is lost in this case)</span><br><br><span class="hljs-keyword">val</span> face: <span class="hljs-type">Char</span> = &#x27;☺&#x27;<br><span class="hljs-keyword">val</span> number: <span class="hljs-type">Int</span> = face  <span class="hljs-comment">// 9786</span><br></code></pre></td></tr></table></figure>
+
+<p>Casting is unidirectional. This will not compile:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> x: <span class="hljs-type">Long</span> = <span class="hljs-number">987654321</span><br><span class="hljs-keyword">val</span> y: <span class="hljs-type">Float</span> = x  <span class="hljs-comment">// 9.8765434E8</span><br><span class="hljs-keyword">val</span> z: <span class="hljs-type">Long</span> = y  <span class="hljs-comment">// Does not conform</span><br></code></pre></td></tr></table></figure>
+
+<p>You can also cast a reference type to a subtype. This will be covered later in the tour.</p>
+<h2 id="Nothing-and-Null"><a href="#Nothing-and-Null" class="headerlink" title="Nothing and Null"></a>Nothing and Null</h2><p><code>Nothing</code> is a subtype of all types, also called the bottom type. There is no value that has type <code>Nothing</code>. A common use is to signal non-termination such as a thrown exception, program exit, or an infinite loop (i.e., it is the type of an expression which does not evaluate to a value, or a method that does not return normally).</p>
+<p><code>Null</code> is a subtype of all reference types (i.e. any subtype of AnyRef). It has a single value identified by the keyword literal <code>null</code>. <code>Null</code> is provided mostly for interoperability with other JVM languages and <strong>should almost never be used in Scala code.</strong> We’ll cover alternatives to <code>null</code> later in the tour.</p>
+<h1 id="Classes-1"><a href="#Classes-1" class="headerlink" title="Classes"></a>Classes</h1><h2 id="Constructors"><a href="#Constructors" class="headerlink" title="Constructors"></a>Constructors</h2><p>Constructors can have optional parameters by providing a default value like so:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">var x: <span class="hljs-type">Int</span> = 0, var y: <span class="hljs-type">Int</span> = 0</span>)</span><br><br><span class="hljs-keyword">val</span> origin = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>  <span class="hljs-comment">// x and y are both set to 0</span><br><span class="hljs-keyword">val</span> point1 = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>)<br>println(point1.x)  <span class="hljs-comment">// prints 1</span><br></code></pre></td></tr></table></figure>
+
+<p>In this version of the <code>Point</code> class, <code>x</code> and <code>y</code> have the default value <code>0</code> so no arguments are required. However, because the constructor reads arguments left to right, if you just wanted to pass in a <code>y</code> value, you would need to name the parameter.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">var x: <span class="hljs-type">Int</span> = 0, var y: <span class="hljs-type">Int</span> = 0</span>)</span><br><span class="hljs-keyword">val</span> point2 = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>(y = <span class="hljs-number">2</span>)<br>println(point2.y)  <span class="hljs-comment">// prints 2</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Private-Members-and-Getter-Setter-Syntax"><a href="#Private-Members-and-Getter-Setter-Syntax" class="headerlink" title="Private Members and Getter/Setter Syntax"></a>Private Members and Getter/Setter Syntax</h2><p>Members are public by default. Use the <code>private</code> access modifier to hide them from outside of the class.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span> </span>&#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _x = <span class="hljs-number">0</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> _y = <span class="hljs-number">0</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> bound = <span class="hljs-number">100</span><br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">x</span> </span>= _x<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">x_=</span> </span>(newValue: <span class="hljs-type">Int</span>): <span class="hljs-type">Unit</span> = &#123;<br>    <span class="hljs-keyword">if</span> (newValue &lt; bound) _x = newValue <span class="hljs-keyword">else</span> printWarning<br>  &#125;<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">y</span> </span>= _y<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">y_=</span> </span>(newValue: <span class="hljs-type">Int</span>): <span class="hljs-type">Unit</span> = &#123;<br>    <span class="hljs-keyword">if</span> (newValue &lt; bound) _y = newValue <span class="hljs-keyword">else</span> printWarning<br>  &#125;<br><br>  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">printWarning</span> </span>= println(<span class="hljs-string">&quot;WARNING: Out of bounds&quot;</span>)<br>&#125;<br><br><span class="hljs-keyword">val</span> point1 = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span><br>point1.x = <span class="hljs-number">99</span><br>point1.y = <span class="hljs-number">101</span> <span class="hljs-comment">// prints the warning</span><br></code></pre></td></tr></table></figure>
+
+<p>In this version of the <code>Point</code> class, the data is stored in private variables <code>_x</code> and <code>_y</code>. There are methods <code>def x</code> and <code>def y</code> for accessing the private data. <code>def x_=</code> and <code>def y_=</code> are for validating and setting the value of <code>_x</code> and <code>_y</code>. Notice the special syntax for the setters: the method has <code>_=</code> appended to the identifier of the getter and the parameters come after.</p>
+<p>Primary constructor parameters with <code>val</code> and <code>var</code> are public. However, because <code>val</code>s are immutable, you can’t write the following.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">val x: <span class="hljs-type">Int</span>, val y: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> point = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br>point.x = <span class="hljs-number">3</span>  <span class="hljs-comment">// &lt;-- does not compile</span><br></code></pre></td></tr></table></figure>
+
+<p>Parameters without <code>val</code> or <code>var</code> are private values, visible only within the class.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Point</span>(<span class="hljs-params">x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span></span>)</span><br><span class="hljs-keyword">val</span> point = <span class="hljs-keyword">new</span> <span class="hljs-type">Point</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br>point.x  <span class="hljs-comment">// &lt;-- does not compile</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Traits-1"><a href="#Traits-1" class="headerlink" title="Traits"></a>Traits</h1><h2 id="Defining-a-trait"><a href="#Defining-a-trait" class="headerlink" title="Defining a trait"></a>Defining a trait</h2><p>A minimal trait is simply the keyword <code>trait</code> and an identifier:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">HairColor</span></span><br></code></pre></td></tr></table></figure>
+
+<p>Traits become especially useful as generic types and with abstract methods.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Iterator</span>[<span class="hljs-type">A</span>] </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hasNext</span></span>: <span class="hljs-type">Boolean</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next</span></span>(): <span class="hljs-type">A</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Extending the <code>trait Iterator[A]</code> requires a type <code>A</code> and implementations of the methods <code>hasNext</code> and <code>next</code>.</p>
+<h2 id="Using-traits"><a href="#Using-traits" class="headerlink" title="Using traits"></a>Using traits</h2><p>Use the <code>extends</code> keyword to extend a trait. Then implement any abstract members of the trait using the <code>override</code> keyword:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Iterator</span>[<span class="hljs-type">A</span>] </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hasNext</span></span>: <span class="hljs-type">Boolean</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next</span></span>(): <span class="hljs-type">A</span><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IntIterator</span>(<span class="hljs-params">to: <span class="hljs-type">Int</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Iterator</span>[<span class="hljs-type">Int</span>] </span>&#123;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> current = <span class="hljs-number">0</span><br>  <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hasNext</span></span>: <span class="hljs-type">Boolean</span> = current &lt; to<br>  <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next</span></span>(): <span class="hljs-type">Int</span> = &#123;<br>    <span class="hljs-keyword">if</span> (hasNext) &#123;<br>      <span class="hljs-keyword">val</span> t = current<br>      current += <span class="hljs-number">1</span><br>      t<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-number">0</span><br>  &#125;<br>&#125;<br><br><br><span class="hljs-keyword">val</span> iterator = <span class="hljs-keyword">new</span> <span class="hljs-type">IntIterator</span>(<span class="hljs-number">10</span>)<br>iterator.next()  <span class="hljs-comment">// returns 0</span><br>iterator.next()  <span class="hljs-comment">// returns 1</span><br></code></pre></td></tr></table></figure>
+
+<p>This <code>IntIterator</code> class takes a parameter <code>to</code> as an upper bound. It <code>extends Iterator[Int]</code> which means that the <code>next</code> method must return an Int.</p>
+<h2 id="Subtyping"><a href="#Subtyping" class="headerlink" title="Subtyping"></a>Subtyping</h2><p>Where a given trait is required, a subtype of the trait can be used instead.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span><br><br><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Pet</span> </span>&#123;<br>  <span class="hljs-keyword">val</span> name: <span class="hljs-type">String</span><br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cat</span>(<span class="hljs-params">val name: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Pet</span></span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Dog</span>(<span class="hljs-params">val name: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Pet</span></span><br><br><span class="hljs-keyword">val</span> dog = <span class="hljs-keyword">new</span> <span class="hljs-type">Dog</span>(<span class="hljs-string">&quot;Harry&quot;</span>)<br><span class="hljs-keyword">val</span> cat = <span class="hljs-keyword">new</span> <span class="hljs-type">Cat</span>(<span class="hljs-string">&quot;Sally&quot;</span>)<br><br><span class="hljs-keyword">val</span> animals = <span class="hljs-type">ArrayBuffer</span>.empty[<span class="hljs-type">Pet</span>]<br>animals.append(dog)<br>animals.append(cat)<br>animals.foreach(pet =&gt; println(pet.name))  <span class="hljs-comment">// Prints Harry Sally</span><br></code></pre></td></tr></table></figure>
+
+<p>The <code>trait Pet</code> has an abstract field <code>name</code> that gets implemented by Cat and Dog in their constructors. On the last line, we call <code>pet.name</code>, which must be implemented in any subtype of the trait <code>Pet</code>.</p>
+<h1 id="Tuples"><a href="#Tuples" class="headerlink" title="Tuples"></a>Tuples</h1><p>In Scala, a tuple is a value that contains a fixed number of elements, each with its own type. Tuples are immutable.</p>
+<p><strong>Tuples are especially handy for returning multiple values from a method.</strong></p>
+<p>A tuple with two elements can be created as follows:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> ingredient = (<span class="hljs-string">&quot;Sugar&quot;</span> , <span class="hljs-number">25</span>)<br></code></pre></td></tr></table></figure>
+
+<p>This creates a tuple containing a <code>String</code> element and an <code>Int</code> element.</p>
+<p>The inferred type of <code>ingredient</code> is <code>(String, Int)</code>, which is shorthand for <code>Tuple2[String, Int]</code>.</p>
+<p>To represent tuples, Scala uses a series of classes: <code>Tuple2</code>, <code>Tuple3</code>, etc., through <code>Tuple22</code>. Each class has as many type parameters as it has elements.</p>
+<h2 id="Accessing-the-elements"><a href="#Accessing-the-elements" class="headerlink" title="Accessing the elements"></a>Accessing the elements</h2><p>One way of accessing tuple elements is by position. The individual elements are named <code>_1</code>, <code>_2</code>, and so forth.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala">println(ingredient._1) <span class="hljs-comment">// Sugar</span><br>println(ingredient._2) <span class="hljs-comment">// 25</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Pattern-matching-on-tuples"><a href="#Pattern-matching-on-tuples" class="headerlink" title="Pattern matching on tuples"></a>Pattern matching on tuples</h2><p>A tuple can also be taken apart using pattern matching:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> (name, quantity) = ingredient<br>println(name) <span class="hljs-comment">// Sugar</span><br>println(quantity) <span class="hljs-comment">// 25</span><br></code></pre></td></tr></table></figure>
+
+<p>Here <code>name</code>’s inferred type is <code>String</code> and <code>quantity</code>’s inferred type is <code>Int</code>.</p>
+<p>Here is another example of pattern-matching a tuple:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> planets =<br>  <span class="hljs-type">List</span>((<span class="hljs-string">&quot;Mercury&quot;</span>, <span class="hljs-number">57.9</span>), (<span class="hljs-string">&quot;Venus&quot;</span>, <span class="hljs-number">108.2</span>), (<span class="hljs-string">&quot;Earth&quot;</span>, <span class="hljs-number">149.6</span>),<br>       (<span class="hljs-string">&quot;Mars&quot;</span>, <span class="hljs-number">227.9</span>), (<span class="hljs-string">&quot;Jupiter&quot;</span>, <span class="hljs-number">778.3</span>))<br>planets.foreach&#123;<br>  <span class="hljs-keyword">case</span> (<span class="hljs-string">&quot;Earth&quot;</span>, distance) =&gt;<br>    println(<span class="hljs-string">s&quot;Our planet is <span class="hljs-subst">$distance</span> million kilometers from the sun&quot;</span>)<br>  <span class="hljs-keyword">case</span> _ =&gt;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Or, in <code>for</code> comprehension:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> numPairs = <span class="hljs-type">List</span>((<span class="hljs-number">2</span>, <span class="hljs-number">5</span>), (<span class="hljs-number">3</span>, <span class="hljs-number">-7</span>), (<span class="hljs-number">20</span>, <span class="hljs-number">56</span>))<br><span class="hljs-keyword">for</span> ((a, b) &lt;- numPairs) &#123;<br>  println(a * b)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Tuples-and-case-classes"><a href="#Tuples-and-case-classes" class="headerlink" title="Tuples and case classes"></a>Tuples and case classes</h2><p>Users may sometimes find it hard to choose between tuples and case classes. Case classes have named elements. The names can improve the readability of some kinds of code. In the planet example above, we might define <code>case class Planet(name: String, distance: Double)</code> rather than using tuples.</p>
+<h1 id="Class-Composition-with-Mixins"><a href="#Class-Composition-with-Mixins" class="headerlink" title="Class Composition with Mixins"></a>Class Composition with Mixins</h1><p>Mixins are traits which are used to compose a class.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> </span>&#123;<br>  <span class="hljs-keyword">val</span> message: <span class="hljs-type">String</span><br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">A</span> </span>&#123;<br>  <span class="hljs-keyword">val</span> message = <span class="hljs-string">&quot;I&#x27;m an instance of class B&quot;</span><br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">C</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">A</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">loudMessage</span> </span>= message.toUpperCase()<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">B</span> <span class="hljs-keyword">with</span> <span class="hljs-title">C</span></span><br><br><span class="hljs-keyword">val</span> d = <span class="hljs-keyword">new</span> <span class="hljs-type">D</span><br>println(d.message)  <span class="hljs-comment">// I&#x27;m an instance of class B</span><br>println(d.loudMessage)  <span class="hljs-comment">// I&#x27;M AN INSTANCE OF CLASS B</span><br></code></pre></td></tr></table></figure>
+
+<p>Class <code>D</code> has a superclass <code>B</code> and a mixin <code>C</code>. Classes can only have one superclass but many mixins (using the keywords <code>extends</code> and <code>with</code> respectively). The mixins and the superclass may have the same supertype.</p>
+<p>Now let’s look at a more interesting example starting with an abstract class:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbsIterator</span> </span>&#123;<br>  <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">T</span></span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hasNext</span></span>: <span class="hljs-type">Boolean</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next</span></span>(): <span class="hljs-type">T</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>The class has an abstract type <code>T</code> and the standard iterator methods.</p>
+<p>Next, we’ll implement a concrete class (all abstract members <code>T</code>, <code>hasNext</code>, and <code>next</code> have implementations):</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StringIterator</span>(<span class="hljs-params">s: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">AbsIterator</span> </span>&#123;<br>  <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">T</span> </span>= <span class="hljs-type">Char</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hasNext</span> </span>= i &lt; s.length<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next</span></span>() = &#123;<br>    <span class="hljs-keyword">val</span> ch = s charAt i<br>    i += <span class="hljs-number">1</span><br>    ch<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>StringIterator</code> takes a <code>String</code> and can be used to iterate over the String (e.g. to see if a String contains a certain character).</p>
+<p>Now let’s create a trait which also extends <code>AbsIterator</code>.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">RichIterator</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbsIterator</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foreach</span></span>(f: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">Unit</span>): <span class="hljs-type">Unit</span> = <span class="hljs-keyword">while</span> (hasNext) f(next())<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>This trait implements <code>foreach</code> by continually calling the provided function <code>f: T =&gt; Unit</code> on the next element (<code>next()</code>) as long as there are further elements (<code>while (hasNext)</code>). Because <code>RichIterator</code> is a trait, it doesn’t need to implement the abstract members of AbsIterator.</p>
+<p>We would like to combine the functionality of <code>StringIterator</code> and <code>RichIterator</code> into a single class.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RichStringIter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">StringIterator</span>(<span class="hljs-params">&quot;<span class="hljs-type">Scala</span>&quot;</span>) <span class="hljs-keyword">with</span> <span class="hljs-title">RichIterator</span></span><br><span class="hljs-keyword">val</span> richStringIter = <span class="hljs-keyword">new</span> <span class="hljs-type">RichStringIter</span><br>richStringIter.foreach(println)<br></code></pre></td></tr></table></figure>
+
+<p>The new class <code>RichStringIter</code> has <code>StringIterator</code> as a superclass and <code>RichIterator</code> as a mixin.</p>
+<p>With single inheritance we would not be able to achieve this level of flexibility.</p>
+<h1 id="Higher-order-Functions"><a href="#Higher-order-Functions" class="headerlink" title="Higher-order Functions"></a>Higher-order Functions</h1><p>Higher order functions take other functions as parameters or return a function as a result. This is possible because functions are first-class values in Scala. The terminology can get a bit confusing at this point, and we use the phrase “higher order function” for both methods and functions that take functions as parameters or that return a function.</p>
+<p>One of the most common examples is the higher-order function <code>map</code> which is available for collections in Scala.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> salaries = <span class="hljs-type">Seq</span>(<span class="hljs-number">20000</span>, <span class="hljs-number">70000</span>, <span class="hljs-number">40000</span>)<br><span class="hljs-keyword">val</span> doubleSalary = (x: <span class="hljs-type">Int</span>) =&gt; x * <span class="hljs-number">2</span><br><span class="hljs-keyword">val</span> newSalaries = salaries.map(doubleSalary) <span class="hljs-comment">// List(40000, 140000, 80000)</span><br></code></pre></td></tr></table></figure>
+
+<p><code>doubleSalary</code> is a function which takes a single Int, <code>x</code>, and returns <code>x * 2</code>. In general, the tuple on the left of the arrow <code>=&gt;</code> is a parameter list and the value of the expression on the right is what gets returned. On line 3, the function <code>doubleSalary</code> gets applied to each element in the list of salaries.</p>
+<p>To shrink the code, we could make the function anonymous and pass it directly as an argument to map:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> salaries = <span class="hljs-type">Seq</span>(<span class="hljs-number">20000</span>, <span class="hljs-number">70000</span>, <span class="hljs-number">40000</span>)<br><span class="hljs-keyword">val</span> newSalaries = salaries.map(x =&gt; x * <span class="hljs-number">2</span>) <span class="hljs-comment">// List(40000, 140000, 80000)</span><br></code></pre></td></tr></table></figure>
+
+<p>Notice how <code>x</code> is <strong>not declared as an Int</strong> in the above example. That’s because the compiler can infer the type based on the type of function map expects (see <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/multiple-parameter-lists.html">Currying</a>. An even more idiomatic way to write the same piece of code would be:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> salaries = <span class="hljs-type">Seq</span>(<span class="hljs-number">20000</span>, <span class="hljs-number">70000</span>, <span class="hljs-number">40000</span>)<br><span class="hljs-keyword">val</span> newSalaries = salaries.map(_ * <span class="hljs-number">2</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p> Since the Scala compiler already knows the type of the parameters (a single Int), you just need to provide the right side of the function. The only caveat is that you need to use <code>_</code> in place of a parameter name (it was <code>x</code> in the previous example).</p>
+</blockquote>
+<h2 id="Coercing-methods-into-functions"><a href="#Coercing-methods-into-functions" class="headerlink" title="Coercing methods into functions"></a>Coercing methods into functions</h2><p>It is also possible to pass methods as arguments to higher-order functions because the Scala compiler will coerce the method into a function.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WeeklyWeatherForecast</span>(<span class="hljs-params">temperatures: <span class="hljs-type">Seq</span>[<span class="hljs-type">Double</span>]</span>) </span>&#123;<br><br>  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">convertCtoF</span></span>(temp: <span class="hljs-type">Double</span>) = temp * <span class="hljs-number">1.8</span> + <span class="hljs-number">32</span><br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forecastInFahrenheit</span></span>: <span class="hljs-type">Seq</span>[<span class="hljs-type">Double</span>] = temperatures.map(convertCtoF) <span class="hljs-comment">// &lt;-- passing the method convertCtoF</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Here the method <code>convertCtoF</code> is passed to the higher order function <code>map</code>. This is possible because the compiler coerces <code>convertCtoF</code> to the function <code>x =&gt; convertCtoF(x)</code> (note: <code>x</code> will be a generated name which is guaranteed to be unique within its scope).</p>
+<h2 id="Functions-that-accept-functions"><a href="#Functions-that-accept-functions" class="headerlink" title="Functions that accept functions"></a>Functions that accept functions</h2><p>One reason to use higher-order functions is to reduce redundant code. Let’s say you wanted some methods that could raise someone’s salaries by various factors. Without creating a higher-order function, it might look something like this:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">SalaryRaiser</span> </span>&#123;<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">smallPromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    salaries.map(salary =&gt; salary * <span class="hljs-number">1.1</span>)<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greatPromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    salaries.map(salary =&gt; salary * math.log(salary))<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hugePromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    salaries.map(salary =&gt; salary * salary)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Notice how each of the three methods vary only by the multiplication factor. To simplify, you can extract the repeated code into a higher-order function like so:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">SalaryRaiser</span> </span>&#123;<br><br>  <span class="hljs-keyword">private</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">promotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>], promotionFunction: <span class="hljs-type">Double</span> =&gt; <span class="hljs-type">Double</span>): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    salaries.map(promotionFunction)<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">smallPromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    promotion(salaries, salary =&gt; salary * <span class="hljs-number">1.1</span>)<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">greatPromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    promotion(salaries, salary =&gt; salary * math.log(salary))<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hugePromotion</span></span>(salaries: <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>]): <span class="hljs-type">List</span>[<span class="hljs-type">Double</span>] =<br>    promotion(salaries, salary =&gt; salary * salary)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>The new method, <code>promotion</code>, takes the salaries plus a function of type <code>Double =&gt; Double</code> (i.e. a function that takes a Double and returns a Double) and returns the product.</p>
+<p>Methods and functions usually express behaviours or data transformations, therefore having functions that compose based on other functions can help building generic mechanisms. Those generic operations defer to lock down the entire operation behaviour giving clients a way to control or further customize parts of the operation itself.</p>
+<h2 id="Functions-that-return-functions"><a href="#Functions-that-return-functions" class="headerlink" title="Functions that return functions"></a>Functions that return functions</h2><p>There are certain cases where you want to generate a function. Here’s an example of a method that returns a function.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">urlBuilder</span></span>(ssl: <span class="hljs-type">Boolean</span>, domainName: <span class="hljs-type">String</span>): (<span class="hljs-type">String</span>, <span class="hljs-type">String</span>) =&gt; <span class="hljs-type">String</span> = &#123;<br>  <span class="hljs-keyword">val</span> schema = <span class="hljs-keyword">if</span> (ssl) <span class="hljs-string">&quot;https://&quot;</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;http://&quot;</span><br>  (endpoint: <span class="hljs-type">String</span>, query: <span class="hljs-type">String</span>) =&gt; <span class="hljs-string">s&quot;<span class="hljs-subst">$schema</span><span class="hljs-subst">$domainName</span>/<span class="hljs-subst">$endpoint</span>?<span class="hljs-subst">$query</span>&quot;</span><br>&#125;<br><br><span class="hljs-keyword">val</span> domainName = <span class="hljs-string">&quot;www.example.com&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getURL</span> </span>= urlBuilder(ssl=<span class="hljs-literal">true</span>, domainName)<br><span class="hljs-keyword">val</span> endpoint = <span class="hljs-string">&quot;users&quot;</span><br><span class="hljs-keyword">val</span> query = <span class="hljs-string">&quot;id=1&quot;</span><br><span class="hljs-keyword">val</span> url = getURL(endpoint, query) <span class="hljs-comment">// &quot;https://www.example.com/users?id=1&quot;: String</span><br></code></pre></td></tr></table></figure>
+
+<p>Notice the return type of urlBuilder <code>(String, String) =&gt; String</code>. This means that the returned anonymous function takes two Strings and returns a String. In this case, the returned anonymous function is <code>(endpoint: String, query: String) =&gt; s&quot;https://www.example.com/$endpoint?$query&quot;</code>.</p>
+<h1 id="Multiple-Parameter-Lists-Currying"><a href="#Multiple-Parameter-Lists-Currying" class="headerlink" title="Multiple Parameter Lists (Currying)"></a>Multiple Parameter Lists (Currying)</h1><h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>Here is an example, as defined on the <code>Iterable</code> trait in Scala’s collections API:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Iterable</span>[<span class="hljs-type">A</span>] </span>&#123;<br>  ...<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foldLeft</span></span>[<span class="hljs-type">B</span>](z: <span class="hljs-type">B</span>)(op: (<span class="hljs-type">B</span>, <span class="hljs-type">A</span>) =&gt; <span class="hljs-type">B</span>): <span class="hljs-type">B</span><br>  ...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>foldLeft</code> applies a two-parameter function <code>op</code> to an initial value <code>z</code> and all elements of this collection, going left to right. Shown below is an example of its usage.</p>
+<p>Starting with an initial value of 0, <code>foldLeft</code> here applies the function <code>(m, n) =&gt; m + n</code> to each element in the List and the previous accumulated value.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> numbers = <span class="hljs-type">List</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><span class="hljs-keyword">val</span> res = numbers.foldLeft(<span class="hljs-number">0</span>)((m, n) =&gt; m + n)<br>println(res) <span class="hljs-comment">// 55</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="Use-cases"><a href="#Use-cases" class="headerlink" title="Use cases"></a>Use cases</h3><p>Suggested use cases for multiple parameter lists include:</p>
+<h4 id="DRIVE-TYPE-INFERENCE"><a href="#DRIVE-TYPE-INFERENCE" class="headerlink" title="DRIVE TYPE INFERENCE"></a>DRIVE TYPE INFERENCE</h4><p>It so happens that in Scala, type inference proceeds one parameter list at a time. Say you have the following method:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foldLeft1</span></span>[<span class="hljs-type">A</span>, <span class="hljs-type">B</span>](as: <span class="hljs-type">List</span>[<span class="hljs-type">A</span>], b0: <span class="hljs-type">B</span>, op: (<span class="hljs-type">B</span>, <span class="hljs-type">A</span>) =&gt; <span class="hljs-type">B</span>) = ???<br></code></pre></td></tr></table></figure>
+
+<p>Then you’d like to call it in the following way, but will find that it doesn’t compile:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">notPossible</span> </span>= foldLeft1(numbers, <span class="hljs-number">0</span>, _ + _)<br></code></pre></td></tr></table></figure>
+
+<p>you will have to call it like one of the below ways:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">firstWay</span> </span>= foldLeft1[<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>](numbers, <span class="hljs-number">0</span>, _ + _)<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">secondWay</span> </span>= foldLeft1(numbers, <span class="hljs-number">0</span>, (a: <span class="hljs-type">Int</span>, b: <span class="hljs-type">Int</span>) =&gt; a + b)<br></code></pre></td></tr></table></figure>
+
+<p>That’s because Scala won’t be able to infer the type of the function <code>_ + _</code>, as it’s still inferring <code>A</code> and <code>B</code>. By moving the parameter <code>op</code> to its own parameter list, <code>A</code> and <code>B</code> are inferred in the first parameter list. These inferred types will then be available to the second parameter list and <code>_ + _</code> will match the inferred type <code>(Int, Int) =&gt; Int</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foldLeft2</span></span>[<span class="hljs-type">A</span>, <span class="hljs-type">B</span>](as: <span class="hljs-type">List</span>[<span class="hljs-type">A</span>], b0: <span class="hljs-type">B</span>)(op: (<span class="hljs-type">B</span>, <span class="hljs-type">A</span>) =&gt; <span class="hljs-type">B</span>) = ???<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">possible</span> </span>= foldLeft2(numbers, <span class="hljs-number">0</span>)(_ + _)<br></code></pre></td></tr></table></figure>
+
+<h4 id="IMPLICIT-PARAMETERS"><a href="#IMPLICIT-PARAMETERS" class="headerlink" title="IMPLICIT PARAMETERS"></a>IMPLICIT PARAMETERS</h4><p>To specify only certain parameters as <a target="_blank" rel="noopener" href="https://docs.scala-lang.org/tour/implicit-parameters.html"><code>implicit</code></a>, they must be placed in their own <code>implicit</code> parameter list.</p>
+<p>An example of this is:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">execute</span></span>(arg: <span class="hljs-type">Int</span>)(<span class="hljs-keyword">implicit</span> ec: scala.concurrent.<span class="hljs-type">ExecutionContext</span>) = ???<br></code></pre></td></tr></table></figure>
+
+<h4 id="PARTIAL-APPLICATION"><a href="#PARTIAL-APPLICATION" class="headerlink" title="PARTIAL APPLICATION"></a>PARTIAL APPLICATION</h4><p>When a method is called with a fewer number of parameter lists, then this will yield a function taking the missing parameter lists as its arguments. This is formally known as <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Partial_application">partial application</a>.</p>
+<p>For example,</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">val</span> numbers = <span class="hljs-type">List</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><span class="hljs-keyword">val</span> numberFunc = numbers.foldLeft(<span class="hljs-type">List</span>[<span class="hljs-type">Int</span>]()) _<br><br><span class="hljs-keyword">val</span> squares = numberFunc((xs, x) =&gt; xs :+ x*x)<br>println(squares) <span class="hljs-comment">// List(1, 4, 9, 16, 25, 36, 49, 64, 81, 100)</span><br><br><span class="hljs-keyword">val</span> cubes = numberFunc((xs, x) =&gt; xs :+ x*x*x)<br>println(cubes)  <span class="hljs-comment">// List(1, 8, 27, 64, 125, 216, 343, 512, 729, 1000)</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Case-Classes-1"><a href="#Case-Classes-1" class="headerlink" title="Case Classes"></a>Case Classes</h1><h2 id="Defining-a-case-class"><a href="#Defining-a-case-class" class="headerlink" title="Defining a case class"></a>Defining a case class</h2><p>A minimal case class requires the keywords <code>case class</code>, an identifier, and a parameter list (which may be empty):</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Book</span>(<span class="hljs-params">isbn: <span class="hljs-type">String</span></span>)</span><br><br><span class="hljs-keyword">val</span> frankenstein = <span class="hljs-type">Book</span>(<span class="hljs-string">&quot;978-0486282114&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>Notice how the keyword <code>new</code> was not used to instantiate the <code>Book</code> case class. This is because case classes have an <code>apply</code> method by default which takes care of object construction.</p>
+<blockquote>
+<p>When you create a case class with parameters, the parameters are public <code>val</code>s.</p>
+</blockquote>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span>(<span class="hljs-params">sender: <span class="hljs-type">String</span>, recipient: <span class="hljs-type">String</span>, body: <span class="hljs-type">String</span></span>)</span><br><span class="hljs-keyword">val</span> message1 = <span class="hljs-type">Message</span>(<span class="hljs-string">&quot;guillaume@quebec.ca&quot;</span>, <span class="hljs-string">&quot;jorge@catalonia.es&quot;</span>, <span class="hljs-string">&quot;Ça va ?&quot;</span>)<br><br>println(message1.sender)  <span class="hljs-comment">// prints guillaume@quebec.ca</span><br>message1.sender = <span class="hljs-string">&quot;travis@washington.us&quot;</span>  <span class="hljs-comment">// this line does not compile</span><br></code></pre></td></tr></table></figure>
+
+<p>You can’t reassign <code>message1.sender</code> because it is a <code>val</code> (i.e. immutable). It is possible to use <code>var</code>s in case classes but this is discouraged.</p>
+<h2 id="Comparison"><a href="#Comparison" class="headerlink" title="Comparison"></a>Comparison</h2><p>Instances of case classes are compared by structure and not by reference:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span>(<span class="hljs-params">sender: <span class="hljs-type">String</span>, recipient: <span class="hljs-type">String</span>, body: <span class="hljs-type">String</span></span>)</span><br><br><span class="hljs-keyword">val</span> message2 = <span class="hljs-type">Message</span>(<span class="hljs-string">&quot;jorge@catalonia.es&quot;</span>, <span class="hljs-string">&quot;guillaume@quebec.ca&quot;</span>, <span class="hljs-string">&quot;Com va?&quot;</span>)<br><span class="hljs-keyword">val</span> message3 = <span class="hljs-type">Message</span>(<span class="hljs-string">&quot;jorge@catalonia.es&quot;</span>, <span class="hljs-string">&quot;guillaume@quebec.ca&quot;</span>, <span class="hljs-string">&quot;Com va?&quot;</span>)<br><span class="hljs-keyword">val</span> messagesAreTheSame = message2 == message3  <span class="hljs-comment">// true</span><br></code></pre></td></tr></table></figure>
+
+<p>Even though <code>message2</code> and <code>message3</code> refer to different objects, the value of each object is equal.</p>
+<h2 id="Copying"><a href="#Copying" class="headerlink" title="Copying"></a>Copying</h2><p>You can create a (shallow) copy of an instance of a case class simply by using the <code>copy</code> method. You can optionally change the constructor arguments.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Message</span>(<span class="hljs-params">sender: <span class="hljs-type">String</span>, recipient: <span class="hljs-type">String</span>, body: <span class="hljs-type">String</span></span>)</span><br><span class="hljs-keyword">val</span> message4 = <span class="hljs-type">Message</span>(<span class="hljs-string">&quot;julien@bretagne.fr&quot;</span>, <span class="hljs-string">&quot;travis@washington.us&quot;</span>, <span class="hljs-string">&quot;Me zo o komz gant ma amezeg&quot;</span>)<br><span class="hljs-keyword">val</span> message5 = message4.copy(sender = message4.recipient, recipient = <span class="hljs-string">&quot;claire@bourgogne.fr&quot;</span>)<br>message5.sender  <span class="hljs-comment">// travis@washington.us</span><br>message5.recipient <span class="hljs-comment">// claire@bourgogne.fr</span><br>message5.body  <span class="hljs-comment">// &quot;Me zo o komz gant ma amezeg&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>The recipient of <code>message4</code> is used as the sender of <code>message5</code> but the <code>body</code> of <code>message4</code> was copied directly.</p>
+<h1 id="Pattern-Matching"><a href="#Pattern-Matching" class="headerlink" title="Pattern Matching"></a>Pattern Matching</h1><p>Pattern matching is a mechanism for checking a value against a pattern. A successful match can also deconstruct a value into its constituent parts. It is a more powerful version of the <code>switch</code> statement in Java and it can likewise be used in place of a series of if/else statements.</p>
+<h2 id="Syntax"><a href="#Syntax" class="headerlink" title="Syntax"></a>Syntax</h2><p>A match expression has a value, the <code>match</code> keyword, and at least one <code>case</code> clause.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">import</span> scala.util.<span class="hljs-type">Random</span><br><br><span class="hljs-keyword">val</span> x: <span class="hljs-type">Int</span> = <span class="hljs-type">Random</span>.nextInt(<span class="hljs-number">10</span>)<br><br>x <span class="hljs-keyword">match</span> &#123;<br>  <span class="hljs-keyword">case</span> <span class="hljs-number">0</span> =&gt; <span class="hljs-string">&quot;zero&quot;</span><br>  <span class="hljs-keyword">case</span> <span class="hljs-number">1</span> =&gt; <span class="hljs-string">&quot;one&quot;</span><br>  <span class="hljs-keyword">case</span> <span class="hljs-number">2</span> =&gt; <span class="hljs-string">&quot;two&quot;</span><br>  <span class="hljs-keyword">case</span> _ =&gt; <span class="hljs-string">&quot;other&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>The <code>val x</code> above is a random integer between 0 and 10. <code>x</code> becomes the left operand of the <code>match</code> operator and on the right is an expression with four cases. The last case <code>_</code> is a “catch all” case for any other possible <code>Int</code> values. Cases are also called <em>alternatives</em>.</p>
+<h2 id="Matching-on-case-classes"><a href="#Matching-on-case-classes" class="headerlink" title="Matching on case classes"></a>Matching on case classes</h2><p>Case classes are especially useful for pattern matching.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Notification</span></span><br><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Email</span>(<span class="hljs-params">sender: <span class="hljs-type">String</span>, title: <span class="hljs-type">String</span>, body: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Notification</span></span><br><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SMS</span>(<span class="hljs-params">caller: <span class="hljs-type">String</span>, message: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Notification</span></span><br><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VoiceRecording</span>(<span class="hljs-params">contactName: <span class="hljs-type">String</span>, link: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Notification</span></span><br></code></pre></td></tr></table></figure>
+
+<p><code>Notification</code> is an abstract super class which has three concrete Notification types implemented with case classes <code>Email</code>, <code>SMS</code>, and <code>VoiceRecording</code>. Now we can do pattern matching on these case classes:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">showNotification</span></span>(notification: <span class="hljs-type">Notification</span>): <span class="hljs-type">String</span> = &#123;<br>  notification <span class="hljs-keyword">match</span> &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-type">Email</span>(sender, title, _) =&gt;<br>      <span class="hljs-string">s&quot;You got an email from <span class="hljs-subst">$sender</span> with title: <span class="hljs-subst">$title</span>&quot;</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">SMS</span>(number, message) =&gt;<br>      <span class="hljs-string">s&quot;You got an SMS from <span class="hljs-subst">$number</span>! Message: <span class="hljs-subst">$message</span>&quot;</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">VoiceRecording</span>(name, link) =&gt;<br>      <span class="hljs-string">s&quot;You received a Voice Recording from <span class="hljs-subst">$name</span>! Click the link to hear it: <span class="hljs-subst">$link</span>&quot;</span><br>  &#125;<br>&#125;<br><span class="hljs-keyword">val</span> someSms = <span class="hljs-type">SMS</span>(<span class="hljs-string">&quot;12345&quot;</span>, <span class="hljs-string">&quot;Are you there?&quot;</span>)<br><span class="hljs-keyword">val</span> someVoiceRecording = <span class="hljs-type">VoiceRecording</span>(<span class="hljs-string">&quot;Tom&quot;</span>, <span class="hljs-string">&quot;voicerecording.org/id/123&quot;</span>)<br><br>println(showNotification(someSms))  <span class="hljs-comment">// prints You got an SMS from 12345! Message: Are you there?</span><br><br>println(showNotification(someVoiceRecording))  <span class="hljs-comment">// prints You received a Voice Recording from Tom! Click the link to hear it: voicerecording.org/id/123</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Pattern-guards"><a href="#Pattern-guards" class="headerlink" title="Pattern guards"></a>Pattern guards</h2><p>Pattern guards are simply boolean expressions which are used to make cases more specific. Just add <code>if &lt;boolean expression&gt;</code> after the pattern.</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">showImportantNotification</span></span>(notification: <span class="hljs-type">Notification</span>, importantPeopleInfo: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>]): <span class="hljs-type">String</span> = &#123;<br>  notification <span class="hljs-keyword">match</span> &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-type">Email</span>(sender, _, _) <span class="hljs-keyword">if</span> importantPeopleInfo.contains(sender) =&gt;<br>      <span class="hljs-string">&quot;You got an email from special someone!&quot;</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">SMS</span>(number, _) <span class="hljs-keyword">if</span> importantPeopleInfo.contains(number) =&gt;<br>      <span class="hljs-string">&quot;You got an SMS from special someone!&quot;</span><br>    <span class="hljs-keyword">case</span> other =&gt;<br>      showNotification(other) <span class="hljs-comment">// nothing special, delegate to our original showNotification function</span><br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">val</span> importantPeopleInfo = <span class="hljs-type">Seq</span>(<span class="hljs-string">&quot;867-5309&quot;</span>, <span class="hljs-string">&quot;jenny@gmail.com&quot;</span>)<br><br><span class="hljs-keyword">val</span> someSms = <span class="hljs-type">SMS</span>(<span class="hljs-string">&quot;123-4567&quot;</span>, <span class="hljs-string">&quot;Are you there?&quot;</span>)<br><span class="hljs-keyword">val</span> someVoiceRecording = <span class="hljs-type">VoiceRecording</span>(<span class="hljs-string">&quot;Tom&quot;</span>, <span class="hljs-string">&quot;voicerecording.org/id/123&quot;</span>)<br><span class="hljs-keyword">val</span> importantEmail = <span class="hljs-type">Email</span>(<span class="hljs-string">&quot;jenny@gmail.com&quot;</span>, <span class="hljs-string">&quot;Drinks tonight?&quot;</span>, <span class="hljs-string">&quot;I&#x27;m free after 5!&quot;</span>)<br><span class="hljs-keyword">val</span> importantSms = <span class="hljs-type">SMS</span>(<span class="hljs-string">&quot;867-5309&quot;</span>, <span class="hljs-string">&quot;I&#x27;m here! Where are you?&quot;</span>)<br><br>println(showImportantNotification(someSms, importantPeopleInfo)) <span class="hljs-comment">// prints You got an SMS from 123-4567! Message: Are you there?</span><br>println(showImportantNotification(someVoiceRecording, importantPeopleInfo)) <span class="hljs-comment">// prints You received a Voice Recording from Tom! Click the link to hear it: voicerecording.org/id/123</span><br>println(showImportantNotification(importantEmail, importantPeopleInfo)) <span class="hljs-comment">// prints You got an email from special someone!</span><br><br>println(showImportantNotification(importantSms, importantPeopleInfo)) <span class="hljs-comment">// prints You got an SMS from special someone!</span><br></code></pre></td></tr></table></figure>
+
+<p>In the <code>case Email(sender, _, _) if importantPeopleInfo.contains(sender)</code>, the pattern is matched only if the <code>sender</code> is in the list of important people.</p>
+<h2 id="Matching-on-type-only"><a href="#Matching-on-type-only" class="headerlink" title="Matching on type only"></a>Matching on type only</h2><p>You can match on the type like so:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Device</span></span><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Phone</span>(<span class="hljs-params">model: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Device</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">screenOff</span> </span>= <span class="hljs-string">&quot;Turning screen off&quot;</span><br>&#125;<br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Computer</span>(<span class="hljs-params">model: <span class="hljs-type">String</span></span>) <span class="hljs-keyword">extends</span> <span class="hljs-title">Device</span> </span>&#123;<br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">screenSaverOn</span> </span>= <span class="hljs-string">&quot;Turning screen saver on...&quot;</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">goIdle</span></span>(device: <span class="hljs-type">Device</span>) = device <span class="hljs-keyword">match</span> &#123;<br>  <span class="hljs-keyword">case</span> p: <span class="hljs-type">Phone</span> =&gt; p.screenOff<br>  <span class="hljs-keyword">case</span> c: <span class="hljs-type">Computer</span> =&gt; c.screenSaverOn<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>def goIdle</code> has a different behavior depending on the type of <code>Device</code>. This is useful when the case needs to call a method on the pattern. It is a convention to use the first letter of the type as the case identifier (<code>p</code> and <code>c</code> in this case).</p>
+<h1 id="FOR-Comprehension"><a href="#FOR-Comprehension" class="headerlink" title="FOR Comprehension"></a>FOR Comprehension</h1><p>cala offers a lightweight notation for expressing <em>sequence comprehensions</em>. Comprehensions have the form <code>for (enumerators) yield e</code>, where <code>enumerators</code> refers to a semicolon-separated list of enumerators. An <em>enumerator</em> is either a generator which introduces new variables, or it is a filter. A comprehension evaluates the body <code>e</code> for each binding generated by the enumerators and returns a sequence of these values.</p>
+<p>Here’s an example:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span>(<span class="hljs-params">name: <span class="hljs-type">String</span>, age: <span class="hljs-type">Int</span></span>)</span><br><br><span class="hljs-keyword">val</span> userBase = <span class="hljs-type">List</span>(<br>  <span class="hljs-type">User</span>(<span class="hljs-string">&quot;Travis&quot;</span>, <span class="hljs-number">28</span>),<br>  <span class="hljs-type">User</span>(<span class="hljs-string">&quot;Kelly&quot;</span>, <span class="hljs-number">33</span>),<br>  <span class="hljs-type">User</span>(<span class="hljs-string">&quot;Jennifer&quot;</span>, <span class="hljs-number">44</span>),<br>  <span class="hljs-type">User</span>(<span class="hljs-string">&quot;Dennis&quot;</span>, <span class="hljs-number">23</span>))<br><br><span class="hljs-keyword">val</span> twentySomethings =<br>  <span class="hljs-keyword">for</span> (user &lt;- userBase <span class="hljs-keyword">if</span> user.age &gt;=<span class="hljs-number">20</span> &amp;&amp; user.age &lt; <span class="hljs-number">30</span>)<br>  <span class="hljs-keyword">yield</span> user.name  <span class="hljs-comment">// i.e. add this to a list</span><br><br>twentySomethings.foreach(println)  <span class="hljs-comment">// prints Travis Dennis</span><br></code></pre></td></tr></table></figure>
+
+<p>Here is a more complicated example using two generators. It computes all pairs of numbers between <code>0</code> and <code>n-1</code> whose sum is equal to a given value <code>v</code>:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foo</span></span>(n: <span class="hljs-type">Int</span>, v: <span class="hljs-type">Int</span>) =<br>   <span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">0</span> until n;<br>        j &lt;- <span class="hljs-number">0</span> until n <span class="hljs-keyword">if</span> i + j == v)<br>   <span class="hljs-keyword">yield</span> (i, j)<br><br>foo(<span class="hljs-number">10</span>, <span class="hljs-number">10</span>) foreach &#123;<br>  <span class="hljs-keyword">case</span> (i, j) =&gt;<br>    println(<span class="hljs-string">s&quot;(<span class="hljs-subst">$i</span>, <span class="hljs-subst">$j</span>) &quot;</span>)  <span class="hljs-comment">// prints (1, 9) (2, 8) (3, 7) (4, 6) (5, 5) (6, 4) (7, 3) (8, 2) (9, 1)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Programming/">Programming</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Scala/">Scala</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/01/complex-datatype-in-dataframe/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">complex datatype in dataframe</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/01/Introduction-to-Hive/">
+                        <span class="hidden-mobile">Introduction to Hive</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>

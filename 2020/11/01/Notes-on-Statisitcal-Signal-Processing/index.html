@@ -1,0 +1,753 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Probablity SpaceTo mathematically describe a random experiment we must specifuy:  The Sample space $\Omega$, which is the set of all possible outcomes of the random experiment. We call any subset $A\s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notes on Statisitcal Signal Processing">
+<meta property="og:url" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Probablity SpaceTo mathematically describe a random experiment we must specifuy:  The Sample space $\Omega$, which is the set of all possible outcomes of the random experiment. We call any subset $A\s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210422151300829.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/fig1.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/Handwritten_2021-01-24_152357-1473212.jpg">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/fig2.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/Receipt_2021-01-24_163827.jpg">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125143528554.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125143712630.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125143836007.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125155701691.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125160000476.png">
+<meta property="og:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210125160132591.png">
+<meta property="article:published_time" content="2020-11-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T08:21:26.464Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Cambridge">
+<meta property="article:tag" content="Notes">
+<meta property="article:tag" content="Computational Statistics">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2020/11/01/Notes-on-Statisitcal-Signal-Processing/image-20210422151300829.png">
+  
+  <title>Notes on Statisitcal Signal Processing - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Notes on Statisitcal Signal Processing">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-11-01 00:00" pubdate>
+        November 1, 2020 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      14k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Notes on Statisitcal Signal Processing</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Probablity-Space"><a href="#Probablity-Space" class="headerlink" title="Probablity Space"></a>Probablity Space</h1><p>To <em>mathematically</em> describe a random experiment we must specifuy:</p>
+<ol>
+<li>The <strong>Sample space</strong> $\Omega$, which is the set of all possible outcomes of the random experiment. We call any subset $A<br>\subseteq \Omega$ an <strong>event</strong></li>
+<li>A mapping/function $P$ from events to a number in the interval $[0,1]$. That is we must specify ${P(A), A\subset \Omega}$. We call $P$ the <strong>probability</strong>.</li>
+</ol>
+<p>We then call $(\Omega, P)$ the <strong>probability space</strong>.</p>
+<h2 id="Axioms-of-probability"><a href="#Axioms-of-probability" class="headerlink" title="Axioms of probability"></a>Axioms of probability</h2><p>A probability $P$ assigns each event $E, E \subset \Omega$, a number in $[0,1]$ and $P$ must satisfy the following properties:</p>
+<ol>
+<li>$P(\Omega)=1$</li>
+<li>If $A_1,A_2,…$ are disjoint then $P(\cup_{i=1}^\infty = \sum_{i=1}^\infty P(A_i)$</li>
+</ol>
+<h1 id="Conditional-Probability-and-Independence"><a href="#Conditional-Probability-and-Independence" class="headerlink" title="Conditional Probability and Independence"></a>Conditional Probability and Independence</h1><h1 id="Random-Variables"><a href="#Random-Variables" class="headerlink" title="Random Variables"></a>Random Variables</h1><h1 id="Bivariates-and-Conditional-Expectation"><a href="#Bivariates-and-Conditional-Expectation" class="headerlink" title="Bivariates and Conditional Expectation"></a>Bivariates and Conditional Expectation</h1><h1 id="Multivariate"><a href="#Multivariate" class="headerlink" title="Multivariate"></a>Multivariate</h1><h1 id="Characteristic-Function"><a href="#Characteristic-Function" class="headerlink" title="Characteristic Function"></a>Characteristic Function</h1><p>The characteristic function of a random variable is given by $\phi_X(t) = \mathbb{E}[\exp(iXt)]$. The information of a random variable is entirely captured by its characteristic function. <strong>We can compute the $n^{th}$ moment of $X$ $E(X^n)$ using the relationship $i^nE[X^n] = \frac{d^n}{dt^n}\phi_X(t)|_{t=0}$</strong>. This can be shown by expanding the exponential as a power series:</p>
+<p><strong>The characteristic function is related to the Fourier transform</strong> of by $\phi_X(t) = F_X(-t)$, if $F_X(\omega)$ is the Fourier transform of the probability density function $f_X(x)$ (p.d.f.) of $X$.</p>
+<img src="image-20210422151300829.png" srcset="/img/loading.gif" lazyload alt="image-20210422151300829" style="zoom: 67%;" />
+
+<h1 id="Markov-Chain"><a href="#Markov-Chain" class="headerlink" title="Markov Chain"></a>Markov Chain</h1><p>Let ${X_n}$ be discrete random variables taking values in $S={1,…,L}$. </p>
+<p>The transitional probability matrix ${Q_{ij}} = \text{probability from state i to state j}$.</p>
+<p>For it be a markov chain. We must specify that the current pmf only depends on the previous sample. This is the <strong>Markov Property</strong></p>
+<h2 id="Invariant-Stationary-Distribution"><a href="#Invariant-Stationary-Distribution" class="headerlink" title="Invariant/Stationary Distribution"></a>Invariant/Stationary Distribution</h2><p>If we have $\pi Q  = \pi$, where $\pi$ is a row vector. Then we call it the <strong>stationary distribution</strong></p>
+<p>If we initialize the chain with $\pi$. Then for any $n$ we have</p>
+<p>$$p_{x_n}(i_n) = \pi_{i_n}$$</p>
+<h1 id="Time-series-Analysis"><a href="#Time-series-Analysis" class="headerlink" title="Time-series Analysis"></a>Time-series Analysis</h1><p>A time series is a set of observations $y_n, n=0,1,…$ arranged in time.</p>
+<h2 id="AR-process"><a href="#AR-process" class="headerlink" title="AR process"></a>AR process</h2><p>An <strong>auto-regressive</strong> (AR) process is defined as the following:</p>
+<p>Let ${W_n}_{n=-\infty}^{\infty}$ be a sequence of random variables such that $E(W_n) = 0$ for all $n$, and that the <em>auto-correlation</em> satisfies:</p>
+<p>$$E(W_i, W_j) = \sigma^2 \text{ for } i = j$$</p>
+<p>$$E(W_i, W_j) = 0 \text{ for } i \neq j$$</p>
+<blockquote>
+<p>The auto-correlation function $E(X_nX_{n+k}) = R_X(k)$, if $X$ is W.S.S. (see definition below)</p>
+</blockquote>
+<p>The $AR(p)$ process ${X_n}_{n=-\infty}^\infty$ is </p>
+<p>$$X_n = \left( \sum_{i=1}^p a_iX_{n-i}\right) + W_n$$</p>
+<p>where $a_1,…,a_p$ are constants and $p$ is the <em>order</em> of the process.</p>
+<p>For a $AR(1)$ process we can expand by $X_n = aX_{n-1} + W_n = a^2 X_{n-2} + aW_{n-1} + W_n = … = \sum_{k=0}^\infty W_{n-k}a^k$. And we say that $AR(1)$ is causal with impulse response ${h_k}(k\geq 0)$ </p>
+<p>The <strong>mean</strong> $E(X_n) = 0$ and the <strong>variance</strong> $E(X_n^2) = \frac{\sigma^2}{1-a^2}$</p>
+<h2 id="Wide-Sense-Stationary"><a href="#Wide-Sense-Stationary" class="headerlink" title="Wide Sense Stationary"></a>Wide Sense Stationary</h2><p>${X_n}$ is wide-sense stationary (WSS) if:</p>
+<ol>
+<li>$E{[X_n]} = \mu$ for all $n$</li>
+<li>has finite variance, $E{[X^2]} &lt; \infty$</li>
+<li>$E{[X_{n1}X_{n2}]} = E{[X_{n1+k}X_{n2+k}]}$ for any $n_1, n_2, k$. That is, the auto-correlation function is a function of the difference of subscripts only.</li>
+</ol>
+<h2 id="MA-process"><a href="#MA-process" class="headerlink" title="MA process"></a>MA process</h2><p>Let ${W_n}_{n=-\infty}^{\infty}$ be a sequence of random variables such that $E(W_n) = 0$ for all $n$, and that the <em>auto-correlation</em> satisfies:</p>
+<p>$$E(W_i, W_j) = \sigma^2 \text{ for } i = j$$</p>
+<p>$$E(W_i, W_j) = 0 \text{ for } i \neq j$$</p>
+<p>The <em>Moving average</em> $MA(q)$ process $X_n$ is defined as:</p>
+<p>$$X_n = \left(\sum_{i=1}^{q} b_iW_{n-i}\right) + W_n$$</p>
+<p>where $b_1,…,b_q$ are the constants and $q$ is the <em>order</em> of the process.</p>
+<h2 id="Power-spectrum-density"><a href="#Power-spectrum-density" class="headerlink" title="Power spectrum density"></a>Power spectrum density</h2><p>Let $R_X(k)$ be the correlation function of a <strong>discrete time</strong> WSS process. The power spectrum density $S_X(f)$ is defined as:</p>
+<p>$$S_X(f) = \sum_{k=-\infty}^{\infty} R_X(k)e^{-j2\pi fk}$$</p>
+<p>The inversion formula is </p>
+<p>$$R_X(n) = \int_{-1/2}^{1/2}S_X(f)e^{j2\pi fn}df$$</p>
+<p>In plain English, the power spectrum density is the discrete-time Fourier transform (DTFT) of the auto-correlation function.</p>
+<p>There is another notation for power spectrum, which highlights the periodic nature of the power spectrum as follows:</p>
+<p>$$S_X(e^{j\Omega}) = \sum_{m=-\infty}^\infty r_{xx}[m]e^{-jm\Omega}$$</p>
+<p>where the normalized frequency $\Omega = \omega T$, in <em>radius per sample</em>.</p>
+<p>The inversion formula with this notation is</p>
+<p>$$r_{XX}(m) = \frac{1}{2\pi}\int_{-\pi}^{\pi}S_X(e^{j\Omega})e^{jm\Omega}d\Omega$$</p>
+<blockquote>
+<p>In practice it is impossible to do the DTFT so DFT is used instead. We can show that the $|DFT|^2$ of the signal is a <strong>fuzzy</strong> version of the power spectrum density (PSD). This is called Einstein- Wiener- Khinchin Theorem</p>
+</blockquote>
+<h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><ol>
+<li><p>$S_X(f)$ is a even function.</p>
+</li>
+<li><p>$S_X(f)$ has period of $1$. (equivalent to $S(\omega)$ as period of $2\pi$) That is, $S_X(f)=S_X(f+1)$</p>
+</li>
+<li><p>If $R_X(k)$ is the correlation function of a discrete time WSS process then the power spectrum density $S_X(f)$ is an <em>even, real valued and non-negative</em> function of $f$. Moreover, $S_X(f)$ is a <em>continuous function</em> if $\sum_{k=-\infty}^\infty |R_X(k)| &lt; \infty$</p>
+</li>
+<li><p>If the input ${W_n}$ of an LTI system with impulse response ${h_n}$ is a WSS then its output ${Y_n}$ is also WSS. The power spectrum density is given as: $S_Y(f) = S_W(f)|H(f)|^2$</p>
+</li>
+<li><p>$S_{XY}(\omega)^* = S_{YX}(\omega)$. Where $S_{XY}$ and $S_{YX}$ are the cross power spectrum. </p>
+</li>
+<li><p>The maximum of the autocorrelation function is $r_{XX}(0)$, which equals the power of the signal. This is shown by considering $E[(x_{n+k}-ax_n)^2]$</p>
+</li>
+</ol>
+<h3 id="Interpretation"><a href="#Interpretation" class="headerlink" title="Interpretation"></a>Interpretation</h3><p>For a deterministic signal, the instantaneous power if $x_n^2$. The <em>average</em> power is</p>
+<p>$$\lim_{N\rightarrow\infty} \frac{1}{2N+1}\sum_{n=-N}^{N}x_n^2$$</p>
+<p>For a random process $X_n$, the <em>expected</em> instantaneous power is $E(X_n^2)$ while the <em>expected</em> average power is</p>
+<p>$$E\left(\lim_{N\rightarrow\infty} \frac{1}{2N+1}\sum_{n=-N}^{N}x_n^2\right) = \lim_{N\rightarrow\infty} \frac{1}{2N+1}\sum_{n=-N}^{N}E(x_n^2)$$</p>
+<p>If the process is WSS, then $E(x_n^2) = R_X(0)$ for all $n$. Thus $R_X(0)$ is the expected value of the average power. </p>
+<p>Using the Fourier inversion formula</p>
+<p>$$R_X(n) = \int_{-1/2}^{1/2}S_X(f)e^{j2\pi fn}df$$</p>
+<p>We see that $R_X(0)$ is also the area under the non-negative function $S_X(f)$ between $[-1/2, 1/2]$. That shows way it is the <strong>power spectrum density</strong>.</p>
+<p>The power spectrum can be interpreted as a density spectrum in the sense that the mean-square signal value at the output of an ideal band-pass filter with lower and upper cut-off frequencies of $\omega_l$ and $\omega_u$ is given by </p>
+<p>$$\frac{1}{\pi} \int_{\omega_lT}^{\omega_uT} S_X(e^{j\Omega})d\Omega$$</p>
+<h1 id="Linear-Systems-and-Random-Processes"><a href="#Linear-Systems-and-Random-Processes" class="headerlink" title="Linear Systems and Random Processes"></a>Linear Systems and Random Processes</h1><p>If we pass a WSS discrete random process $X_n$ through a <em>stable, linear time invariant</em> (LTI) system with digital impulse response $h_n$, the output $Y_n$ is the convolution between the signal and impulse response.</p>
+<p>$$y_n = \sum_{k=-\infty}^{\infty}h_k x_{n-k} = x_n * h_n$$</p>
+<p>and is also wide-sense stationary.</p>
+<p>We can relate the output correlation functions and power spectra in terms of the input statistics and the LTI system.</p>
+<p>$$r_{XY}[k] = E[X_n Y_{n+k}] = \sum_{l=-\infty}^\infty h_l r_{XX}[k-l] = h_k * r_{XX}[k]$$</p>
+<p>This is the <strong>cross-correlation</strong> function at the output of a LTI system.</p>
+<p>$$r_{YY}[k] = E[Y_n Y_{n+k}] = \sum_{k=-\infty}^\infty\sum_{l=-\infty}^\infty h_k h_i r_{XX}[l+i-k] = h_l * h_{-l} * r_{XX}[k]$$</p>
+<p>This is the <strong>auto-correlation</strong> function at the output of a LTI system. The below figure summarizes the relationship.</p>
+<p><img src="fig1.png" srcset="/img/loading.gif" lazyload></p>
+<p>The result verifies that in the frequency domain, we have</p>
+<p>$$S_Y(e^{j\omega T}) = |H(e^{j\omega T})|^2 S_X{e^{j\omega T}}$$</p>
+<p>which relates the output power spectrum to the input power spectrum and the linear system response.</p>
+<h2 id="Example-AR-process"><a href="#Example-AR-process" class="headerlink" title="Example: AR process"></a>Example: AR process</h2><p>AR process is a typical example of applying a linear filter. Recall that for a $AR(1)$ process we have</p>
+<p>$$d_n = a_1d_{n-1} + e_n$$</p>
+<p>We can find the linear system’s impluse response by taking the Z transform:</p>
+<p>$$D(z) = a_1z^{-1}D(z) + E(z) = H(z)E(z)$$</p>
+<p>Hence after rearranging:</p>
+<p>$$H(z) = \frac{1}{1-a_1z^{-1}}$$</p>
+<p>We can obtain the frequency domain of the filter by simple substitution $z = e^{j\omega}$. This gives us the power spectrum for the impulse response.</p>
+<p>$$H(\omega) = \frac{1}{1-a_1\exp(-j\omega)}$$</p>
+<p>Now it is easy to derive the power spectrum of the output signal from $S_{YY}(\omega) = |H(\omega)|^2S_{XX}(\omega)$. Suppose $e_n$ is white noise with variance $\sigma^2$</p>
+<p>$$S_{dd}(\omega) = \frac{\sigma^2}{(1-a_1\exp(-j\omega))(1-a_1\exp(j\omega))}$$</p>
+<h1 id="Ergodic-Random-Processes"><a href="#Ergodic-Random-Processes" class="headerlink" title="Ergodic Random Processes"></a>Ergodic Random Processes</h1><p>For an <strong>Ergodic</strong> random process we can estimate expectations by performing time-average on a <em>single</em> sample function, instead having to go through the whole family of realization. That is:</p>
+<p>$$\mu = E[X_n] = \lim_{N\rightarrow \infty} \sum_{n=0}^{N-1}x_n  \text{(Mean ergodic)}$$</p>
+<p>$$r_{XX}[k] = \lim_{N\rightarrow\infty} \sum_{n=0}^{N-1}x_nx_{n+k} \text{(Correlation ergodic)}$$</p>
+<h2 id="Condition-of-Ergodic-process"><a href="#Condition-of-Ergodic-process" class="headerlink" title="Condition of Ergodic process"></a>Condition of Ergodic process</h2><p>For a WSS random process. A <strong>necessary</strong> and <strong>sufficient</strong> condition for <em>mean ergodicity</em> is given by:</p>
+<p>$$\lim_{N\rightarrow\infty} \sum_{n=0}^{N-1}c_{XX}[k]=0$$</p>
+<p>where $c_{XX}$ is the <em>auto-covariance</em> function:</p>
+<p>$$c_{XX}[k] = E[(X_n-\mu)(X_{n+k}-\mu)]$$</p>
+<p>and $\mu = E[X_n]$</p>
+<p>A simpler <strong>sufficient</strong> condition for <em>mean ergodicity</em> is that $c_{XX}[0]&lt;\infty$ and $$\lim_{N\rightarrow\infty}c_{XX}[N]=0$$</p>
+<h1 id="Optimal-Filtering-and-the-Wiener-Filter"><a href="#Optimal-Filtering-and-the-Wiener-Filter" class="headerlink" title="Optimal Filtering and the Wiener Filter"></a>Optimal Filtering and the Wiener Filter</h1><h2 id="The-discrete-time-Wiener-filter"><a href="#The-discrete-time-Wiener-filter" class="headerlink" title="The discrete time Wiener filter"></a>The discrete time Wiener filter</h2><p>We have the basic setup as follows: a desired signal $d_n$ is observed in noise $v_n$:</p>
+<p>$$x_n = d_n + v_n$$</p>
+<p>Wiener showed how to design a linear filter which can optimally estimate $d_n$ given just the noisy observation $x_n$ and some <em>assumptions about the statistics</em> of the random signal and noise processes. </p>
+<p>Let’s assume we have access to a <em>non-causal</em> filter $h_p$. THe criterion adopted for Wiener filtering is the <em>mean-squared error (MSE)</em>.</p>
+<p>$$\epsilon_n = d_n - \hat{d}_n = d_n - h_n * x_n$$</p>
+<p>The MSE is then defined as </p>
+<p>$$J = E[\epsilon^2_n]$$</p>
+<p>where the expectation is taken with respect to the random siganl $d$ and the random noise $v$. We would like to minimize $J$ with respect to the filter coefficients $h_p$</p>
+<h2 id="Derivation"><a href="#Derivation" class="headerlink" title="Derivation"></a>Derivation</h2><p>We assume that $x_n$ and $d_n$ are <em>jointly wide-sense statinoary</em>. This means that both processes are WSS and there cross-correlation function depend only on the time difference. We further assume that </p>
+<p>$$E[d_n] = E[v_n] = 0$$</p>
+<p>We can derive the Wiener filter by setting $\frac{\partial J}{\partial h_q} = 0$. After some algebra we arrive at</p>
+<p>$$E[\epsilon_n x_{n-q}] = 0$$</p>
+<p>which is known as the <em>orthogonality principle</em>. Since two random variables $X$ and $Y$ are termed <strong>orthogonal</strong> if </p>
+<p>$$E[XY] = 0$$</p>
+<p>Now, substitute for $\epsilon_n$ and we will arrive at</p>
+<p>$$h_q * r_{XX}[q] = r_{xd}[q]$$</p>
+<p>which yields:</p>
+<p>$$H(\omega) = \frac{S_{xd}(\omega)}{S_X(\omega)}$$</p>
+<p>which is the <em>frequency domain</em> of the Wiener filter.</p>
+<blockquote>
+<p>Note that if we are implementing a FIR filter, then we do not need to turn to the frequency domain because we can simply sovle the linear equations.</p>
+</blockquote>
+<p>Detailed derivation:</p>
+<p><img src="Handwritten_2021-01-24_152357-1473212.jpg" srcset="/img/loading.gif" lazyload alt="Handwritten_2021-01-24_152357"></p>
+<h2 id="Mean-squared-error-for-the-optimal-filter"><a href="#Mean-squared-error-for-the-optimal-filter" class="headerlink" title="Mean-squared error for the optimal filter"></a>Mean-squared error for the optimal filter</h2><p>Although the filter is optimal, there is no guarantee that the filter is useful. We can look at the MSE to see how much error we have for an optimal filter.</p>
+<p>$$J = E[\epsilon^2] = E[\epsilon_nd_n] - \sum_p h_pE[\epsilon_nx_{n-p}]$$</p>
+<p>We have shown orthogonality before, so the second term goes to zero.</p>
+<p>$$J_{min} = E[\epsilon_nd_n] = r_{dd}[0] - \sum_ph_pr_{xd}[p]$$</p>
+<h2 id="Uncorrelated-signal-and-noise-process"><a href="#Uncorrelated-signal-and-noise-process" class="headerlink" title="Uncorrelated signal and noise process"></a>Uncorrelated signal and noise process</h2><p>If we assume $d_n$ and $v_n$ are uncorrelated, we can further simplify the expression for the Wiener filter by noting that</p>
+<p>$$r_{xd}[q] = E[x_nd_{n+q}] = r_{dd}[q]$$</p>
+<p>$$r_{xx}[q] = r_{dd}[q] + r_{vv}[q]$$</p>
+<p>Hence</p>
+<p>$$S_X(\omega) = S_d(\omega) + S_v(\omega)$$</p>
+<p>This makes our equation for the Wiener filter as</p>
+<p>$$H(\omega) = \frac{S_d(\omega)}{S_d(\omega) + S_v(\omega)}$$</p>
+<p>If we define $\rho(\omega) = S_d(\omega) / S_v(\omega)$ as the (frequency dependent) signal-to-noise (SNR) power ratio. Then</p>
+<p>$$H(\omega) = \frac{1}{1 + 1/\rho(\omega)}$$</p>
+<p>From the equation we can see:</p>
+<ol>
+<li><p>The gain is always non-negative, and range between 0 and 1. Hence the filter will never boost a particular frequency.</p>
+</li>
+<li><p>At frequencies where the SNR is large, the gain tends to unity, and vice versa.</p>
+</li>
+</ol>
+<h2 id="The-FIR-Wiener-filter"><a href="#The-FIR-Wiener-filter" class="headerlink" title="The FIR Wiener filter"></a>The FIR Wiener filter</h2><p>Recall the <em>Wiener-Hopf</em> equation for optimal Wiener filter will degrade into a set of linear equations if ${h_n}$ is finite.</p>
+<p>$$ \sum_{p=0}^{P}h_pr_{xx}[q-p] = r_{xd}[q], q = 0,1,…,P$$</p>
+<p>We can write this as</p>
+<p>$$R_xh = r_{xd}$$</p>
+<p>where $h = [h_0, h_1,…,h_P]’$ and $r_{xd} = [r_{xd}[0],r_{xd}[1],…,r_{xd}[P]]$</p>
+<p><img src="fig2.png" srcset="/img/loading.gif" lazyload></p>
+<p>$R_X$ is known as the <em>correlation matrix</em>. Note that it is symmetric and has constant diagonals. The impulse response can then be found by matrix inversion.</p>
+<p>In general, we requires a-priori knowledge of the autocorrelation matrix $R_X$ of the input process, the cross correlation between the input ${x_n}$ and the desired signal ${d_n}$to deduce the FIR.</p>
+<p>The minimal MSE is given by $J_{min} = E[\epsilon_n d_n]$</p>
+<p>$$J_{min} = r_{dd}[0] - r_{xd}^TR_X^{-1}r_{xd}$$</p>
+<h2 id="Signal-Detection-Matched-Filters"><a href="#Signal-Detection-Matched-Filters" class="headerlink" title="Signal Detection: Matched Filters"></a>Signal Detection: Matched Filters</h2><p>The Wiener filter shows how to extract a random signal from a random noise environment. We now turn to *<em>detecting a known deterministic signal</em> $s_n$, buried in random noise $v_n$ </p>
+<p>$$x_n=s_n+v_n$$</p>
+<p>The quick result: the optimal filter in terms of *<em>signal-noise ratio</em> (SNR) is simply the reversed normalized signal $\frac{\tilde{s}}{|\tilde s|}$</p>
+<p>The detailed derivation is as follows:</p>
+<p><img src="Receipt_2021-01-24_163827.jpg" srcset="/img/loading.gif" lazyload alt="Receipt_2021-01-24_163827"></p>
+<h1 id="Estimation-and-Inference"><a href="#Estimation-and-Inference" class="headerlink" title="Estimation and Inference"></a>Estimation and Inference</h1><p>Usually, we have a vector of data points $x$ and would like to infer about the model parameter vector $\theta$. $x$ is a $N$-vector and $\theta$ is a $P$-vector, we often have $|N| \gg |P|$.</p>
+<p>The <strong>estimation</strong> task is to estimate $\hat \theta$ that is close to $\theta$. The end result is a <em>deterministic value</em>. The <strong>inference</strong> task is interested in the whole distribution of $\theta$, i.e., $p(\theta|x)$. The end result is a <em>probability density function</em>.</p>
+<h1 id="The-General-Linear-Model"><a href="#The-General-Linear-Model" class="headerlink" title="The General Linear Model"></a>The General Linear Model</h1><p>The General Linear Model is also known as the <em>Linear Regression</em> model in Machine Learning and Statistics.</p>
+<p>In the Linear Model it is assumed that the data $x$ are generated as a linear function of the parameters $\theta$ with an additive random modelling error term $e_n$:</p>
+<p>$$x_n = g_n^T \theta + e_n$$</p>
+<p>where $g_n$ is a $P$-dimensional column vector.</p>
+<p>The expression may be written for the whole vector $x$ as</p>
+<p>$$x = G\theta + e$$</p>
+<p><img src="image-20210125143528554.png" srcset="/img/loading.gif" lazyload alt="image-20210125143528554"></p>
+<blockquote>
+<p>We call the left column design matrix <em>Vandermonde matrix</em>, whose row vectors are geometric progressions.</p>
+</blockquote>
+<h2 id="Autoregressive-AR-model"><a href="#Autoregressive-AR-model" class="headerlink" title="Autoregressive (AR) model"></a>Autoregressive (AR) model</h2><p>The AR model is a standard time series model based on an all-pole filtered version of the noise residual:</p>
+<p>$$x_n = \sum_{i=1}^P a_ix_{n-i}+e_n$$</p>
+<p>The above model is said to be of <em>order</em> $P$. </p>
+<p><img src="image-20210125143712630.png" srcset="/img/loading.gif" lazyload alt="image-20210125143712630"></p>
+<h2 id="Einstein-Wiener-Khinchin-Theorem"><a href="#Einstein-Wiener-Khinchin-Theorem" class="headerlink" title="Einstein-Wiener-Khinchin Theorem"></a>Einstein-Wiener-Khinchin Theorem</h2><p>The theorem shows mathematically that the $|DFT|^2$ of the signal is a fuzzy version of the power spectrum</p>
+<p>![Screen Shot 2021-01-25 at 14.03.11](Screen Shot 2021-01-25 at 14.03.11.png)</p>
+<p>See derivation details below:</p>
+<p><img src="image-20210125143836007.png" srcset="/img/loading.gif" lazyload alt="image-20210125143836007"></p>
+<p>In summary, the <strong>power spectrum</strong> is the expected value of the <strong>(time-normalized) DTFT-squared</strong> of the signal values.</p>
+<h2 id="Mean-and-Variance-of-Estimators"><a href="#Mean-and-Variance-of-Estimators" class="headerlink" title="Mean and Variance of Estimators"></a>Mean and Variance of Estimators</h2><p>An estimator $\hat \theta$  is <strong>unbiased</strong> if $E[\hat \theta] = \theta$. That is, the expectation equals the true value.</p>
+<p>An estimator $\hat \theta$ is <strong>consistent</strong> if  $\lim_{N\rightarrow\infty}var[\hat\theta]=0$. That is, the variance of the estimator tends to $0$ as $N$ tends to infinity.</p>
+<p>We now investigate a few estimators and check that whether they are unbiased and consistent. We now look at the <em>Monte Carlo Mean Estimator</em> and <em>Ordinary Least Square Estimator</em>. </p>
+<p>First, we show that the Monte Carlo Estimator is unbiased and consistent by looking at the mean and variance of the estimator.</p>
+<p><img src="image-20210125155701691.png" srcset="/img/loading.gif" lazyload alt="image-20210125155701691"></p>
+<p>We now turn to the ordinary least square estimator. We shall prove that $\theta^{OLS}$ is the <strong>Best Linear Unbiased Estimator (BLUE)</strong> compared to other linear estimator by showing that it has minimum variance for each parameter $\theta_i$. This is done by perturbing the matrix by $\Delta$ such that $D = C + \Delta$. </p>
+<p><img src="image-20210125160000476.png" srcset="/img/loading.gif" lazyload alt="image-20210125160000476"></p>
+<p><img src="image-20210125160132591.png" srcset="/img/loading.gif" lazyload alt="image-20210125160132591"></p>
+<p>In fact, if the noise process $e_n$ is <em>white Gaussian noise</em>, then OLS is the <strong>global</strong> best unbiased estimator, beating unlinear ones. However for <em>correlated noise</em>, unlinear estimator wins over it. </p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Cambridge/">Cambridge</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Notes/">Notes</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Computational-Statistics/">Computational Statistics</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/11/01/Notes-on-Signal-and-System/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Notes on Signal and System</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/01/Notes-on-Inference/">
+                        <span class="hidden-mobile">Notes on Inference</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
