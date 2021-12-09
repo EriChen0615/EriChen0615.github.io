@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/project/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/project/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/project/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/project/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/project/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"erichen0615.github.io","root":"/project/","images":"/project/images","scheme":"Gemini","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/project/js/config.js"></script>
+<meta name="description" content="IntroductionThis course is about the fundamental principles of designing communication systems. A more realistic (but still simplified) picture of a source-destination link is:  We will  Focus mostly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Data Transmission Notes">
+<meta property="og:url" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="IntroductionThis course is about the fundamental principles of designing communication systems. A more realistic (but still simplified) picture of a source-destination link is:  We will  Focus mostly">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.11.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.12.44">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.24.15.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.25.32.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.42.22.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.57.35.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-17.02.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-17.05.05.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210128233505370.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-28-at-23.39.55.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-02-10-at-02.19.38.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-02-10-at-02.23.44.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-02-10-at-02.26.45.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-02-10-at-02.29.21.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-02-10-at-02.31.14.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210210024905763.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223015002269.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223005733742.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210213005426388.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223011719425.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223011553491.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223010833953.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223013211271.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223013831237.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223014045450.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223014249296.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223014840650.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210223015002269.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210224235513779.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210224235605128.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210225000028257.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210225001819048.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210430004007701.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210225002331588.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210225123947389.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210225003932890.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210315112636659.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210430010914262.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210417014207362.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402102809190.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402102922713.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402103200636.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402103413356.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402105040468.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402105113971.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210416195141720.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210417020623037.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210324190840595.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210324190853806.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210331222237739.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210324190942868.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210331222440003.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210416195951525.png">
+<meta property="og:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/image-20210402110602281.png">
+<meta property="article:published_time" content="2020-01-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-12-09T04:25:19.541Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Cambridge">
+<meta property="article:tag" content="Informatics">
+<meta property="article:tag" content="Lecture Notes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/2021-01-27-at-16.11.45.png">
+
+
+<link rel="canonical" href="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/","path":"2020/01/01/Data-Transmission-Notes/","title":"Data Transmission Notes"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Data Transmission Notes | Eric Chen's Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/project/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/project/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Eric Chen's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/project/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/project/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/project/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-archives"><a href="/project/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Physical-Layer"><span class="nav-number">2.</span> <span class="nav-text">The Physical Layer</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Signal-Space"><span class="nav-number">3.</span> <span class="nav-text">The Signal Space</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapping-bits-to-waveforms"><span class="nav-number">3.1.</span> <span class="nav-text">Mapping bits to waveforms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector-Spaces"><span class="nav-number">3.2.</span> <span class="nav-text">Vector Spaces</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthonormal-Basis-in-mathcal-L-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">Orthonormal Basis in $\mathcal{L_2}$</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Channel-Model"><span class="nav-number">4.</span> <span class="nav-text">Channel Model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Passband-Channel-Model"><span class="nav-number">4.1.</span> <span class="nav-text">Passband Channel Model</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Noise-Model"><span class="nav-number">5.</span> <span class="nav-text">Noise Model</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Signal-Detection-in-White-Gaussian-Noise"><span class="nav-number">6.</span> <span class="nav-text">Signal Detection in White Gaussian Noise</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Projection-coefficients-of-white-noise"><span class="nav-number">6.1.</span> <span class="nav-text">Projection coefficients of white noise</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optimal-Detection"><span class="nav-number">6.2.</span> <span class="nav-text">Optimal Detection</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ML-Detection-in-AWGN"><span class="nav-number">6.2.1.</span> <span class="nav-text">ML Detection in AWGN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAP-detection-in-AWGN"><span class="nav-number">6.2.2.</span> <span class="nav-text">MAP detection in AWGN</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Baseband-Transmission-using-PAM"><span class="nav-number">7.</span> <span class="nav-text">Baseband Transmission using PAM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Desirable-Properties-of-the-Pulse-Shape-p-t"><span class="nav-number">7.1.</span> <span class="nav-text">Desirable Properties of the Pulse Shape $p(t)$</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Time-Decay-and-Bandwidth"><span class="nav-number">7.1.1.</span> <span class="nav-text">Time Decay and Bandwidth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthonormality"><span class="nav-number">7.1.2.</span> <span class="nav-text">Orthonormality</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Matched-Filter-Implementation"><span class="nav-number">7.2.</span> <span class="nav-text">Matched Filter Implementation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Drawbacks-of-PAM"><span class="nav-number">7.3.</span> <span class="nav-text">Drawbacks of PAM</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#The-Nyquist-Pulse-Criterion"><span class="nav-number">8.</span> <span class="nav-text">The Nyquist Pulse Criterion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quadrature-Amplitude-Modulation-QAM"><span class="nav-number">8.1.</span> <span class="nav-text">Quadrature Amplitude Modulation (QAM)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Orthogonality"><span class="nav-number">8.2.</span> <span class="nav-text">Orthogonality</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Receiver"><span class="nav-number">8.3.</span> <span class="nav-text">Receiver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Error-Probability-Analysis"><span class="nav-number">8.4.</span> <span class="nav-text">Error Probability Analysis</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Frequency-Shift-Keying-FSK"><span class="nav-number">9.</span> <span class="nav-text">Frequency Shift Keying (FSK)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demodulation-and-Detection-for-M-ary-FSK"><span class="nav-number">9.1.</span> <span class="nav-text">Demodulation and Detection for M-ary FSK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Probability-of-Detection-Error-and-Bandwidth-Efficiency"><span class="nav-number">9.2.</span> <span class="nav-text">Probability of Detection Error and Bandwidth Efficiency</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Channel-Equalisation"><span class="nav-number">10.</span> <span class="nav-text">Channel Equalisation</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Zero-Forcing-Equaliser"><span class="nav-number">10.1.</span> <span class="nav-text">Zero-Forcing Equaliser</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Disadvantages-of-the-Zero-Forcing-Filter"><span class="nav-number">10.1.1.</span> <span class="nav-text">Disadvantages of the Zero-Forcing Filter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MMSE-Equaliser"><span class="nav-number">10.2.</span> <span class="nav-text">MMSE Equaliser</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Orthogonal-Frequency-Division-Multiplexing-OFDM"><span class="nav-number">11.</span> <span class="nav-text">Orthogonal Frequency Division Multiplexing (OFDM)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OFDM-Transmitter"><span class="nav-number">11.1.</span> <span class="nav-text">OFDM Transmitter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OFDM-Parameters"><span class="nav-number">11.2.</span> <span class="nav-text">OFDM Parameters</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Convolutional-Code"><span class="nav-number">12.</span> <span class="nav-text">Convolutional Code</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Representations"><span class="nav-number">12.1.</span> <span class="nav-text">Representations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#State-Diagram"><span class="nav-number">12.1.1.</span> <span class="nav-text">State Diagram</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trellis-Diagram"><span class="nav-number">12.2.</span> <span class="nav-text">Trellis Diagram</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Viterbi-Algorithm"><span class="nav-number">12.3.</span> <span class="nav-text">Viterbi Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Free-Distance"><span class="nav-number">12.4.</span> <span class="nav-text">Free Distance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transfer-function"><span class="nav-number">12.5.</span> <span class="nav-text">Transfer function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Computing-and-Interpreting-the-Transfer-Function"><span class="nav-number">12.5.1.</span> <span class="nav-text">Computing and Interpreting the Transfer Function</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Catestrophic-Encoder"><span class="nav-number">12.6.</span> <span class="nav-text">Catestrophic Encoder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-Protocol"><span class="nav-number">13.</span> <span class="nav-text">TCP Protocol</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-Reno"><span class="nav-number">13.1.</span> <span class="nav-text">TCP-Reno</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exceptions-Handle"><span class="nav-number">13.2.</span> <span class="nav-text">Exceptions Handle</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-Retransmit"><span class="nav-number">13.2.1.</span> <span class="nav-text">Fast Retransmit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-Recovery"><span class="nav-number">13.2.2.</span> <span class="nav-text">Fast Recovery</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Long-term-Data-Rate"><span class="nav-number">13.3.</span> <span class="nav-text">Long-term Data Rate</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dijkstra%E2%80%99s-Algorithm"><span class="nav-number">14.</span> <span class="nav-text">Dijkstra’s Algorithm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bellman-Ford-Algorithm"><span class="nav-number">15.</span> <span class="nav-text">Bellman-Ford Algorithm</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Jinghong Chen</p>
+  <div class="site-description" itemprop="description">The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/project/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/project/tags/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://erichen0615.github.io/project/2020/01/01/Data-Transmission-Notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/project/images/avatar.gif">
+      <meta itemprop="name" content="Jinghong Chen">
+      <meta itemprop="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eric Chen's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Data Transmission Notes
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-01-01 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-01T00:00:00+00:00">2020-01-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-12-09 04:25:19" itemprop="dateModified" datetime="2021-12-09T04:25:19+00:00">2021-12-09</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>This course is about the fundamental principles of designing communication systems. A more realistic (but still simplified) picture of a source-destination link is:</p>
+<p><img src="2021-01-27-at-16.11.45.png"></p>
+<p>We will</p>
+<ul>
+<li>Focus mostly on the physical layer (transmission techniques)</li>
+<li>The last three lectures will focus on network algorithms for routing and congestion control</li>
+</ul>
+<p>Outline:</p>
+<ul>
+<li>Fundamentals of modulation &amp; demodulation for baseband and passband channels (7L, Dr Venkataramanan)</li>
+<li>Advanced concepts in modulation (Equalization, OFDM) (3L, Dr Venkataramanan)</li>
+<li>Error-correction and convolutional coding (3L, Dr Jossy Sayir)</li>
+<li>Network-layer algorithms for routing and congestion control (3L, Dr Jossy Sayir)</li>
+</ul>
+<h1 id="The-Physical-Layer"><a href="#The-Physical-Layer" class="headerlink" title="The Physical Layer"></a>The Physical Layer</h1><p><img src="2021-01-27-at-16.12.44" alt="2021-01-27-at-16.12.44"></p>
+<p>Transmitter does two things:</p>
+<ol>
+<li><em>Coding</em>: Adding redundancy to the data bits to protect against noise</li>
+<li><em>Modulation</em>: Transforming the coded bits into waveforms</li>
+</ol>
+<h1 id="The-Signal-Space"><a href="#The-Signal-Space" class="headerlink" title="The Signal Space"></a>The Signal Space</h1><p>Below is the overall picture of a standard communication process:</p>
+<p>bits $b$ -[mapping]-&gt; input waveform $x(t)$ -[channel]-&gt; received waveform $y(t)$ -[decode]-&gt; received bit $\hat b$</p>
+<p>The signal space is an elegant way to represent time-dependent <strong>waveform ** $x(t),y(t)$ using **projection efficients</strong> ${x_i},{y_i}$ , given an <strong>orthonormal basis</strong>.</p>
+<h2 id="Mapping-bits-to-waveforms"><a href="#Mapping-bits-to-waveforms" class="headerlink" title="Mapping bits to waveforms"></a>Mapping bits to waveforms</h2><p><img src="2021-01-27-at-16.24.15.png" alt="Screen Shot 2021-01-27 at 16.24.15"></p>
+<p>Given data bits, we typically map the $m$ bits using $M=2^m$ waveforms as above. We could alternatively use other mappings like:</p>
+<p><img src="2021-01-27-at-16.25.32.png" alt="Screen Shot 2021-01-27 at 16.25.32"></p>
+<h2 id="Vector-Spaces"><a href="#Vector-Spaces" class="headerlink" title="Vector Spaces"></a>Vector Spaces</h2><p>A vector space $\mathcal{V}$ is a set of elements (called “vectors”) that is <strong>closed under addition and scaler multiplication</strong>. </p>
+<p>A set of <em>linearly independent</em> vectors is called a <strong>basis</strong> of the vector space $\mathcal{V}$, if $v\in\mathcal{V}$ can be expressed as a linear combination of the form</p>
+<p>$$v = a_1v_1 + a_2v_2 + … + a_kv_k$$</p>
+<p>for some scaler $a_1,…,a_k$</p>
+<p>Let $\mathcal{L}_2$ be the set of complex-valued signals (functions) $x(t)$ with finite energy, i.e.,</p>
+<p>$$\int_{-\infty}^\infty|x(t)|^2dt &lt; \infty$$</p>
+<p>It can be shown that $\mathcal{L}_2$ is a vector space. The inner product this space can be defined as follows. For $x(\cdot),y(\cdot)\in\mathcal{L}_2$,</p>
+<p>$$&lt;x,y&gt; = \int_{-\infty}^\infty x(t)y^*(t)dt$$</p>
+<p>the norm of a signal is the square-root of its energy:</p>
+<p>$$||x||=\sqrt{&lt;x,x&gt;}= [ \int_{-\infty}^\infty |x(t)|^2dt]^{1/2}$$</p>
+<h3 id="Orthonormal-Basis-in-mathcal-L-2"><a href="#Orthonormal-Basis-in-mathcal-L-2" class="headerlink" title="Orthonormal Basis in $\mathcal{L_2}$"></a>Orthonormal Basis in $\mathcal{L_2}$</h3><p>For any vector space $\mathcal{L}\subset\mathcal{L_2}$, the set of functions ${f_i(\cdot),i=1,2,…}$ is called an <strong>orthonormal</strong> basis for $\mathcal{L}$ if </p>
+<ol>
+<li><p>Every $x(\cdot)\in\mathcal{L}$ can be expressed as</p>
+<p>$$x(t)=\sum_i x_if_i(t)$$</p>
+<p>for some scaler $x_1,x_2,…$ and</p>
+</li>
+<li><p>The functions ${f_i(\cdot),i=1,2,…}$ are <em>orthonormal</em>. That is,</p>
+<p>$$&lt;f_l,f_m&gt; = \int f_l(t)f^*_m(t)=1$$</p>
+<p><em>if and only if</em> $l=m$, and equal $0$ otherwise</p>
+</li>
+</ol>
+<p>If we fix an orthonormal basis for $\mathcal{L}$, we can treat functions in $\mathcal{L}$ just like vectors in Euclidean space. I.e.,</p>
+<p>$$x(t) \leftrightarrow (x_1,x_2,…,x_k)$$</p>
+<h1 id="Channel-Model"><a href="#Channel-Model" class="headerlink" title="Channel Model"></a>Channel Model</h1><p>Channels are often modelled as <em>linear time-invariant</em> systems with additive noise. With such model, the channel output $y(t)$ generated from input $x(t)$ is given as $y(t) = h(t)\star x(t)+n(t)$. We can use the <strong>additive noise model</strong> for some channels but not all, depending on the channel specification.</p>
+<p>In frequency domain:</p>
+<p>$$Y(f) = H(f)X(f)+N(f)$$</p>
+<p><img src="2021-01-27-at-16.42.22.png" alt="Screen Shot 2021-01-27 at 16.42.22"></p>
+<p>If our input signal $x(t)$ is bandlimited to $[-W_0, W_0]$, where $|H(f)|$ is constant, then $y(t)=c x(t-\tau)+n(t)$</p>
+<blockquote>
+<p>$y(t)$ is found by inverse frequency domain $Y(f)$ </p>
+</blockquote>
+<p>We can compensate for the constant channel gain $c$ and the constant delay $\tau$ at the receiver, so the channel is effectively</p>
+<p>$$y(t) =x(t)+n(t)$$</p>
+<p>But this is <strong>not a suitable model if $x(t)$ now has larger bandwidth spanning</strong> $[-W_1,W_1]$, in which case we need to understand how the channel <em>filters</em> the input signal. This is relevant when the telephone wire is used for DSL broadband communication.</p>
+<h2 id="Passband-Channel-Model"><a href="#Passband-Channel-Model" class="headerlink" title="Passband Channel Model"></a>Passband Channel Model</h2><p>Here the signal is restricted to have frequency components in the band$ [fc +W,fc −W]$,where$ fc$ is a carrier frequency( typically $fc ≫W$ ). As in baseband, there could be two scenarios in a passband channel.</p>
+<p>If $|H (f )|$ is constant throughout the band and delay is also a constant $τ$ , then an additive noise model $y(t) = x(t) + n(t)$ can be used.</p>
+<blockquote>
+<p>However, in mobile wireless communication, there are typically multiple signal paths from Tx to Rx. Such cases are not suitable for additive noise model </p>
+</blockquote>
+<h1 id="Noise-Model"><a href="#Noise-Model" class="headerlink" title="Noise Model"></a>Noise Model</h1><p>$$y(t) = h(t)\star x(t)+n(t)$$</p>
+<p>$n(t)$ is thermal noise at the Rx, and is inevitable for all receivers.</p>
+<p>We can model $n(t)$ as a <strong>Gaussian white noise process</strong>: For each $t$, $n(t)$ is Gaussian with zero mean and autocorrelation function:</p>
+<p>$$\mathbb{E}[n(t)n(t+\tau)]=\frac{N_0}{2}\delta(\tau)$$</p>
+<p>We note that the power spectual density (PSD or power spectrum) is $S_n(f)=\frac{N_0}{2}$, which has <em>infinite power</em>. But this doesn’t concern us because the transimitted sigal $x(t)$ is always <em>bandlimited</em>, giving finite energy.</p>
+<h1 id="Signal-Detection-in-White-Gaussian-Noise"><a href="#Signal-Detection-in-White-Gaussian-Noise" class="headerlink" title="Signal Detection in White Gaussian Noise"></a>Signal Detection in White Gaussian Noise</h1><p><img src="2021-01-27-at-16.57.35.png" alt="Screen Shot 2021-01-27 at 16.57.35"></p>
+<p>Set up:</p>
+<ul>
+<li>Signal set consists of $M$ waveforms ${s_1(t),…,s_M(t)}$</li>
+<li>We transmit one of $M$ messages with $x_i=s_i(t)$ </li>
+<li>${\phi_1(t),…,\phi_K(t)}$ is an orthonormal basis for the signal set. </li>
+<li>We wish to detect transmitted message from $y(t)=x(t)+n(t)$</li>
+</ul>
+<p>Hence each signal is equivalent to a $K$-dimensional vector.</p>
+<p>$$s_i(t) \leftrightarrow s_i=[s_{i,1},…,s_{i,K}]$$</p>
+<p>Where the coefficents $s_{i,m} = \int s_i(t)\phi_m^*(t)dt$</p>
+<p><img src="2021-01-27-at-17.02.45.png" alt="Screen Shot 2021-01-27 at 17.02.45"></p>
+<blockquote>
+<p>We didn’t lose any useful information by projecting the signal onto signal space</p>
+</blockquote>
+<h2 id="Projection-coefficients-of-white-noise"><a href="#Projection-coefficients-of-white-noise" class="headerlink" title="Projection coefficients of white noise"></a>Projection coefficients of white noise</h2><p>Let ${n_m}_{m\in\mathbb{Z}}$ be the projection coefficient of white noise. Then ${n_m}_{m\in\mathbb{Z}}$ are <strong>i.i.d. Gaussian with zero mean and variance $N_0/2$</strong>.  See prove below:</p>
+<p><img src="2021-01-27-at-17.05.05.png" alt="Screen Shot 2021-01-27 at 17.05.05"></p>
+<h2 id="Optimal-Detection"><a href="#Optimal-Detection" class="headerlink" title="Optimal Detection"></a>Optimal Detection</h2><p>The optimal detection rule that maximizes the probability of detection error is the <strong>Maximum a posteriori probability rule (MAP)</strong>   </p>
+<p>$$\hat x = \arg\max_{s_i\in\mathcal{S}}P(x=s_i)f(r|x=s_i)$$</p>
+<p>The optimallity of MAP can be shown as below:</p>
+<p><img src="image-20210128233505370.png" alt="image-20210128233505370"></p>
+<p>Notably, if the prior distribution on the signal vector is uniform, than the MAP rules decays to the <strong>Maximum Likelihood (ML)</strong> estimator.</p>
+<h3 id="ML-Detection-in-AWGN"><a href="#ML-Detection-in-AWGN" class="headerlink" title="ML Detection in AWGN"></a>ML Detection in AWGN</h3><p>For additive white noise and uniform prior on signal vector, the optimal detection rule is simply:</p>
+<p>$$\hat x^{ML} = \arg\min_{s_i\in\mathcal{S}}||r-s_i||^2$$</p>
+<p>which is the intuitive “minimum distance” decoding.</p>
+<h3 id="MAP-detection-in-AWGN"><a href="#MAP-detection-in-AWGN" class="headerlink" title="MAP detection in AWGN"></a>MAP detection in AWGN</h3><p>Suppose the prior probability of the signal vectors are $P(x=s_i)=p_i$, the MAP rule is:</p>
+<p><img src="2021-01-28-at-23.39.55.png" alt="Screen Shot 2021-01-28 at 23.39.55"></p>
+<h1 id="Baseband-Transmission-using-PAM"><a href="#Baseband-Transmission-using-PAM" class="headerlink" title="Baseband Transmission using PAM"></a>Baseband Transmission using PAM</h1><p><strong>Pulse-amplitude modulation</strong> (<strong>PAM</strong>), is a form of signal <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Modulation">modulation</a> where the message information is encoded in the amplitude of a series of signal pulses. It is an analog pulse modulation scheme in which the amplitudes of a train of carrier pulses are varied according to the sample value of the message signal. Demodulation is performed by detecting the amplitude level of the carrier at every single period.</p>
+<p>To specify a PAM scheme, we need to:</p>
+<ol>
+<li>Select the <strong>symbol constellation</strong>. For example ${-3A, -A, A, 3A}$ map the transmitted bits to the symbol as $00\rightarrow -3A$ etc. Once we fix the constellation, a sequence of bits can be uniquely mapped to constellation symbols.</li>
+<li>We then select the <strong>pulse waveform</strong> denoted by $p(t)$, whose amplitude is going to be modulated. The <em>baseband</em> signal is given by $x(t)=\sum_mX_mp(t-mT)$. where $T$ is called the <em>symbol</em> time of the pulse.</li>
+</ol>
+<p><img src="2021-02-10-at-02.19.38.png" alt="Screen Shot 2021-02-10 at 02.19.38"></p>
+<p>The <em>transmission rate</em> is $1/T$<strong>symbols/sec</strong> or $\log_2(M)/T$ <strong>bits/second</strong>, where $M$ is the constellation’s size.</p>
+<h2 id="Desirable-Properties-of-the-Pulse-Shape-p-t"><a href="#Desirable-Properties-of-the-Pulse-Shape-p-t" class="headerlink" title="Desirable Properties of the Pulse Shape $p(t)$"></a>Desirable Properties of the Pulse Shape $p(t)$</h2><ol>
+<li>We want $p(t)$ to decay quickly in time:<br>since symbol $X_m$ is carried by $p(t − mT)$, its effect should not start much before $t = mT$ or last much beyond $t = (m + 1)T$</li>
+<li>We want $p(t)$ to be band-limited to $[−W , W ]$.</li>
+<li>The shifted pulses ${p(t-mT)}_{m\in\mathcal{Z}}$ should form an <strong>orthonormal basis</strong></li>
+</ol>
+<h3 id="Time-Decay-and-Bandwidth"><a href="#Time-Decay-and-Bandwidth" class="headerlink" title="Time Decay and Bandwidth"></a>Time Decay and Bandwidth</h3><p>There is a tradeoff between time decay and bandwidth, which is best illustrated by the comparison between rect and sinc function.</p>
+<p><img src="2021-02-10-at-02.23.44.png" alt="Screen Shot 2021-02-10 at 02.23.44"></p>
+<h3 id="Orthonormality"><a href="#Orthonormality" class="headerlink" title="Orthonormality"></a>Orthonormality</h3><p><img src="2021-02-10-at-02.26.45.png" alt="Screen Shot 2021-02-10 at 02.26.45"></p>
+<p>By fixing a basis we can then represent the time signal in signal space by <strong>projecting $y(t)$ onto each of the orthonormal basis functions</strong>. Now we can build the optimal receiver using the minimum distance rule etc.</p>
+<p>We can build a bank of $K$ “correlators”, which compute the inner products with the K pulse shifts:</p>
+<p><img src="2021-02-10-at-02.29.21.png" alt="Screen Shot 2021-02-10 at 02.29.21"></p>
+<p>But this implementation is <strong>not practical</strong> since we typically want to transmit a large amount of data. So $K$ can be very large.</p>
+<h2 id="Matched-Filter-Implementation"><a href="#Matched-Filter-Implementation" class="headerlink" title="Matched Filter Implementation"></a>Matched Filter Implementation</h2><p>The matched filter is just a construct to project the time signal onto signal space (i.e., getting $X_k$ ). Let the filter impulse response be $q(t) = p(-t)$ </p>
+<p><img src="2021-02-10-at-02.31.14.png" alt="Screen Shot 2021-02-10 at 02.31.14"></p>
+<p>Addition note on interpreting convolutional integral:</p>
+<p><img src="image-20210210024905763.png" alt="image-20210210024905763"></p>
+<h2 id="Drawbacks-of-PAM"><a href="#Drawbacks-of-PAM" class="headerlink" title="Drawbacks of PAM"></a>Drawbacks of PAM</h2><p>So far the signal is <em>baseband</em>, in order to transmit it we will want to “up-convert” it with a high frequency carrier wave at $f_c$. Notice that because our signal $X_k$ and pulse $p(t)$ are real, the Fourier transfrom is a even function. This comes from $X_b(-f) = X_b^*(f)$ for real-valued functions. </p>
+<p><img src="image-20210223015002269.png" alt="image-20210223015002269"></p>
+<p><img src="image-20210223005733742.png" alt="image-20210223005733742"></p>
+<h1 id="The-Nyquist-Pulse-Criterion"><a href="#The-Nyquist-Pulse-Criterion" class="headerlink" title="The Nyquist Pulse Criterion"></a>The Nyquist Pulse Criterion</h1><p>In communications, the <strong>Nyquist ISI criterion</strong> describes the conditions which, when satisfied by a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Communication_channel">communication channel</a> (including responses of transmit and receive filters), result in no <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Intersymbol_interference">intersymbol interference</a> or ISI. It provides a method for constructing band-limited functions to overcome the effects of intersymbol interference.</p>
+<p>We have the following setup:</p>
+<p><img src="image-20210213005426388.png" alt="image-20210213005426388"></p>
+<p>The matched filter is just a special case when $q(t)=p(-t)$. We will look at how to <strong>jointly select $p(t)$ and $q(t)$  such that $r(mT)=X_m$</strong>. We denote $g(t) = p(t)\star q(t)$ as the <strong>effective pulse</strong>. Then we can write $r(t)=\sum_kX_kg(t-kT)$</p>
+<p>We want $r(mT)=X_m$ for all integer $m$, which is the ideal case when we have no <strong>inter-symbol interference</strong> (ISI). The <em>Nyquist Pulse Criterion</em> states the <em>frequency domain condition</em> for $g(t)$ in order to have no inter-symbol interference.</p>
+<p>The Nyquist Pulse Criterion is $\sum_{n=-\infty}^\infty G(f-\frac{n}{T}) = T$, which intuitively is <em>frequency-shifted replicas of $G(f)$ must add up to a constant value</em>. </p>
+<blockquote>
+<p><strong>Implication of Nyquist pulse criterion</strong>: The Nyquist pulse criterion implies that in order to have no ISI, $G(f)$ must have bandwidth at least $1/(2T)$. Otherwise there will be a “gap” in the summation of replicas and hence will not add to a constant value.</p>
+</blockquote>
+<h2 id="Quadrature-Amplitude-Modulation-QAM"><a href="#Quadrature-Amplitude-Modulation-QAM" class="headerlink" title="Quadrature Amplitude Modulation (QAM)"></a>Quadrature Amplitude Modulation (QAM)</h2><p>In Quadrature Amplitude Modulation (QAM), we allow our symbol $X_k$ to be complex-valued. This is <strong>bandwidth efficient</strong> because now our baseband frequency spectrum is not even. However, the signal we transmit must be real, so we generate the <em>passband</em> QAM by taking the real part: </p>
+<p> $$x(t)= \text{Re}(\sqrt{2}x_b(t)e^{j2\pi f_c t})$$</p>
+<blockquote>
+<p>The $\sqrt 2$ makes the carrier unit power</p>
+</blockquote>
+<p>What this essentially means that we are <strong>using two carriers with one lagging $180\deg$ to another</strong> (sine and cosine). </p>
+<blockquote>
+<p> The cosine carrier $\cos(2\pi f_ct)$ is called the <strong><em>in-phase</em></strong> component and the sinusoid carrier $\sin(2\pi f_ct)$ the <strong><em>quadrature</em></strong> component. For this reason, QAM is also called I-Q modulation</p>
+</blockquote>
+<p><img src="image-20210223011719425.png" alt="image-20210223011719425"></p>
+<p><img src="image-20210223011553491.png" alt="image-20210223011553491"></p>
+<blockquote>
+<p>How to obtain the passband transfrom?</p>
+</blockquote>
+<p>Some typical QAM constellations include <em>Phase Shift Keying (PSA), 16-QAM</em> etc. In PSK, the magnitude of $X_k$ is constant, and the information is in the phase of the symbol.</p>
+<h2 id="Orthogonality"><a href="#Orthogonality" class="headerlink" title="Orthogonality"></a>Orthogonality</h2><p><img src="image-20210223010833953.png" alt="image-20210223010833953"></p>
+<p> We can prove that the pulse-carrier product forms orthonormal basis, and hence we can use the idea of signal space (projection) to deal with optimal decoding. To show this, we need the Parserval’s theorem:</p>
+<blockquote>
+<p>Parserval Theorem: $\int_{-\infty}^\infty x(t)y(t)dt = \int_{-\infty}^{\infty}X(f)Y(f)^*df$</p>
+</blockquote>
+<h2 id="Receiver"><a href="#Receiver" class="headerlink" title="Receiver"></a>Receiver</h2><p>We can efficiently implement the signal space demodulator (demodulation + signal space projection) by <strong>carrier multiplication + low-pass filter followed by matched filter</strong></p>
+<p>To see why this is valid, note that:</p>
+<p><img src="image-20210223013211271.png" alt="image-20210223013211271"></p>
+<p>We therefore can reduce the problem  to <em>PAM</em> projection with carrier multiplication and low-pass filter. Here the matched filter uses the orthogonality of the pulse waveform. </p>
+<blockquote>
+<p>Note that the multiplication + low-pass filter + matched filter is just an efficient implementation of the optimal signal space receiver. A bank of correlators (as in PAM) is a possible but unpractical alternative.</p>
+</blockquote>
+<h2 id="Error-Probability-Analysis"><a href="#Error-Probability-Analysis" class="headerlink" title="Error Probability Analysis"></a>Error Probability Analysis</h2><p>To analyse the error probability of PSK, we need to use the rotation invariance of zero-mean Gaussian noise vector. Specifically:</p>
+<p><img src="image-20210223013831237.png" alt="image-20210223013831237"></p>
+<p>This essentailly tells us the distribution is invariant to our choice of coordinates rotations. So we can choose the most convenient coordinate (usually with axis normal to the decision bounday) to compute the error probability. Below is an example:</p>
+<p><img src="image-20210223014045450.png" alt="image-20210223014045450"></p>
+<h1 id="Frequency-Shift-Keying-FSK"><a href="#Frequency-Shift-Keying-FSK" class="headerlink" title="Frequency Shift Keying (FSK)"></a>Frequency Shift Keying (FSK)</h1><p>In Frequency Shift Keying (FSK), the information modulates the <em>frequency</em> of the carrier.</p>
+<p><img src="image-20210223014249296.png" alt="image-20210223014249296"></p>
+<blockquote>
+<p>Note that $\Delta f$ is related to the tranmission period $T$ by $\Delta f = \frac{1}{2T}$. </p>
+</blockquote>
+<h2 id="Demodulation-and-Detection-for-M-ary-FSK"><a href="#Demodulation-and-Detection-for-M-ary-FSK" class="headerlink" title="Demodulation and Detection for M-ary FSK"></a>Demodulation and Detection for M-ary FSK</h2><p>The waveforms ${f_1(t), f_2(t),…f_M(t)}$ are orthonormal over each symbol period, the demodulator computes their corresponding projection $Y_i = &lt;y(t), f_i(t)&gt;$.</p>
+<p><img src="image-20210223014840650.png" alt="image-20210223014840650"></p>
+<p> It should be obvious that the optimal detection rule is given by $\hat m=\arg\max_{1\leq i\leq M}y_i$</p>
+<h2 id="Probability-of-Detection-Error-and-Bandwidth-Efficiency"><a href="#Probability-of-Detection-Error-and-Bandwidth-Efficiency" class="headerlink" title="Probability of Detection Error and Bandwidth Efficiency"></a>Probability of Detection Error and Bandwidth Efficiency</h2><p>An error occurs if $y_1$ is not the maximum in the signal space vector. Suppose we transmit $x_1$</p>
+<p><img src="image-20210223015002269.png" alt="image-20210223015002269"></p>
+<p>The bandwidth of FSK is given by $\frac{M-1}{2T}$. The bandwidth efficiency (symbol rate/freq) is given by $\frac{2\log_2M}{M-1}$. It <em>decreases</em> as $M$ increases. This is due to the fact that       </p>
+<p>We note that the bandwidth efficiency (symbol/Hz) for FSK decreases as $M$ gets larger, but its error probability decreases if $E_b/N_0 &gt; 2\ln2$. For QAM, the bandwidth efficiency $\frac{\log_2M/T_s}{2/T_s}$ increases but the probability of error increases. There is a tradeoff between bandwidth efficiency and detection error.</p>
+<h1 id="Channel-Equalisation"><a href="#Channel-Equalisation" class="headerlink" title="Channel Equalisation"></a>Channel Equalisation</h1><p>So far we have considered baseband/passband channels whose frequency response $H(f)$ was <strong>flat</strong> throughout the transmission frequency band. This meant that (after compensating for attenuation and delay), the effective channel is an AWGN channel.</p>
+<p>However in many applications, the channel spectrum is not flat throughout the transmission band. For example, the frequency response of a DSL cable might look like</p>
+<p><img src="image-20210224235513779.png" alt="image-20210224235513779"></p>
+<p>Also the mobile wireless channel is a <em>multi-path</em> channel, we can model it with delays and attenuations </p>
+<p><img src="image-20210224235605128.png" alt="image-20210224235605128"></p>
+<p>In general, we will want to model the unflatness of the channel by its impulse response $h(t)$, the received signal thus becomes:</p>
+<p>$$y(t) = \int h(t)x(t-u)du + n(t)$$</p>
+<p>As compared to the AWGN model of $y(t) = x(t) + n(t)$</p>
+<blockquote>
+<p>A channel frequency response $H(f)$ that is not flat in the transmission band is called frequency-selective or dispersive</p>
+</blockquote>
+<p><img src="image-20210225000028257.png" alt="image-20210225000028257"></p>
+<p>The effective pulse $g(t)$ is now $p(t)\star h(t) \star q(t)$. In the absence of noise, our received sampled signal is given by $r(mT) = \sum_k X_k g((m-k)T)$. We can denote $r_m = r(mT), g_m = g(mT)$, so that $r_m = \sum_l g_l X_{m-l}$, or $r(k) = g(k)\star X(k)$</p>
+<blockquote>
+<p>Relation with Nyquist Pulse Criterion: If $g_m$ is a digital delta (pulse) then it must satisfy the Nyquist Pulse Criterion. It is a special case where the channel is “perfect”. </p>
+<p>In general the output will have ISI $g(k)\neq0\text{ for } k\neq0$, the output is effective the <strong>filtered</strong> symbols. Channel equalisation is trying to reverse that filter by passing $r_m$ through another filter to recover the original symbols.</p>
+</blockquote>
+<p>${r_m}$ is effectively ${X_m}$ passed through a filter ${g_m}$, and we wish to reverse that filter. This is called <strong>channel equalisation</strong>.</p>
+<blockquote>
+<p>Definition from Wikipedia: In <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Telecommunication">telecommunication</a>, <strong>equalization</strong> is the reversal of distortion incurred by a signal transmitted through a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Channel_(communications)">channel</a>. <strong>Equalizers</strong> are used to render the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Frequency_response">frequency response</a>—for instance of a telephone line—<em>flat</em> from end-to-end. When a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Communication_channel">channel</a> has been equalized the <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Frequency_domain">frequency domain</a> attributes of the signal at the input are faithfully reproduced at the output. Telephones, <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/DSL">DSL</a> lines and television cables use equalizers to prepare data signals for transmission.</p>
+</blockquote>
+<h2 id="Zero-Forcing-Equaliser"><a href="#Zero-Forcing-Equaliser" class="headerlink" title="Zero-Forcing Equaliser"></a>Zero-Forcing Equaliser</h2><p>After a <strong>Z-transform</strong>, we have $R(z) = G(z)X(z)$. Now we wish to have $Y(z)=H(z)R(z)$ and $Y(z)$ is our estimated transmitted symbol. One obvious way is to let $H(z) = G(z)^{-1}$ so that we recover exactly $Y(z)=X(z)$. This is called the <em>zero-forcing equaliser</em>.</p>
+<blockquote>
+<p>Why Z-transform? Note that the channel is just a digial filter. Z-transform is the easiest way to solve for the output given the input and the filter.</p>
+</blockquote>
+<p>It is called Zero-Forcing because it completely eliminates ISI.</p>
+<p>In general, the zero forcing equaliser is given by:</p>
+<p>$H_E(z)=\frac{1}{\sum_l^Lg_lz^{-l}} = h_0 + h_1z^-1 + …$</p>
+<p>We note that although the channel impulse $g_k$ is finite, the equaliser is a IIR filter and needs to be implemented <strong>using feedback</strong>. One way to do it is given below:</p>
+<p><img src="image-20210225001819048.png" alt="image-20210225001819048"></p>
+<p>We note that IIR filter can be problematic in stability and numerical stability.</p>
+<p>Alternatively, we can use a FIR filter (truncated filter) to implement the ZF equaliser. There will be some ISI and the interference decreases as we increase the order of our filter.</p>
+<p><img src="image-20210430004007701.png" alt="image-20210430004007701"></p>
+<blockquote>
+<p>A K+1 taps filter has impulse response $[h_0, h_1,…,h_K]$</p>
+</blockquote>
+<h3 id="Disadvantages-of-the-Zero-Forcing-Filter"><a href="#Disadvantages-of-the-Zero-Forcing-Filter" class="headerlink" title="Disadvantages of the Zero-Forcing Filter"></a>Disadvantages of the Zero-Forcing Filter</h3><p> The noise is also passed through the filter, and their variance is amplified. This is called <strong>noise enhancement</strong> and often it will destroy the Signal to Noise Ratio (SNR). </p>
+<p><img src="image-20210225002331588.png" alt="image-20210225002331588"></p>
+<p>For this reason, ZF equaliser is of no practical use.</p>
+<h2 id="MMSE-Equaliser"><a href="#MMSE-Equaliser" class="headerlink" title="MMSE Equaliser"></a>MMSE Equaliser</h2><p>The Minimum Mean Square Error (MMSE) Equaliser explicitly tries to minimise the expected squared error between $X_m$ and $\hat X_m$</p>
+<p><img src="image-20210225123947389.png" alt="image-20210225123947389"></p>
+<blockquote>
+<p>Note that the equaliser coefficent $h_l = c_{K-l}$</p>
+</blockquote>
+<p>We can derive the MMSE equaliser as follows:</p>
+<p><img src="image-20210225003932890.png" alt="image-20210225003932890"></p>
+<h1 id="Orthogonal-Frequency-Division-Multiplexing-OFDM"><a href="#Orthogonal-Frequency-Division-Multiplexing-OFDM" class="headerlink" title="Orthogonal Frequency Division Multiplexing (OFDM)"></a>Orthogonal Frequency Division Multiplexing (OFDM)</h1><p>We transmit $N+L$ symbols as a block in $(N+L)T_s$ time. There are $L$ cyclic symbols and $N$ useful symbols. $L$ is the number of non-zero entries of the effective filter $g[k]$, and is usually determined by the channel. </p>
+<p>Bandwidth: $1/T_s$</p>
+<p>Sub-band interval: $1/(NT_s)$</p>
+<p>Symbol rate: $\frac{N}{(N+L)T_s}$</p>
+<h2 id="OFDM-Transmitter"><a href="#OFDM-Transmitter" class="headerlink" title="OFDM Transmitter"></a>OFDM Transmitter</h2><p><img src="image-20210315112636659.png" alt="image-20210315112636659"></p>
+<p>Below is a block diagram for OFDM transmitter:</p>
+<p><img src="image-20210430010914262.png" alt="image-20210430010914262"></p>
+<h2 id="OFDM-Parameters"><a href="#OFDM-Parameters" class="headerlink" title="OFDM Parameters"></a>OFDM Parameters</h2><p>The key parameters of OFDM transmission scheme is summarized below, including number of subcarriers, bandwidth, impulse response length, symbol transmission period, batch transmission period, guard interval duration etc.</p>
+<p><img src="image-20210417014207362.png" alt="image-20210417014207362"></p>
+<h1 id="Convolutional-Code"><a href="#Convolutional-Code" class="headerlink" title="Convolutional Code"></a>Convolutional Code</h1><p>In convolutional code, a stream of input bits is transformed into a stream of code bits using a shift register (filter). </p>
+<p><img src="image-20210402102809190.png" alt="image-20210402102809190"></p>
+<h2 id="Representations"><a href="#Representations" class="headerlink" title="Representations"></a>Representations</h2><p><img src="image-20210402102922713.png" alt="image-20210402102922713"></p>
+<blockquote>
+<p>Usually we are only interested in $k=1$. </p>
+</blockquote>
+<h3 id="State-Diagram"><a href="#State-Diagram" class="headerlink" title="State Diagram"></a>State Diagram</h3><p>We may also represent convolutional code using state diagrams as in a finite state machine. For a code length of $L$ we will have $2^{L-1}$ states. The output during the transition (<em>Mealy Machine</em>) is the code bits. For example:</p>
+<p><img src="image-20210402103200636.png" alt="image-20210402103200636"></p>
+<h2 id="Trellis-Diagram"><a href="#Trellis-Diagram" class="headerlink" title="Trellis Diagram"></a>Trellis Diagram</h2><p>The Trellis diagram is drawn by unravelling the state diagrams, with every possible transition at each time step. For example:</p>
+<p><img src="image-20210402103413356.png" alt="image-20210402103413356"></p>
+<blockquote>
+<p>We use the convention that solid line - represents an input $0$, and dotted line — represents an input $1$</p>
+</blockquote>
+<p>We can see how the Trellis diagram include every possible transitions. It is very helpful in decoding convolutional code.</p>
+<h2 id="Viterbi-Algorithm"><a href="#Viterbi-Algorithm" class="headerlink" title="Viterbi Algorithm"></a>Viterbi Algorithm</h2><p>Dynamic Programming (DP) is used to decode convolutional codes, so that we don’t need to iterate over all possible routes. Instead, for a convolutional code with $n$ stages, we only need to remember $n$ surviving routes and $n$ values for each state node. For details, checkout this <a href="handout12.pdf">handout</a>.</p>
+<h2 id="Free-Distance"><a href="#Free-Distance" class="headerlink" title="Free Distance"></a>Free Distance</h2><p>Convolutional codes are <em>linear code</em>, which means we can find the maximum number of error bit for which the code can correct itself by looking at $\lfloor (d_{min}-1)/2 \rfloor$, where $d_{min}$ is the minimum hamming distance of any codeword excerpt the all-zero code. However, because the length of convolutional code is unlimited (<em>streaming code</em>), $d_{min}$ is not well defined (you will need to specify a length). Hence we use the <strong>free distance</strong> $d_{free}$ to characterize convolutional codes.</p>
+<p>The easiest way to find the free distance $d_{free}$ is through the <strong>transfer function</strong>.</p>
+<blockquote>
+<p>Note that if we assume no burst of errors, the correcting capacity of a convolutional code is given by $\lfloor (d_{free}-1)/2 \rfloor$</p>
+</blockquote>
+<h2 id="Transfer-function"><a href="#Transfer-function" class="headerlink" title="Transfer function"></a>Transfer function</h2><p><img src="image-20210402105040468.png" alt="image-20210402105040468"></p>
+<h3 id="Computing-and-Interpreting-the-Transfer-Function"><a href="#Computing-and-Interpreting-the-Transfer-Function" class="headerlink" title="Computing and Interpreting the Transfer Function"></a>Computing and Interpreting the Transfer Function</h3><p>From the transfer function we can obtain the <em>free distance</em>. By expanding the transfer function we actually obtain the whole spectrum of error sequences.</p>
+<p>The extended transfer function define the following symbols:</p>
+<ul>
+<li>$D$: for each 1 in the output, multiply $D$</li>
+<li>$J$: for each branch, multiply $J$</li>
+<li>$N$: multiplied to each branch corresponds to an input of 1</li>
+</ul>
+<p><img src="image-20210402105113971.png" alt="image-20210402105113971"></p>
+<p><img src="image-20210416195141720.png" alt="image-20210416195141720"></p>
+<h2 id="Catestrophic-Encoder"><a href="#Catestrophic-Encoder" class="headerlink" title="Catestrophic Encoder"></a>Catestrophic Encoder</h2><p>A convolutional encoder is <strong>catastrophic</strong> if there exists two (arbitrarily long) code sequences which differ only in a small number of bits, but the corresponding two input sequences differ in an arbitrarily large number of bits. With such encoder, when one of these code sequences is transmitted a small number of channel errors can lead to an arbitrarily large number of errors in the (predicted) input sequence.</p>
+<p>Below is a theorem which tests whether the encoder is catestrophic:</p>
+<img src="image-20210417020623037.png" alt="image-20210417020623037" style="zoom:25%;" />
+
+<h1 id="TCP-Protocol"><a href="#TCP-Protocol" class="headerlink" title="TCP Protocol"></a>TCP Protocol</h1><p>Network has a layered structure as follows:</p>
+<ol>
+<li>Phyical layer: bits over channel</li>
+<li>Link layer: reliable tx of frames</li>
+<li>Network layer: data transmitted in packets</li>
+<li>Transport layer: reliable end-to-end data transmission [congestion control, routing]</li>
+<li>Application layer: protocols like HTTP, FTP and SSH used by applications</li>
+</ol>
+<p>The <strong>Transimission Control Protocol</strong> (TCP) is an end-to-end <em>transport</em> protocol. It specifies:</p>
+<ol>
+<li>How to establish connection</li>
+<li>Connection maintenance<ul>
+<li>Reliability</li>
+<li>Congestion Control</li>
+<li>Flow Control</li>
+<li>Sequencing</li>
+</ul>
+</li>
+<li>Connection termination</li>
+</ol>
+<h2 id="TCP-Reno"><a href="#TCP-Reno" class="headerlink" title="TCP-Reno"></a>TCP-Reno</h2><p>TCP-Reno is the algorithm used to regulate network traffic in order to avoid congestion collapse. The ground rules are:</p>
+<ol>
+<li>The receiver returns <code>ack</code> upon reception of each packet</li>
+<li>The transmitter keeps a window of variable size $W$. In the window are packets that have been sent but not <code>ack</code>ed.</li>
+<li>Each time the transmitter receives an <code>ack</code>, it shifts the window by $1$</li>
+<li>The transmitter take the emprical mean and deviation of round-trip time (RTT) to estimate timeout.</li>
+</ol>
+<p>The algorihm is divided into two phases: the Slow Start phase (SS) and Congestion Avoidance (CA) phase</p>
+<p><strong>Slow Start Phase (SS)</strong></p>
+<p><img src="image-20210324190840595.png" alt="image-20210324190840595"></p>
+<p><strong>Congestion Control Phase (CA)</strong></p>
+<p><img src="image-20210324190853806.png" alt="image-20210324190853806"></p>
+<p>We can use a continuous time model to calculate the transmission rate in steady state with error rate $q(t)$</p>
+<p><img src="image-20210331222237739.png" alt="image-20210331222237739"></p>
+<h2 id="Exceptions-Handle"><a href="#Exceptions-Handle" class="headerlink" title="Exceptions Handle"></a>Exceptions Handle</h2><h3 id="Fast-Retransmit"><a href="#Fast-Retransmit" class="headerlink" title="Fast Retransmit"></a>Fast Retransmit</h3><p>Waiting for timeout to happen can be very long. So instead TCP uses three duplicate <code>ack</code> as the indicator of packet loss. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=VCjS1KxRRWE">TCP fast retransmit</a> demonstrates it pretty well.</p>
+<h3 id="Fast-Recovery"><a href="#Fast-Recovery" class="headerlink" title="Fast Recovery"></a>Fast Recovery</h3><p><img src="image-20210324190942868.png" alt="image-20210324190942868"></p>
+<h2 id="Long-term-Data-Rate"><a href="#Long-term-Data-Rate" class="headerlink" title="Long-term Data Rate"></a>Long-term Data Rate</h2><h1 id="Dijkstra’s-Algorithm"><a href="#Dijkstra’s-Algorithm" class="headerlink" title="Dijkstra’s Algorithm"></a>Dijkstra’s Algorithm</h1><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=_lHSawdgXpI">Dijkstra’s algorithm in 3 minutes — Review and example</a> is a good video illustrating Dijkstra’s Algorithm.</p>
+<p><img src="image-20210331222440003.png" alt="image-20210331222440003"></p>
+<p>Dijkstra’s Algorithm has time complexity $O(\log N\times N + L)$</p>
+<p>Below is an example of executing Dijkstra’s Algorithm</p>
+<p><img src="image-20210416195951525.png" alt="image-20210416195951525"></p>
+<blockquote>
+<p>Dijkstra’s algorithm works out the shortest path from A to <strong>all other</strong> reachable nodes</p>
+</blockquote>
+<h1 id="Bellman-Ford-Algorithm"><a href="#Bellman-Ford-Algorithm" class="headerlink" title="Bellman-Ford Algorithm"></a>Bellman-Ford Algorithm</h1><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=obWXjtg0L64">Bellman-Ford in 5 minutes - Step by step example</a> provides a working example of executing the Bellman-Ford algorithm</p>
+<p>Bellman Ford is an iterative dynamic programming algorithm to work the minimal distance from <strong>every</strong> source to <strong>every</strong> nodes. It only requires message passing between adjacent nodes so it is <strong>distributed</strong> in nature. The time complexity is $O(N\times L)$, where $N$ is the number of nodes and $L$ is the number of links. The time complexity is worse than Dijkstra’s algorithm but it is much more flexible.</p>
+<blockquote>
+<p>Besides, Bellman Ford can handle negative costs which Dijkstra’s cannot</p>
+</blockquote>
+<p><img src="image-20210402110602281.png" alt="image-20210402110602281"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/project/tags/Cambridge/" rel="tag"># Cambridge</a>
+              <a href="/project/tags/Informatics/" rel="tag"># Informatics</a>
+              <a href="/project/tags/Lecture-Notes/" rel="tag"># Lecture Notes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/project/2021/12/06/C-Practicals/" rel="next" title="C++ Practicals">
+                  C++ Practicals <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jinghong Chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/project/js/comments.js"></script><script src="/project/js/utils.js"></script><script src="/project/js/motion.js"></script><script src="/project/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/project/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
