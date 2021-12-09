@@ -33,6 +33,8 @@ jobs:
       - name: Build
         run: |
           export PATH="$PATH:$RUNNER_TOOL_CACHE/pandoc-2.16.2/bin"
+          npm uninstall hexo-renderer-marked --save
+          npm install hexo-renderer-pandoc --save
           npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
