@@ -9,12 +9,6 @@ jobs:
   pages:
     runs-on: ubuntu-latest
     steps:
-      - name: Install pandoc
-        run: |
-            curl -s -L https://github.com/jgm/pandoc/releases/download/2.16.2/pandoc-2.16.2-linux-arm64.tar.gz | tar xvzf - -C $RUNNER_TOOL_CACHE/
-#       - uses: docker://pandoc/core:2.16
-#         with:
-#           args: "--help"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Use Node.js 12.
@@ -32,9 +26,6 @@ jobs:
         run: npm install
       - name: Build
         run: |
-          export PATH="$PATH:$RUNNER_TOOL_CACHE/pandoc-2.16.2/bin"
-          npm uninstall hexo-renderer-marked --save
-          npm install hexo-renderer-pandoc --save
           npm run build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
