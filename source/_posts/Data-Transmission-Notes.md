@@ -6,7 +6,7 @@ tags:
     - Cambridge
     - Informatics
     - Lecture Notes
-mathjax: true
+math: true
 ---
 
 # Introduction
