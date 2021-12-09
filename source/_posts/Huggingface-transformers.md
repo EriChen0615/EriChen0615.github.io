@@ -3,6 +3,8 @@ title: Huggingface transformers
 date: 2021-10
 tags:
 ---
+Excerpts from https://huggingface.co/docs/transformers/quicktour
+
 # Quick Tour
 
 Let’s have a quick look at the huggingface 🤗 Transformers library features. The library downloads pretrained models for Natural Language Understanding (NLU) tasks, such as analyzing the sentiment of a text, and Natural Language Generation (NLG), such as completing a prompt with new text or translating in another language.

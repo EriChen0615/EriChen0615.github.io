@@ -1,6 +1,6 @@
 ---
 title: Introduction to scala
-date: 2021-12-09 05:48:25
+date: 2021-07
 tags:
     - Scala
     - Programming

@@ -1,6 +1,6 @@
 ---
 title: Notes on Signal and System
-date: 2021-12-09 05:27:50
+date: 2020-11
 tags:
     - Control
     - Cambridge

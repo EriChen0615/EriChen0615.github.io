@@ -3,8 +3,9 @@ title: A Tour of C++
 date: 2020-12
 tags:
     - C++
-    - Programing
+    - Programming
 ---
+Excerpts from the book *A Tour of C++*
 
 # Modularity
 

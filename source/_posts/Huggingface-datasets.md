@@ -5,6 +5,7 @@ tags:
     - Huggingface
     - Programming
 ---
+Excerpts from https://huggingface.co/docs/datasets/quicktour.html
 
 🤗 Datasets is a library for easily accessing and sharing datasets, and evaluation metrics for Natural Language Processing (NLP), computer vision, and audio tasks.
 

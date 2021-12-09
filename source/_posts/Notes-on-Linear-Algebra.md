@@ -1,17 +1,12 @@
 ---
 title: Notes on Linear Algebra
-date: 2021-12-09 05:35:11
+date: 2020-1
 tags:
     - Maths
     - Cambridge
     - Note
+math: true
 ---
-% Linear Algebra
-
-% Jinghong Chen
-
-% 2020-1
-
 # Linear Algebra - Definitions
 
 ## Vectors
