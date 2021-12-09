@@ -12,9 +12,9 @@ jobs:
       - name: Install pandoc
         run: |
             curl -s -L https://github.com/jgm/pandoc/releases/download/2.16.2/pandoc-2.16.2-linux-arm64.tar.gz | tar xvzf - -C $RUNNER_TOOL_CACHE/
-      - uses: docker://pandoc/core:2.16
-        with:
-          args: "--help"
+#       - uses: docker://pandoc/core:2.16
+#         with:
+#           args: "--help"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Use Node.js 12.
