@@ -9,9 +9,8 @@ jobs:
   pages:
     runs-on: ubuntu-latest
     steps:
-      - uses: docker://pandoc/core:2.16
-        with:
-          args: "--help" # gets appended to pandoc command
+      - name: Install pandoc
+        run:   curl -s -L https://github.com/jgm/pandoc/releases/download/2.9.2/pandoc-2.9.2-linux-amd64.tar.gz | tar xvzf - -C $RUNNER_TOOL_CACHE/
       - uses: actions/checkout@v2
       - name: Use Node.js 12.
         uses: actions/setup-node@v1
