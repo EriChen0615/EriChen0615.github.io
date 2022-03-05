@@ -79,7 +79,7 @@ fun_features:
   # 为 subtitle 添加打字机效果
   # Typing animation for subtitle
   typing:
-    enable: true
+    enable: false
 
     # 打印速度，数字越大越慢
     # Typing speed, the larger the number, the slower
@@ -581,7 +581,7 @@ post:
   # Copyright, will be displayed at the end of each post
   copyright:
     enable: true
-    content: 'Jinghong Chen @2021'
+    content: 'Jinghong Chen @2021-2022'
 
   # 文章底部上一篇下一篇功能
   # Link to previous/next post
