@@ -1,0 +1,806 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="The personal blog of Jinghong Chen (Eric). On Machine Learning, Programming and beyond">
+  <meta name="author" content="Jinghong Chen">
+  <meta name="keywords" content="Machine Learning Jinghong Chen Eric Programming blog">
+  <meta name="description" content="Overview Introduction Formulating Data-to-Text NLG and faithfulness Data-to-text Evaluation String-Matching &amp; Correlation-based Methods Neural model Methods External Knowledge base Methods   Trick">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLG faithfulness - A literature review">
+<meta property="og:url" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/index.html">
+<meta property="og:site_name" content="Eric Chen&#39;s Blog">
+<meta property="og:description" content="Overview Introduction Formulating Data-to-Text NLG and faithfulness Data-to-text Evaluation String-Matching &amp; Correlation-based Methods Neural model Methods External Knowledge base Methods   Trick">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/fig1.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/fig2.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/fig3.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220303231045763.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304001226511.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304212825848.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304215047738.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304215333790.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304215345403.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304001856637.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/fig4.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304222212868.png">
+<meta property="og:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/image-20220304225445735.png">
+<meta property="article:published_time" content="2022-03-05T00:29:33.000Z">
+<meta property="article:modified_time" content="2022-03-05T00:55:31.554Z">
+<meta property="article:author" content="Jinghong Chen">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="NLG">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://erichen0615.github.io/2022/03/05/NLG-faithfulness/fig1.png">
+  
+  <title>NLG faithfulness - A literature review - Eric Chen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"erichen0615.github.io","root":"/","version":"1.8.12","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":"G-YZ0RNYKG8D","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname"}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Jinghong Chen (Eric)</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                Tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="NLG faithfulness - A literature review">
+              
+                NLG faithfulness - A literature review
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-05 00:29" pubdate>
+        March 5, 2022 am
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      16k words
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      21 minutes
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NLG faithfulness - A literature review</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><ul>
+<li>Introduction</li>
+<li>Formulating Data-to-Text NLG and faithfulness Data-to-text</li>
+<li>Evaluation<ul>
+<li>String-Matching &amp; Correlation-based Methods</li>
+<li>Neural model Methods</li>
+<li>External Knowledge base Methods</li>
+</ul>
+</li>
+<li>Tricks and Models <ul>
+<li>Delexicalization </li>
+<li>Copy Mechanism</li>
+<li>Reranker with fidelity classifier</li>
+</ul>
+</li>
+</ul>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>In most NLG tasks, we start with some data and wish to generate texts that communicate the information given. Our data sources range from tables to Wikipedia entries to massive knowledge graphs to enable automatic summarization, intelligent conversational agents and A.I. news reporters. This field of research is broadly termed <strong>data-to-text</strong>, which, as you may have realized, explores many applications that are still considered to be in the lab phase at the time of writing. </p>
+<p>One of the most critical and challenging problems is ensuring that our generation is consistent with the input data, which we will call <strong>NLG faithfulness</strong>. The least thing you want to hear from your personal assistant is something that is WRONG. In many cases, it might just be easier and safer to present the source data to the user without bothering with generating natural utterances at all. </p>
+<p>Faithfulness is particularly challenging to enforce with neural-based approaches because it is hard to interpret neural networks decisions and harder still to explicitly instil faithfulness in large neural models. Of course, you can always introduce more data and hope that your model learns to make fewer mistakes, but NLG happens to be a field where high precision is required because the damage of misinformation almost always outweighs the benefits of truthful ones. You will not be particularly grateful to the assistant on your phone if it tells you the right departure time of your flight, but you will certainly be in fury if it tells you the wrong time leading to a missed flight. Therefore, it is important that we have some assurance that we are generating sensible texts with near-zero error rates. </p>
+<p>This makes NLG faithfulness a challenging research problem. In this article, I will briefly formulate the problem and review the current grounds of faithfulness evaluation and modelling approaches. </p>
+<h1 id="Formulating-NLG-and-faithfulness"><a href="#Formulating-NLG-and-faithfulness" class="headerlink" title="Formulating NLG and faithfulness"></a>Formulating NLG and faithfulness</h1><h2 id="Formulating-Data-to-Text"><a href="#Formulating-Data-to-Text" class="headerlink" title="Formulating Data-to-Text"></a>Formulating Data-to-Text</h2><p>The D2T task is formally defined as generating text T from data D that is encoded via a <strong>meaning representation</strong> MR.</p>
+<p>The MR is typically a text sequence, thus formulating the task into a seq2seq problem. The process from input data to its meaning representation is called <strong>linearization</strong></p>
+<p>Below is a table of the typical sources of data and their formats</p>
+<table>
+<thead>
+<tr>
+<th>Data Source</th>
+<th>Data Format</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Knowledge Graph</td>
+<td>(subject, relation, object) e.g. (Joe Biden, President, United States)</td>
+</tr>
+<tr>
+<td>Dialogue Action</td>
+<td>{Intent (slot = value), …} e.g. INFORM (name_of_place = Cambridge)</td>
+</tr>
+<tr>
+<td>Tables</td>
+<td>{(Attribute, value), …} pairs e.g. (PlayerName, Lebron James)</td>
+</tr>
+</tbody></table>
+<p>Linearization is typically done by denoting different parts of the data by special tokens, as shown in the following figure from [1]</p>
+<p><img src="fig1.png" srcset="/img/loading.gif" lazyload alt="Linearization of different datasets"></p>
+<p>Below is a summary of the typical baseline architecture.</p>
+<img src="fig2.png" srcset="/img/loading.gif" lazyload alt="Typical architecture for NLG" style="zoom:100%;" />
+
+<blockquote>
+<p>There are many ways to linearize the data and more ways still to model the problem, as we will see later. The above is just a baseline. </p>
+</blockquote>
+<h2 id="Formulating-faithfulness"><a href="#Formulating-faithfulness" class="headerlink" title="Formulating faithfulness"></a>Formulating faithfulness</h2><p>Faithfulness essentially means <strong>The generation is faithful to the input data</strong>. Here are some examples of when the generation is NOT faithful.</p>
+<p><img src="fig3.png" srcset="/img/loading.gif" lazyload alt="Unfaithful generation. Note the wrong phone number."></p>
+<p>Faithfulness goes by many names: <strong>semantic fidelity</strong> [1], <strong>semantic accuracy</strong> [2], <strong>factual accuracy</strong> [3] and <strong>factual consistency</strong> [4], etc. Ideally, we should have a discriminative function $f(T, D)$ which tells us whether the text is faithful to the data. </p>
+<p>Let’s consider the possible situations (types of error) when faithfulness is violated [2]:</p>
+<ol>
+<li><strong>Omission</strong> When the generation fails to verbalize a data entry</li>
+<li><strong>Hallucination</strong> When the generation contains information that is not in the input data</li>
+</ol>
+<p><img src="image-20220303231045763.png" srcset="/img/loading.gif" lazyload alt="Figure from [2]"></p>
+<p>Either omission or hallucination is unacceptable. Our goal is to reduce these errors.</p>
+<h2 id="Datasets-and-Tasks"><a href="#Datasets-and-Tasks" class="headerlink" title="Datasets and Tasks"></a>Datasets and Tasks</h2><ul>
+<li><p>Data-to-Text: WebNLG</p>
+</li>
+<li><p>Dialogue System: E2E, Schema Guided Dialogue (SGD)</p>
+</li>
+</ul>
+<p>The examples will primarily come from SGD. </p>
+<h1 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h1><blockquote>
+<p>“Machine Translation is a field where more has been written about evaluation.” NLG is similar.</p>
+</blockquote>
+<p>We start from evaluation because without it, you won’t be able to reliably tell how good your model is. It’s like poking around in a dark room without candles.</p>
+<p>There are three major approaches to evaluate faithfulness:</p>
+<ol>
+<li>Model-free methods based on string matching and its extension </li>
+<li>Model-based and hybrid methods with NLU or fact extraction capacity <ol>
+<li>Natural Language Inference [1, 2]</li>
+<li>Fact extraction [3]</li>
+<li>Question and Answer, with Knowledge Grounding [4]</li>
+</ol>
+</li>
+</ol>
+<h2 id="Model-free-approaches-based-on-string-matching"><a href="#Model-free-approaches-based-on-string-matching" class="headerlink" title="Model-free approaches based on string matching"></a>Model-free approaches based on string matching</h2><p>By traditional I mean string-matching based methods in the same line as the famous BLEU in Machine Translation.</p>
+<h3 id="Slot-Error-Rate-SER"><a href="#Slot-Error-Rate-SER" class="headerlink" title="Slot Error Rate (SER)"></a>Slot Error Rate (SER)</h3><p>SER is typically used for <strong>dialogue systems</strong>. It can evaluate slots that <u>need to be verbalized exactly</u>. A typical example is <u>phone_number</u>. An utterance is marked as having a slot error if it does not contain the exact strings instructed by the input slots.</p>
+<table>
+<thead>
+<tr>
+<th>Input dialogue action</th>
+<th>Correct utterance</th>
+<th>Erroneous utterance</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>{‘act’=INFORM, ‘slot’: phone_number’, ‘values’: [‘415-346-2356’]}</td>
+<td>You can call them at <strong>415-346-2356.</strong></td>
+<td>Their number is <strong>415-346-26</strong>.</td>
+</tr>
+</tbody></table>
+<p>Advantages of SER:</p>
+<ul>
+<li>Easy to implement</li>
+<li>A valid lower bound of error</li>
+<li>Strict and interpretable</li>
+</ul>
+<p>Disadvantages of SER:</p>
+<ul>
+<li>Cannot detect semantic errors. For example, if <code>call</code> is replaced with <code>email</code> in the last example, SER will still mark the utterance as correct</li>
+<li>Only covers non-categorical slots. Cannot evaluate boolean slots such as <code>is_child_friendly=Ture</code>, because a valid utterance may not contain the word <code>True</code> or even <code>child friendly</code>. For example, a valid utterance could be <code>The place is good for kids</code>, where there is no direct word matching at all. </li>
+</ul>
+<h3 id="ROUGE"><a href="#ROUGE" class="headerlink" title="ROUGE"></a>ROUGE</h3><p><strong>ROUGE</strong>, or <strong>Recall-Oriented Understudy for Gisting Evaluation</strong>, is a set of metrics and a software package used for evaluating <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Automatic_summarization">automatic summarization</a> and <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Machine_translation">machine translation</a> software in <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Natural_language_processing">natural language processing</a>. The metrics compare an automatically produced summary or translation against a reference or a set of references (human-produced) summary or translation.</p>
+<img src="image-20220304001226511.png" srcset="/img/loading.gif" lazyload alt="ROUGE formula" style="zoom:100%;" />
+
+<p>This is a <strong>recall-related</strong> measure since the denominator is the reference n-grams.</p>
+<blockquote>
+<p>BLEU is a <strong>precision-based</strong> measure. i.e., how well a candidate translation matches a set of reference translations by counting the percentage of the n-gram in the candidate translation overlapping with the references.</p>
+</blockquote>
+<p>Advantage of ROUGE:</p>
+<ol>
+<li>Standard implementation available</li>
+<li>Recall focus reflects ommission problems</li>
+</ol>
+<p>Disadvantage of ROUGE:</p>
+<ol>
+<li>Cannot detect semantic error and critical string mismatch (e.g. phone number)</li>
+<li>Higher ROUGE does not strictly correlated with better faithfulness</li>
+</ol>
+<h3 id="PARENT"><a href="#PARENT" class="headerlink" title="PARENT"></a>PARENT</h3><p>PARENT[5] is a metric for table-to-text tasks. <strong>Tables</strong> are natrual language descriptions of semi-structured data. Tables can be expressed as set of records $T={r_k}_{k=1}^K$, where each record is a tuple $(entity, attribute, value)$. The task is to generate a text $G$ which summarizes the records in a fluent and grammatical manner. $R$ is the reference provided in the dataset.</p>
+<p>PARENT evaluates each instance $(T^i,R^i,G^i)$ separately, by computing the precision and recall of $G^i$ against both $T^i$ and $R^i$</p>
+<p>When computing <strong>precision</strong>, PARENT effectively uses a <strong>union of the reference and the table</strong>, to reward correct information missing from the reference. When computing <strong>recall</strong>, it uses <strong>an intersection of the reference and the table</strong>, to ignore extra incorrect information in the reference. The union and intersection are computed <strong>with the help of an entailment model</strong> to decide if a text n-gram is entailed by the table.</p>
+<p>They propose two entailment models as follows:</p>
+<ol>
+<li><p><strong>Word Overlap Model</strong>: Let $\bar T^i$ denote all the lexical items present in the table $T^i$, including both attribute names and their values. Then $w(g)=\sum_{j=1}^n \mathbb{1}(g_j\in \bar T^i)/n$, where $n$ is the length of $g$, and $g_j$ is the $j$th token in $g$</p>
+</li>
+<li><p><strong>Co-occurrence Model</strong>: Originally proposed for the RTE task, this model computes the probability of a term $g_j$ in the n-gram being entailed by the table as the maximum of its probabilities of being entailed by each lexical term $v$ in the table: $Pr(g\Leftarrow T^i)=\max_{v\in T^i}Pr(g_j \Leftarrow v)$</p>
+<p>$Pr(g_j \Leftarrow v)$ is estimated using co-occurrence counts from a training set of table-reference pairs. Then the overall probabilty of the n-gram being entailed is taken as the geometric mean $w(g)=\left(\prod_{j=1^n }Pr(g_j\Leftarrow T^i)\right)^{1/n}$</p>
+</li>
+</ol>
+<p><img src="image-20220304212825848.png" srcset="/img/loading.gif" lazyload alt="Examples of entailment models"></p>
+<p>With entailment probability, we can look at how PARENT is computed:</p>
+<p><u>When computing precision</u>, we want to check what fraction of the n-grams in $G^i_n$ are correct. We consider an n-gram $g$ to be correct either if it <strong>occurs in the reference</strong> $R^i_n$ or if it has a <strong>high probability of being entailed</strong> by the table (i.e. $w(g)$ is high)</p>
+<p><img src="image-20220304215047738.png" srcset="/img/loading.gif" lazyload alt="PARENT-precision formula"></p>
+<p>In words, an n-gram receives a reward of 1 if it appears in the reference with probability $Pr(g\in R_n^i)$, and otherwise it receives a reward of $w(g)$. Both numerator and denominator are weighted by the count of the n-gram in $G_n^i$. $Pr(g\in R_n^i)$ rewards an n-gram for appearing as many times as it appears in the reference, not more.</p>
+<p><u>We compute recall</u> against both the reference (Er(Ri)), to ensure proper sentence structure in the generated text, and the table (Er(Ti)), to ensure that texts which mention more information from the table get higher scores (e.g. candidate 3 in Figure 1). These are combined using a geometric average: $E_r = E_r(R^i)^{(1-\lambda)}E_r(T_i)^\lambda$</p>
+<blockquote>
+<p>The parameter $\lambda$ Trades-off how much the generated text should match the reference versus how much it should cover information from the table. The geometric mean, which acts as an <strong>AND</strong> operation, ensures that the overall recall is high only when <strong>both the components are high</strong></p>
+</blockquote>
+<p>When computing Er(Ri), divergent references will have n-grams with low w(g). We want to exclude these from the computation of recall, and hence their contributions are weighted by w(g):</p>
+<p><img src="image-20220304215333790.png" srcset="/img/loading.gif" lazyload alt="PARENT reference recall"></p>
+<p>For computing $E_r(T^i)$, note that a table is a set of records $Ti = {rk}^K_{k =1}$. For a record $r_k$, let $\bar r_k$ denote its string value.</p>
+<p><img src="image-20220304215345403.png" srcset="/img/loading.gif" lazyload alt="PARENT table recall"></p>
+<p>Where LCS is the Longest Common Sequence function implemented with dynamic programming.</p>
+<p>Advantages of PARENT:</p>
+<ol>
+<li>The entailment model allows PARENT to recognize <strong>possible paraphrases in the dataset</strong></li>
+<li><strong>It explicitly handles divergent references</strong> (i.e., when the reference contain information not present in the table) by assigning low entailment probability. </li>
+</ol>
+<p>Disadvantages of PARENT:</p>
+<ol>
+<li>The entailment model cannot capture paraphrases outside that occurred in the dataset</li>
+<li>Depending on the dataset, the entailment model might not be accurate (e.g. what if some slots always appear together?)</li>
+</ol>
+<p>It is apparent that the entailment model is the weakness of model-free metrics because estimating n-gram entailment itself is a hard NLP problem. Model-based metrics typically use neural-based model as their entailment models. We will look at them in the next section.</p>
+<h2 id="Model-based-Metrics"><a href="#Model-based-Metrics" class="headerlink" title="Model-based Metrics"></a>Model-based Metrics</h2><h3 id="Natural-Language-Inference-NLI-with-Pre-trained-Language-Models"><a href="#Natural-Language-Inference-NLI-with-Pre-trained-Language-Models" class="headerlink" title="Natural Language Inference (NLI) with Pre-trained Language Models"></a>Natural Language Inference (NLI) with Pre-trained Language Models</h3><p>The data-to-text research community is actively exploring neural-based methods, arguing that semantic faithfulness cannot be evaluated without understanding the semantics. </p>
+<p>We formulate the problem as testing for entailment between a premise and a hypothesis. </p>
+<table>
+<thead>
+<tr>
+<th>Test for</th>
+<th>Premise</th>
+<th>Hypothesis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Omission</td>
+<td>Generation</td>
+<td>Linearized Data</td>
+</tr>
+<tr>
+<td>Hallucination</td>
+<td>Linearized Data</td>
+<td>Generation</td>
+</tr>
+</tbody></table>
+<p><img src="image-20220304001856637.png" srcset="/img/loading.gif" lazyload alt="Faithfulness as entailment problem in NLI"></p>
+<p>Typical models:</p>
+<ol>
+<li>Pretrained RoBERT <a target="_blank" rel="noopener" href="https://huggingface.co/roberta-large-mnli">roberta-large-mnli</a>, without any fine-tuning [2]</li>
+<li>Fine-tined on specific datasets [1]</li>
+</ol>
+<p>Tricks:</p>
+<ul>
+<li>It is critical to <u>linearize the data into a natural sentence</u> if a pretrained model is used without fine-tuning. The effect can be seen if the above link if we leave the MR semi-structured as <code>OFFER ( Whether the flight is a direct one = False )</code>, versus replacing it with <code>the flight is indirect</code>. The more fluent latter will elicit the correct response.</li>
+<li>If using a templated method to linearize data, note that sentimental qualifiers such as <code>good</code> or <code>great</code> cannot be entailed by a neutral generation. So it is important to keep the template sentiment consistent with the desirable generation. In most cases, a neutral tone is preferred. </li>
+</ul>
+<h3 id="Fact-Extraction"><a href="#Fact-Extraction" class="headerlink" title="Fact Extraction"></a>Fact Extraction</h3><p>If we can recover the data (or facts) in the same schema as the input from the generation, we can then compare the facts entailed by the input and the output directly. To do this, we need a reliable <strong>fact extractor</strong>. The following examples extract facts from generation as triples.</p>
+<table>
+<thead>
+<tr>
+<th>Generation</th>
+<th>Facts</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Person1 was born in Country1. He was a painter.</td>
+<td>(Person1, born in, Country1), (Person1, profession, painter)</td>
+</tr>
+</tbody></table>
+<p>We can then compare in the fact domain. That is, whether the extracted triples matches the input triples. </p>
+<p>There are a few modelling approaches for fact extraction available (it is actually a research problem in its own right), below is just a very brief summary:</p>
+<ol>
+<li>Named Entity Recognition (NER) + Relational Classifier</li>
+<li>NER + Binary Relation Classifier</li>
+<li>End-to-End Extraction</li>
+</ol>
+<p>Interested readers are referred to [3] for more details. </p>
+<h3 id="Question-Answering-Based-Methods"><a href="#Question-Answering-Based-Methods" class="headerlink" title="Question-Answering Based Methods"></a>Question-Answering Based Methods</h3><p>Q2 [4] is an automatic metric for evaluating the factual consistency of <strong>generative open-domain knowledge-grounded dialogue systems</strong> which does not require gold-label reference responses.</p>
+<ol>
+<li>Takes a given generated response as input, and generates questions whose answers are informative spans in the response, using a QG system</li>
+<li>It then employs a QA system to find corresponding answer spans in the knowledge that the response should be grounded in. </li>
+<li>The evaluation score reflects the similarity between each informative response span and its corresponding answer span from the knowledge, for each generated question</li>
+</ol>
+<p>Image from [4]. Interested readers are referred to [4] for more details.</p>
+<img src="fig4.png" srcset="/img/loading.gif" lazyload alt="QG and QA based evaluation" style="zoom:100%;" />
+
+<p>This is perhaps more relevant to people in the industry who have access to knowledge-grounded QA systems (e.g. large knowledge graph).</p>
+<h1 id="Tricks-and-Models"><a href="#Tricks-and-Models" class="headerlink" title="Tricks and Models"></a>Tricks and Models</h1><h2 id="Delexicalization"><a href="#Delexicalization" class="headerlink" title="Delexicalization"></a>Delexicalization</h2><p>For literal values that need to appear in the generation, it is common to <strong>delexicalize</strong> them by substituting the literal values with a special token and ask the model to generate that token when appropriate. We can turn substitute the special token with the value in the data after generation. This ensures that the value is exactly the same as that in the data. For example:</p>
+<table>
+<thead>
+<tr>
+<th>Dialogue Acts</th>
+<th>Reference</th>
+<th>Delex-Reference</th>
+<th>Generation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[{‘act’:INFORM, ‘slot’: ‘phone_number’, ‘values’: [‘415-346-2356’]}]</td>
+<td>You can call them at 415-346-2356</td>
+<td>You can call them at <phone_number></td>
+<td>Their phone number is <phone_number></td>
+</tr>
+</tbody></table>
+<p>The final generation is obtained by substituting <phone_number> with the actual slot value. The models are trained with delexicalized references. </p>
+<p>This is one of the most common and effective tricks in many NLG competitions [7]. It also handles the problem of <strong>open-vocabulary</strong> because combinations of numbers and names are collapsed to their respective special tokens.  </p>
+<h2 id="Copy-Mechanism"><a href="#Copy-Mechanism" class="headerlink" title="Copy Mechanism"></a>Copy Mechanism</h2><blockquote>
+<p>Apart from delexicalisation, which is most often used in the E2E NLG Challenge, various variants of the <strong>copy mechanism</strong> are the most prominent approach to address open vocabulary in NLG (Wiseman et al., 2017; Lebret et al., 2016; Bao et al., 2018; Kaffee et al., 2018; Wang et al., 2018). [7]</p>
+</blockquote>
+<p>There are a number of approaches to incorporate copy mechansim in sequence-to-sequence tasks. One of the most used architecture is called <strong>Pointer-generator network</strong> that directly models the probability of copying [8, 9].</p>
+<p><img src="image-20220304222212868.png" srcset="/img/loading.gif" lazyload alt="Generator-pointer network from [8]"></p>
+<p>Essentially, the model learns to generate an attention distribution to model the <strong>copying distribution</strong>, which is input tokens; probability of being copied to the output at this time instance. This copying distribution is weighted by a scaler $p_{gen}$ to give a valid probability distribution after combining with the vocabulary output distribution. $p_{gen}$ indicates the probability that the generated token at time $t$ should be copied from the input.</p>
+<p>Interested readers are referred to [8] for details. </p>
+<h2 id="Fidelity-Reranker"><a href="#Fidelity-Reranker" class="headerlink" title="Fidelity Reranker"></a>Fidelity Reranker</h2><p>A fidelity reranker introduces scores that reflect NLG faithfulness during beam search. It will require a probabilistic or deterministic model that determine whether the generation candidate is faithful to the input data. We introduce the approach in [1] in some details below, which will cover the main ideas and implementation tricks for such a reranker. </p>
+<p>In [1], a Semantic Fidelity Classifier (SFC) is trained. </p>
+<p><strong>SFC Training data augmentation</strong> SFC’s training data should consist of semantically faithful and semantically incorrect examples. We generate training data for the SFC automatically from the training data of the main D2T task. We define a set of simple dataset-independent transformations that account for common errors in data-to-text generation. For each tuple $(D_i, T_i)$ in the training data, we split the text Ti into sentences, using the spaCy sentence tokenizer (Honnibal and Montani, 2017). We then generate a set of new tuples for the SFC consisting of $(D_i, T_j , l)$ for each of the labels l below, generated as follows:</p>
+<p>• <strong>Accurate</strong>: This is the text Ti. • <strong>Omission:</strong> Remove the shortest sentence in $T_i$ (to help detect subtle omissions).• <strong>Repetition</strong>: Take a random sentence in $T_i$ and insert it before another random sentence in $T_i$. • <strong>Hallucination</strong>: Select a random sentence from another training text $T_j\neq i$ and insert it before a random sentence in $T_i$. • <strong>Value Errors</strong>: Select a random value x that occurs verbatim in both $D_i$ and $T_i$, and replace x in $T_i$ with a random other value from $D_i$. For slot-based <em>MR</em> (Cleaned E2E and ViGGO), x is selected from the slots’ values. For graph-based <em>MR</em> (LDC2017T10), x is selected from the graph’s leaves. For RDF triples (WebNLG dataset), x is chosen from the triples’ subjects and objects.</p>
+<p><strong>Model of SFC</strong> SFC uses a RoBERTa as its base model with a classification head and segment embeddings to distinguish data and text.</p>
+<img src="image-20220304225445735.png" srcset="/img/loading.gif" lazyload alt="SFC architecture from [1]"  />
+
+<p><strong>Decoding with SFC</strong> At the end of the beam-search, we use the SFC to rerank the <strong>complete</strong> candidates (terminated with an end-of-sequence token) in the beam. The reranking metric uses the following binary score: $\mathbb 1\left( SFC(D_i,T_i)\right)=\text{“accurate”}.$</p>
+<p>The downside of fidelity reranker is that if the faithful candidate never appears during beam search, then the SFC would be useless. </p>
+<h1 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h1><p>This completes my brief review on the topic of NLG faithfulness. By the time of this writing (March. 2022), the problem is far from being solved. </p>
+<p>Here I have not reviewed research in summarization, where the text is produced in a staged manner from content selection to generation. It will include some direct modeling on the grounded knowledge/information.</p>
+<p>I hope the article has been useful for people interested in the topic!</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p>[1] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2004.06577"><em>Have Your Text and Use It Too! End-to-End Neural Data-to-Text Generation with Semantic Fidelity</em></a></p>
+<p>[2] <a target="_blank" rel="noopener" href="https://aclanthology.org/2020.inlg-1.19/"><em>Evaluating Semantic Accuracy of Data-to-Text Generation with Natural Language Inference</em></a></p>
+<p>[3] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1905.13322"><em>Assessing The Factual Accuracy of Generated Text</em></a></p>
+<p>[4] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.08202.pdf"><em>Q2 : Evaluating Factual Consistency in Knowledge-Grounded Dialogues via Question Generation and Question Answering</em></a></p>
+<p>[5] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1909.05855"><em>Towards Scalable Multi-Domain Conversational Agents: The Schema-Guided Dialogue Dataset</em></a></p>
+<p>[6] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.01081"><em>Handling Divergent Reference Texts when Evaluating Table-to-Text Generation</em></a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1901.07931"><em>Evaluating the state-of-the-art of End-to-End Natural Language Generation: The E2E NLG challenge</em></a></p>
+<p>[8] <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1704.04368.pdf"><em>Get To The Point: Summarization with Pointer-Generator Networks</em></a></p>
+<p>[9] <a target="_blank" rel="noopener" href="https://aclanthology.org/2020.acl-main.125.pdf"><em>Self-Attention Guided Copy Mechanism for Abstractive Summarization</em></a></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Machine-Learning/">Machine Learning</a>
+                    
+                      <a class="hover-with-bg" href="/tags/NLG/">NLG</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    Jinghong Chen @2021-2022
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/10/01/Huggingface-datasets/">
+                        <span class="hidden-mobile">Huggingface datasets</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            
+            <span id="busuanzi_value_site_pv"></span>
+             visits
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            
+            <span id="busuanzi_value_site_uv"></span>
+             visitors
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        loader: {
+          load: ['ui/lazy']
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script defer>
+      window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) };
+      ga.l = +new Date;
+      ga('create', 'G-YZ0RNYKG8D', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
